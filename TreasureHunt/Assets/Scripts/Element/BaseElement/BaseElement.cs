@@ -15,7 +15,7 @@ public class BaseElement : MonoBehaviour
 
     public ElementStates elementState;
     public ElementTypes elementType;
-    public ElementContents elementContents;
+    public ElementContents elementContent;
 
     public int PositionX { get => _positionX;}
     public int PositionY { get => _positionY;}

@@ -16,8 +16,12 @@ public class MapManager : MonoBehaviour
     public GameObject[] MapBorder;
     public GameObject MapBackGround;
     public Sprite[] Tiles;
+    public Sprite[] Numbers;
+    public Sprite[] Traps;
     public GameObject FlagElement;
+    public GameObject FlagEffect;
     public GameObject BaseElement;
+    public GameObject UncoveredEffect;
 
 
     [Header("地图设置")]
@@ -94,6 +98,83 @@ public class MapManager : MonoBehaviour
         for (int i = 0; i < Height; i++)
         {
             Instantiate(MapBorder[7], new Vector3(Width + 0.25f, i, 0), Quaternion.identity).transform.parent = _mapHolder;
+        }
+    }
+
+    public bool IsPositionValid(int positionX,int positionY)
+    {
+        if (positionX >= 0 && positionX < Width && positionY >= 0 && positionY < Height)
+            return true;
+        return false;
+    }
+    
+
+    /// <summary>
+    /// 计算位置周围（3*3）的陷阱个数
+    /// </summary>
+    /// <param name="positionX">位置横坐标</param>
+    /// <param name="positionY">位置纵坐标</param>
+    /// <returns>陷阱个数</returns>
+    public int GetTrapCountAroundElement(int positionX,int positionY)
+    {
+        int count = 0;
+        for (int i = positionX - 1; i <= positionX + 1; i++)
+        {
+            for (int j = positionY-1; j <= positionY + 1; j++)
+            {
+                if (IsSameContnet(i, j, ElementContents.Trap))
+                {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    /// <summary>
+    /// 位置类型判断
+    /// </summary>
+    /// <param name="positionX">位置横坐标</param>
+    /// <param name="positionY">位置纵坐标</param>
+    /// <param name="elementContent">判断类型</param>
+    /// <returns>判断结果</returns>
+    private bool IsSameContnet(int positionX,int positionY,ElementContents elementContent)
+    {
+        if (IsPositionValid(positionX, positionY))
+        {
+            return _map[positionX, positionY].elementContent == elementContent;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// 泛洪算法翻开周围元素
+    /// </summary>
+    /// <param name="positionX">位置横坐标</param>
+    /// <param name="positionY">位置纵坐标</param>
+    /// <param name="visited">访问路径数组</param>
+    public void FloodingElement(int positionX, int positionY, bool[,] visited)
+    {
+        if (IsPositionValid(positionX, positionY))
+        {
+            if (visited[positionX, positionY]) return;
+            if (_map[positionX, positionY].elementType == ElementTypes.CantCovered) return;
+            if(_map[positionX,positionY].elementState==ElementStates.Covered)
+            {
+                ((SingleCoverElement)_map[positionX, positionY]).UncovredElementFirst();
+            }
+            if (GetTrapCountAroundElement(positionX, positionY) > 0) return;
+            visited[positionX, positionY] = true;
+            for (int i = positionX - 1; i <= positionX + 1; i++)
+            {
+                for (int j = positionY - 1; j <= positionY + 1; j++)
+                {
+                    if (IsPositionValid(i,j))
+                    {
+                        FloodingElement(i, j, visited);
+                    }
+                }
+            }
         }
     }
 }

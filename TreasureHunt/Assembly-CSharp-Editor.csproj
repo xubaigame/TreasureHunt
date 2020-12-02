@@ -268,17 +268,17 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
+    <Reference Include="DOTween">
+      <HintPath>E:/Codes/Unity/TreasureHunt/TreasureHunt/Assets/Plugins/Demigiant/DOTween/DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTweenEditor">
+      <HintPath>E:/Codes/Unity/TreasureHunt/TreasureHunt/Assets/Plugins/Demigiant/DOTween/Editor/DOTweenEditor.dll</HintPath>
+    </Reference>
     <Reference Include="RainbowCore">
       <HintPath>E:/Codes/Unity/TreasureHunt/TreasureHunt/Assets/Plugins/RainbowAssets/!Core/Assemblies/RainbowCore.dll</HintPath>
     </Reference>
     <Reference Include="RainbowFolders">
       <HintPath>E:/Codes/Unity/TreasureHunt/TreasureHunt/Assets/Plugins/RainbowAssets/RainbowFolders/Editor/Assemblies/RainbowFolders.dll</HintPath>
-    </Reference>
-    <Reference Include="DOTweenEditor">
-      <HintPath>E:/Codes/Unity/TreasureHunt/TreasureHunt/Assets/Plugins/Demigiant/DOTween/Editor/DOTweenEditor.dll</HintPath>
-    </Reference>
-    <Reference Include="DOTween">
-      <HintPath>E:/Codes/Unity/TreasureHunt/TreasureHunt/Assets/Plugins/Demigiant/DOTween/DOTween.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>E:/Codes/Unity/TreasureHunt/TreasureHunt/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>

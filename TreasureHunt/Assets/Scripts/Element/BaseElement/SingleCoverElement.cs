@@ -23,15 +23,15 @@ public class SingleCoverElement : BaseElement
     {
         if(elementState==ElementStates.Covered)
         {
-            UncovredElement();
+            UncovredElementFirst();
             OnCovered();
         }
     }
 
     /// <summary>
-    /// 翻开元素
+    /// 第一次翻开元素
     /// </summary>
-    public virtual void UncovredElement() { }
+    public virtual void UncovredElementFirst() { }
 
     /// <summary>
     /// 翻开元素后操作
@@ -61,6 +61,7 @@ public class SingleCoverElement : BaseElement
         GameObject flag = Instantiate(MapManager.Instance.FlagElement, transform);
         flag.name = "FlagElement";
         flag.transform.DOLocalMoveY(0, 0.1f);
+        Instantiate(MapManager.Instance.FlagEffect, transform);
     }
 
     public void RemoveFlag()

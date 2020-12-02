@@ -268,9 +268,30 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 145f31a02bed25d4ca460974a1c0a7fd, type: 3}
   - {fileID: 21300000, guid: f083ec9465fd3a94aaf348623b821fe4, type: 3}
   - {fileID: 21300000, guid: 3ce93ae9145272e49be9f886a633e9b4, type: 3}
+  Numbers:
+  - {fileID: 21300000, guid: 8f47cd2522aecb54eab12f9800219880, type: 3}
+  - {fileID: 21300000, guid: ed985b1f9ea721c4ca5c59526344d5c0, type: 3}
+  - {fileID: 21300000, guid: c84d736dcd0ba3f40903d9d07a2b56d5, type: 3}
+  - {fileID: 21300000, guid: 323ea4009ab1229469e0103c69cf2e20, type: 3}
+  - {fileID: 21300000, guid: d9773932e9e59e6428e3ec758058b48c, type: 3}
+  - {fileID: 21300000, guid: c9d2e56994cc90e4ca650afe4c0444bc, type: 3}
+  - {fileID: 21300000, guid: 4c99d4502c841424c975b173c68514ef, type: 3}
+  - {fileID: 21300000, guid: 0206639ad5cb5194cb1568cd3b5824cd, type: 3}
+  - {fileID: 21300000, guid: 447140203c7c395478da198eb4aebd4b, type: 3}
+  - {fileID: 21300000, guid: 435453e901b2c874c89090a0d5771a3a, type: 3}
+  Traps:
+  - {fileID: 21300000, guid: 39243a04505b09d42adc52184fc26319, type: 3}
+  - {fileID: 21300000, guid: 27b66cd305e822741bdd133198558668, type: 3}
+  - {fileID: 21300000, guid: 7d786433ca5b9c641a8d6b58995f18fe, type: 3}
+  - {fileID: 21300000, guid: fd32e008a94523b49b94ba7bb03eff44, type: 3}
+  - {fileID: 21300000, guid: 9fc4ea2737deb224da0fe40bc3677699, type: 3}
   FlagElement: {fileID: 6710526136724992604, guid: 6c27d99b0451f254e8daff0d212ea8b6,
     type: 3}
+  FlagEffect: {fileID: 3122425866748358587, guid: 577af8055d40b0641bcd88531455b53b,
+    type: 3}
   BaseElement: {fileID: 5185834903934863426, guid: 4f5927202a0662642b0e17378168af05,
+    type: 3}
+  UncoveredEffect: {fileID: 3491176032375463642, guid: 4e5937593f35aa24b9166ef1fa2275e1,
     type: 3}
   Width: 21
   Height: 9

@@ -41,3 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BackGround
+    uniqueID: 1629052459
+    locked: 0
+  - name: UIElement
+    uniqueID: 413447889
+    locked: 0
+  - name: Effect
+    uniqueID: 1181971789
+    locked: 0
+  - name: Gizmo
+    uniqueID: 1699740021
+    locked: 0

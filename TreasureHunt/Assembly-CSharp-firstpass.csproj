@@ -255,11 +255,11 @@
     <Reference Include="UnityEditor">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.11f1/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
-    <Reference Include="RainbowCore">
-      <HintPath>E:/Codes/Unity/TreasureHunt/TreasureHunt/Assets/Plugins/RainbowAssets/!Core/Assemblies/RainbowCore.dll</HintPath>
-    </Reference>
     <Reference Include="DOTween">
       <HintPath>E:/Codes/Unity/TreasureHunt/TreasureHunt/Assets/Plugins/Demigiant/DOTween/DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="RainbowCore">
+      <HintPath>E:/Codes/Unity/TreasureHunt/TreasureHunt/Assets/Plugins/RainbowAssets/!Core/Assemblies/RainbowCore.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.11f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
