@@ -6,6 +6,7 @@
 	功能：地图管理类
 *****************************************************/
 
+using Boo.Lang;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -24,9 +25,11 @@ public class MapManager : MonoBehaviour
     public GameObject UncoveredEffect;
 
 
-    [Header("地图设置")]
+    [Header("关卡设置")]
     public int Width;
     public int Height;
+    public float MinTrapProbability;
+    public float MaxTrapProbability;
 
     private Transform _mapHolder;
 
@@ -64,12 +67,19 @@ public class MapManager : MonoBehaviour
     public void CreateMap()
     {
         CreateBorderAndBackGround();
+        List<int> availableIndex = new List<int>();
+        for (int i = 0; i < Width*Height; i++)
+        {
+            availableIndex.Add(i);
+        }
+        GenerateTrapElement(availableIndex);
+        GenerateNumberElement(availableIndex);
     }
 
     /// <summary>
     /// 创建边界和背景
     /// </summary>
-    public void CreateBorderAndBackGround()
+    private void CreateBorderAndBackGround()
     {
         for (int i = 0; i < Width; i++)
         {
@@ -101,6 +111,45 @@ public class MapManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 初始化陷阱元素
+    /// </summary>
+    /// <param name="availableIndex">尚未初始化的元素索引</param>
+    private void GenerateTrapElement(List<int> availableIndex)
+    {
+        float trapProbability = Random.Range(MinTrapProbability, MaxTrapProbability);
+        int trapCount = (int)(availableIndex.Count * trapProbability);
+
+        for (int i = 0; i < trapCount; i++)
+        {
+            int tempIndex = availableIndex[Random.Range(0, availableIndex.Count)];
+            int positionX, positionY;
+            IndexToPositionXAndPositionY(tempIndex,out positionX, out positionY);
+            ChangeElementType(tempIndex, ElementContents.Trap);
+            availableIndex.Remove(tempIndex);
+        }
+    }
+
+    /// <summary>
+    /// 初始化数字元素
+    /// </summary>
+    /// <param name="availableIndex">尚未初始化的元素索引</param>
+    private void GenerateNumberElement(List<int> availableIndex)
+    {
+        foreach (var item in availableIndex)
+        {
+            ChangeElementType(item, ElementContents.Number);
+        }
+        availableIndex.Clear();
+    }
+
+
+    /// <summary>
+    /// 判断位置是否有效
+    /// </summary>
+    /// <param name="positionX">位置横坐标</param>
+    /// <param name="positionY">位置纵坐标</param>
+    /// <returns>是否有效</returns>
     public bool IsPositionValid(int positionX,int positionY)
     {
         if (positionX >= 0 && positionX < Width && positionY >= 0 && positionY < Height)
@@ -173,6 +222,119 @@ public class MapManager : MonoBehaviour
                     {
                         FloodingElement(i, j, visited);
                     }
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// 翻开位置周围元素
+    /// </summary>
+    /// <param name="positionX">位置横坐标</param>
+    /// <param name="positionY">位置纵坐标</param>
+    public void UncoveredAdjacentElements(int positionX,int positionY)
+    {
+        int mark = 0;
+        for (int i = positionX - 1; i <= positionX + 1; i++)
+        {
+            for (int j = positionY - 1; j <= positionY + 1; j++)
+            {
+                if (IsPositionValid(i, j))
+                {
+                    if (_map[i, j].elementState == ElementStates.Marked) mark++;
+                    else if (_map[i, j].elementState == ElementStates.Uncovered && _map[i, j].elementContent == ElementContents.Trap)
+                        mark++;
+                }
+            }
+        }
+
+        if(GetTrapCountAroundElement(positionX,positionY)==mark)
+        {
+            for (int i = positionX - 1; i <= positionX + 1; i++)
+            {
+                for (int j = positionY - 1; j <= positionY + 1; j++)
+                {
+                    if (IsPositionValid(i, j))
+                    {
+                        _map[i, j].OnPlayerStand();
+                    }
+                }
+            }
+        }
+    }
+    /// <summary>
+    /// 一维索引转二维索引
+    /// </summary>
+    /// <param name="index">一维索引</param>
+    /// <param name="positionX">二维索引横坐标</param>
+    /// <param name="positionY">二维索引纵坐标</param>
+    private void IndexToPositionXAndPositionY(int index,out int positionX,out int positionY)
+    {
+        positionY = index / Width;
+        positionX = index - positionY * Width;
+    }
+
+    /// <summary>
+    /// 二维索引转一维索引
+    /// </summary>
+    /// <param name="positionX">二维索引横坐标</param>
+    /// <param name="positionY">二维索引纵坐标</param>
+    /// <returns>一维索引</returns>
+    private int PositionXAndPositionYToIndex(int positionX, int positionY)
+    {
+        return positionX + positionY * Width;
+    }
+
+    /// <summary>
+    /// 设置位置元素的类型
+    /// </summary>
+    /// <param name="index">要设置元素的位置</param>
+    /// <param name="content">元素类型</param>
+    /// <returns>设置后的元素</returns>
+    private BaseElement ChangeElementType(int index,ElementContents content)
+    {
+        int positionX, positionY;
+        IndexToPositionXAndPositionY(index, out positionX, out positionY);
+        GameObject temp = _map[positionX, positionY].gameObject;
+        Destroy(temp.GetComponent<BaseElement>());
+        switch (content)
+        {
+            case ElementContents.Number:
+                _map[positionX, positionY] = temp.AddComponent<NumberElement>();
+                return _map[positionX, positionY];
+            case ElementContents.Trap:
+                _map[positionX, positionY]=temp.AddComponent<TrapElement>();
+                return _map[positionX, positionY];
+            case ElementContents.Tool:
+                break;
+            case ElementContents.Gold:
+                break;
+            case ElementContents.Enemy:
+                break;
+            case ElementContents.Door:
+                break;
+            case ElementContents.BigWall:
+                break;
+            case ElementContents.SmallWall:
+                break;
+            case ElementContents.Exit:
+                break;
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// 显示所有陷阱
+    /// </summary>
+    public void ShowAllTrap()
+    {
+        for (int i = 0; i < Width; i++)
+        {
+            for (int j = 0; j < Height; j++)
+            {
+                if(_map[i,j].elementContent==ElementContents.Trap)
+                {
+                    ((SingleCoverElement)_map[i, j]).UncovredElementFirst();
                 }
             }
         }

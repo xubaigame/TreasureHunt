@@ -51,6 +51,7 @@ public class BaseElement : MonoBehaviour
     public virtual void OnLeftMouseButtonDown()
     {
         //寻路
+        OnPlayerStand();
     }
 
     public virtual void OnRightMouseButtonDown()
