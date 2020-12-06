@@ -172,7 +172,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 26590211}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6c04b82bb4802c45bb73e76d4035576, type: 3}
+  m_Script: {fileID: 11500000, guid: 783437e3239cb2a43addc7ba775d5ea7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   LoadGameButton: {fileID: 1962802769}

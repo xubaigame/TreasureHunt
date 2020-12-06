@@ -6,9 +6,8 @@
 	功能：地图管理类
 *****************************************************/
 
-using Boo.Lang;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class MapManager : MonoBehaviour 
 {
@@ -24,16 +23,14 @@ public class MapManager : MonoBehaviour
     public GameObject BaseElement;
     public GameObject UncoveredEffect;
 
-
     [Header("关卡设置")]
-    public int Width;
-    public int Height;
     public float MinTrapProbability;
     public float MaxTrapProbability;
 
     private Transform _mapHolder;
-
     private BaseElement[,] _map;
+    private int _mapWidth;
+    private int _mapHeight;
 
     private static MapManager _instance = null;
     public static MapManager Instance
@@ -43,7 +40,11 @@ public class MapManager : MonoBehaviour
     private void Awake()
     {
         _instance = this;
-        _map = new BaseElement[Width, Height];
+        Vector2 temp = GameDataManager.Instance.GetMapSize();
+        _mapWidth = (int)temp.x;
+        _mapHeight = (int)temp.y;
+        GameDataManager.Instance.UpdateMapSize += UpdateMapSize;
+        _map = new BaseElement[_mapWidth, _mapHeight];
     }
     public void Start()
     {
@@ -51,14 +52,18 @@ public class MapManager : MonoBehaviour
         _mapHolder = GameObject.Find("Map").transform;
         CreateMap();
     }
-
+    public void UpdateMapSize(int mapWidth, int mapHeight)
+    {
+        _mapWidth = mapWidth;
+        _mapHeight = mapHeight;
+    }
     /// <summary>
     /// 初始化摄像机，使其对准屏幕中心。
     /// </summary>
     public void InitCamera()
     {
-        Camera.main.orthographicSize = (Height + 3) / 2f;
-        Camera.main.transform.position = new Vector3((Width - 1) / 2f, (Height - 1) / 2f, -10);
+        Camera.main.orthographicSize = (_mapHeight + 3) / 2f;
+        Camera.main.transform.position = new Vector3((_mapWidth - 1) / 2f, (_mapHeight - 1) / 2f, -10);
     }
 
     /// <summary>
@@ -68,7 +73,7 @@ public class MapManager : MonoBehaviour
     {
         CreateBorderAndBackGround();
         List<int> availableIndex = new List<int>();
-        for (int i = 0; i < Width*Height; i++)
+        for (int i = 0; i < _mapWidth*_mapHeight; i++)
         {
             availableIndex.Add(i);
         }
@@ -81,33 +86,33 @@ public class MapManager : MonoBehaviour
     /// </summary>
     private void CreateBorderAndBackGround()
     {
-        for (int i = 0; i < Width; i++)
+        for (int i = 0; i < _mapWidth; i++)
         {
-            for (int j = 0; j < Height; j++)
+            for (int j = 0; j < _mapHeight; j++)
             {
                 Instantiate(MapBackGround, new Vector3(i, j, 0), Quaternion.identity).transform.parent= _mapHolder;
                 _map[i, j] = Instantiate(BaseElement, new Vector3(i, j, 0), Quaternion.identity, _mapHolder).GetComponent<BaseElement>();
             }
         }
         Instantiate(MapBorder[0], new Vector3(-1.25f, -1.25f, 0), Quaternion.identity).transform.parent = _mapHolder;
-        Instantiate(MapBorder[1], new Vector3(Width+0.25f, -1.25f, 0), Quaternion.identity).transform.parent = _mapHolder;
-        Instantiate(MapBorder[2], new Vector3(-1.25f, Height+0.25f, 0), Quaternion.identity).transform.parent = _mapHolder;
-        Instantiate(MapBorder[3], new Vector3(Width + 0.25f, Height + 0.25f, 0), Quaternion.identity).transform.parent = _mapHolder;
-        for (int i=0;i<Width;i++)
+        Instantiate(MapBorder[1], new Vector3(_mapWidth+0.25f, -1.25f, 0), Quaternion.identity).transform.parent = _mapHolder;
+        Instantiate(MapBorder[2], new Vector3(-1.25f, _mapHeight+0.25f, 0), Quaternion.identity).transform.parent = _mapHolder;
+        Instantiate(MapBorder[3], new Vector3(_mapWidth + 0.25f, _mapHeight + 0.25f, 0), Quaternion.identity).transform.parent = _mapHolder;
+        for (int i=0;i<_mapWidth;i++)
         {
-            Instantiate(MapBorder[4], new Vector3(i, Height + 0.25f, 0), Quaternion.identity).transform.parent = _mapHolder;
+            Instantiate(MapBorder[4], new Vector3(i, _mapHeight + 0.25f, 0), Quaternion.identity).transform.parent = _mapHolder;
         }
-        for (int i = 0; i < Width; i++)
+        for (int i = 0; i < _mapWidth; i++)
         {
             Instantiate(MapBorder[5], new Vector3(i, -1.25f, 0), Quaternion.identity).transform.parent = _mapHolder;
         }
-        for (int i = 0; i < Height; i++)
+        for (int i = 0; i < _mapHeight; i++)
         {
             Instantiate(MapBorder[6], new Vector3(-1.25f, i, 0), Quaternion.identity).transform.parent = _mapHolder;
         }
-        for (int i = 0; i < Height; i++)
+        for (int i = 0; i < _mapHeight; i++)
         {
-            Instantiate(MapBorder[7], new Vector3(Width + 0.25f, i, 0), Quaternion.identity).transform.parent = _mapHolder;
+            Instantiate(MapBorder[7], new Vector3(_mapWidth + 0.25f, i, 0), Quaternion.identity).transform.parent = _mapHolder;
         }
     }
 
@@ -124,7 +129,7 @@ public class MapManager : MonoBehaviour
         {
             int tempIndex = availableIndex[Random.Range(0, availableIndex.Count)];
             int positionX, positionY;
-            IndexToPositionXAndPositionY(tempIndex,out positionX, out positionY);
+            GameTool.Instance.IndexToPositionXAndPositionY(tempIndex,out positionX, out positionY);
             ChangeElementType(tempIndex, ElementContents.Trap);
             availableIndex.Remove(tempIndex);
         }
@@ -144,18 +149,7 @@ public class MapManager : MonoBehaviour
     }
 
 
-    /// <summary>
-    /// 判断位置是否有效
-    /// </summary>
-    /// <param name="positionX">位置横坐标</param>
-    /// <param name="positionY">位置纵坐标</param>
-    /// <returns>是否有效</returns>
-    public bool IsPositionValid(int positionX,int positionY)
-    {
-        if (positionX >= 0 && positionX < Width && positionY >= 0 && positionY < Height)
-            return true;
-        return false;
-    }
+    
     
 
     /// <summary>
@@ -189,7 +183,7 @@ public class MapManager : MonoBehaviour
     /// <returns>判断结果</returns>
     private bool IsSameContnet(int positionX,int positionY,ElementContents elementContent)
     {
-        if (IsPositionValid(positionX, positionY))
+        if (GameTool.Instance.IsPositionValid(positionX, positionY))
         {
             return _map[positionX, positionY].elementContent == elementContent;
         }
@@ -204,7 +198,7 @@ public class MapManager : MonoBehaviour
     /// <param name="visited">访问路径数组</param>
     public void FloodingElement(int positionX, int positionY, bool[,] visited)
     {
-        if (IsPositionValid(positionX, positionY))
+        if (GameTool.Instance.IsPositionValid(positionX, positionY))
         {
             if (visited[positionX, positionY]) return;
             if (_map[positionX, positionY].elementType == ElementTypes.CantCovered) return;
@@ -218,7 +212,7 @@ public class MapManager : MonoBehaviour
             {
                 for (int j = positionY - 1; j <= positionY + 1; j++)
                 {
-                    if (IsPositionValid(i,j))
+                    if (GameTool.Instance.IsPositionValid(i,j))
                     {
                         FloodingElement(i, j, visited);
                     }
@@ -239,7 +233,7 @@ public class MapManager : MonoBehaviour
         {
             for (int j = positionY - 1; j <= positionY + 1; j++)
             {
-                if (IsPositionValid(i, j))
+                if (GameTool.Instance.IsPositionValid(i, j))
                 {
                     if (_map[i, j].elementState == ElementStates.Marked) mark++;
                     else if (_map[i, j].elementState == ElementStates.Uncovered && _map[i, j].elementContent == ElementContents.Trap)
@@ -254,7 +248,7 @@ public class MapManager : MonoBehaviour
             {
                 for (int j = positionY - 1; j <= positionY + 1; j++)
                 {
-                    if (IsPositionValid(i, j))
+                    if (GameTool.Instance.IsPositionValid(i, j))
                     {
                         _map[i, j].OnPlayerStand();
                     }
@@ -262,28 +256,7 @@ public class MapManager : MonoBehaviour
             }
         }
     }
-    /// <summary>
-    /// 一维索引转二维索引
-    /// </summary>
-    /// <param name="index">一维索引</param>
-    /// <param name="positionX">二维索引横坐标</param>
-    /// <param name="positionY">二维索引纵坐标</param>
-    private void IndexToPositionXAndPositionY(int index,out int positionX,out int positionY)
-    {
-        positionY = index / Width;
-        positionX = index - positionY * Width;
-    }
-
-    /// <summary>
-    /// 二维索引转一维索引
-    /// </summary>
-    /// <param name="positionX">二维索引横坐标</param>
-    /// <param name="positionY">二维索引纵坐标</param>
-    /// <returns>一维索引</returns>
-    private int PositionXAndPositionYToIndex(int positionX, int positionY)
-    {
-        return positionX + positionY * Width;
-    }
+    
 
     /// <summary>
     /// 设置位置元素的类型
@@ -294,7 +267,7 @@ public class MapManager : MonoBehaviour
     private BaseElement ChangeElementType(int index,ElementContents content)
     {
         int positionX, positionY;
-        IndexToPositionXAndPositionY(index, out positionX, out positionY);
+        GameTool.Instance.IndexToPositionXAndPositionY(index, out positionX, out positionY);
         GameObject temp = _map[positionX, positionY].gameObject;
         Destroy(temp.GetComponent<BaseElement>());
         switch (content)
@@ -328,9 +301,9 @@ public class MapManager : MonoBehaviour
     /// </summary>
     public void ShowAllTrap()
     {
-        for (int i = 0; i < Width; i++)
+        for (int i = 0; i < _mapWidth; i++)
         {
-            for (int j = 0; j < Height; j++)
+            for (int j = 0; j < _mapHeight; j++)
             {
                 if(_map[i,j].elementContent==ElementContents.Trap)
                 {

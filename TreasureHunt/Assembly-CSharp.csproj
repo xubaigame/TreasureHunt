@@ -63,7 +63,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Consts.cs" />
+    <Compile Include="Assets\Scripts\Data\GameData.cs" />
+    <Compile Include="Assets\Scripts\Data\MapData.cs" />
     <Compile Include="Assets\Scripts\Element\BaseElement\BaseElement.cs" />
     <Compile Include="Assets\Scripts\Element\BaseElement\SingleCoverElement.cs" />
     <Compile Include="Assets\Scripts\Element\Enum\ElementContents.cs" />
@@ -71,10 +72,12 @@
     <Compile Include="Assets\Scripts\Element\Enum\ElementTypes.cs" />
     <Compile Include="Assets\Scripts\Element\SingleCoverElement\NumberElement.cs" />
     <Compile Include="Assets\Scripts\Element\SingleCoverElement\TrapElement.cs" />
-    <Compile Include="Assets\Scripts\GameData.cs" />
     <Compile Include="Assets\Scripts\Manager\GameDataManager.cs" />
     <Compile Include="Assets\Scripts\Manager\MapManager.cs" />
     <Compile Include="Assets\Scripts\Manager\UIManager.cs" />
+    <Compile Include="Assets\Scripts\Misc\Consts.cs" />
+    <Compile Include="Assets\Scripts\Misc\GameTool.cs" />
+    <Compile Include="Assets\Scripts\UIWindow\GameStartWindow.cs" />
     <None Include="Assets\AStar寻路算法描述.txt" />
     <Reference Include="UnityEngine">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.11f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
@@ -258,6 +261,9 @@
     </Reference>
     <Reference Include="UnityEditor">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.11f1/Editor/Data/Managed/UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="LitJson">
+      <HintPath>E:/Codes/Unity/TreasureHunt/TreasureHunt/Assets/Plugins/LitJson.dll</HintPath>
     </Reference>
     <Reference Include="DOTween">
       <HintPath>E:/Codes/Unity/TreasureHunt/TreasureHunt/Assets/Plugins/Demigiant/DOTween/DOTween.dll</HintPath>

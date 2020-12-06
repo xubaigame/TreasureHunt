@@ -22,4 +22,7 @@ public class Consts
     public readonly static string P_Map = "Map";
     public readonly static string P_Gold = "Gold";
 
+    public readonly static string GameDataName = "Configs/TreasureHuntGameData";
+    public readonly static string VirtualPath = Application.persistentDataPath + "/TreasureHuntGameData.json";
+    public readonly static string AssetsPath = Application.streamingAssetsPath + "/TreasureHuntGameData.json";
 }

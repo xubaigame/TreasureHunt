@@ -214,6 +214,7 @@ GameObject:
   m_Component:
   - component: {fileID: 666787001}
   - component: {fileID: 666787002}
+  - component: {fileID: 666787003}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -293,7 +294,17 @@ MonoBehaviour:
     type: 3}
   UncoveredEffect: {fileID: 3491176032375463642, guid: 4e5937593f35aa24b9166ef1fa2275e1,
     type: 3}
-  Width: 21
-  Height: 9
   MinTrapProbability: 0.11
   MaxTrapProbability: 0.13
+--- !u!114 &666787003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 666787000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67ddfa46e3deede468d9320d15f37b06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -31,7 +31,8 @@ public class NumberElement : SingleCoverElement
 
     public override void OnCovered()
     {
-        MapManager.Instance.FloodingElement(PositionX, PositionY, new bool[MapManager.Instance.Width, MapManager.Instance.Height]);
+        Vector2 temp = GameDataManager.Instance.GetMapSize();
+        MapManager.Instance.FloodingElement(PositionX, PositionY, new bool[(int)temp.x,(int)temp.y]);
     }
 
 }
