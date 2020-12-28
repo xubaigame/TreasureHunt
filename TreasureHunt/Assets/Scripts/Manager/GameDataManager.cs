@@ -23,6 +23,7 @@ public class GameDataManager :MonoBehaviour
         get => _instance;
     }
     private bool _showContinue = true;
+    
     public void Awake()
     {
         _instance = this;
@@ -70,6 +71,8 @@ public class GameDataManager :MonoBehaviour
         text = File.ReadAllText(Consts.AssetsPath);
         gameData = JsonMapper.ToObject<GameData>(text);
         gameData.Init();
+        
+        Debug.Log(gameData.ToString());
     }
 
     public Vector2 GetMapSize()

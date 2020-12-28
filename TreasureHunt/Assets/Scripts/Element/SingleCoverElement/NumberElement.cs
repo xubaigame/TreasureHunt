@@ -25,8 +25,8 @@ public class NumberElement : SingleCoverElement
     {
         elementState = ElementStates.Uncovered;
         ClearShadow();
-        Instantiate(MapManager.Instance.UncoveredEffect, transform);
-        LoadSprite(MapManager.Instance.Numbers[MapManager.Instance.GetTrapCountAroundElement(PositionX, PositionY)]);
+        Instantiate(MapManager.Instance.mapData.UncoveredEffect, transform);
+        LoadSprite(MapManager.Instance.mapData.Numbers[MapManager.Instance.GetTrapCountAroundElement(PositionX, PositionY)]);
     }
 
     public override void OnCovered()

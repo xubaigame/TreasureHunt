@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Data\GameData.cs" />
+     <Compile Include="Assets\Scripts\Data\LevelData.cs" />
      <Compile Include="Assets\Scripts\Data\MapData.cs" />
      <Compile Include="Assets\Scripts\Element\BaseElement\BaseElement.cs" />
      <Compile Include="Assets\Scripts\Element\BaseElement\SingleCoverElement.cs" />

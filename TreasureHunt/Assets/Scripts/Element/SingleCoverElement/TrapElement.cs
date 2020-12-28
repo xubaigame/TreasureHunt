@@ -20,8 +20,8 @@ public class TrapElement : SingleCoverElement
     {
         elementState = ElementStates.Uncovered;
         ClearShadow();
-        Instantiate(MapManager.Instance.UncoveredEffect, transform);
-        LoadSprite(MapManager.Instance.Traps[Random.Range(0,MapManager.Instance.Traps.Length)]);
+        Instantiate(MapManager.Instance.mapData.UncoveredEffect, transform);
+        LoadSprite(MapManager.Instance.mapData.Traps[Random.Range(0,MapManager.Instance.mapData.Traps.Length)]);
     }
 
     public override void OnCovered()

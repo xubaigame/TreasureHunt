@@ -8,9 +8,10 @@
 
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "MySubMenue/Create MyScriptableObject ")]
+[CreateAssetMenu(menuName = "GameDataMenu/Create MapData ")]
 public class MapData : ScriptableObject 
 {
+    [Header("地图数据")]
     public GameObject[] MapBorder;
     public GameObject MapBackGround;
     public Sprite[] Tiles;

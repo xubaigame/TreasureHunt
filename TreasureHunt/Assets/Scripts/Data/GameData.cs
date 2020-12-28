@@ -45,5 +45,10 @@ public class GameData
     {
         _width = _baseWidth + (_level - 1) * 3;
     }
-    
+
+
+    public override string ToString()
+    {
+        return $"{nameof(_isFirstGame)}: {_isFirstGame}, {nameof(_isMute)}: {_isMute}, {nameof(_baseWidth)}: {_baseWidth}, {nameof(_width)}: {_width}, {nameof(_height)}: {_height}, {nameof(_level)}: {_level}, {nameof(_hp)}: {_hp}, {nameof(_armor)}: {_armor}, {nameof(_key)}: {_key}, {nameof(_hoe)}: {_hoe}, {nameof(_tnt)}: {_tnt}, {nameof(_map)}: {_map}, {nameof(_gold)}: {_gold}, {nameof(_grass)}: {_grass}";
+    }
 }

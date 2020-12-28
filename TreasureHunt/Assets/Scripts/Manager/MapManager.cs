@@ -9,23 +9,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapManager : MonoBehaviour 
+public class MapManager : MonoBehaviour
 {
-    [Header("元素预制体")]
-    //左下、右下、左上、右上、上、下、左、右
-    public GameObject[] MapBorder;
-    public GameObject MapBackGround;
-    public Sprite[] Tiles;
-    public Sprite[] Numbers;
-    public Sprite[] Traps;
-    public GameObject FlagElement;
-    public GameObject FlagEffect;
-    public GameObject BaseElement;
-    public GameObject UncoveredEffect;
-
-    [Header("关卡设置")]
-    public float MinTrapProbability;
-    public float MaxTrapProbability;
+    public MapData mapData;
+    public LevelData LevelData;
 
     private Transform _mapHolder;
     private BaseElement[,] _map;
@@ -52,11 +39,18 @@ public class MapManager : MonoBehaviour
         _mapHolder = GameObject.Find("Map").transform;
         CreateMap();
     }
+    
+    /// <summary>
+    /// 地图数据变化更新函数
+    /// </summary>
+    /// <param name="mapWidth">地图长度</param>
+    /// <param name="mapHeight">地图宽度</param>
     public void UpdateMapSize(int mapWidth, int mapHeight)
     {
         _mapWidth = mapWidth;
         _mapHeight = mapHeight;
     }
+    
     /// <summary>
     /// 初始化摄像机，使其对准屏幕中心。
     /// </summary>
@@ -90,29 +84,29 @@ public class MapManager : MonoBehaviour
         {
             for (int j = 0; j < _mapHeight; j++)
             {
-                Instantiate(MapBackGround, new Vector3(i, j, 0), Quaternion.identity).transform.parent= _mapHolder;
-                _map[i, j] = Instantiate(BaseElement, new Vector3(i, j, 0), Quaternion.identity, _mapHolder).GetComponent<BaseElement>();
+                Instantiate(mapData.MapBackGround, new Vector3(i, j, 0), Quaternion.identity).transform.parent= _mapHolder;
+                _map[i, j] = Instantiate(mapData.BaseElement, new Vector3(i, j, 0), Quaternion.identity, _mapHolder).GetComponent<BaseElement>();
             }
         }
-        Instantiate(MapBorder[0], new Vector3(-1.25f, -1.25f, 0), Quaternion.identity).transform.parent = _mapHolder;
-        Instantiate(MapBorder[1], new Vector3(_mapWidth+0.25f, -1.25f, 0), Quaternion.identity).transform.parent = _mapHolder;
-        Instantiate(MapBorder[2], new Vector3(-1.25f, _mapHeight+0.25f, 0), Quaternion.identity).transform.parent = _mapHolder;
-        Instantiate(MapBorder[3], new Vector3(_mapWidth + 0.25f, _mapHeight + 0.25f, 0), Quaternion.identity).transform.parent = _mapHolder;
+        Instantiate(mapData.MapBorder[0], new Vector3(-1.25f, -1.25f, 0), Quaternion.identity).transform.parent = _mapHolder;
+        Instantiate(mapData.MapBorder[1], new Vector3(_mapWidth+0.25f, -1.25f, 0), Quaternion.identity).transform.parent = _mapHolder;
+        Instantiate(mapData.MapBorder[2], new Vector3(-1.25f, _mapHeight+0.25f, 0), Quaternion.identity).transform.parent = _mapHolder;
+        Instantiate(mapData.MapBorder[3], new Vector3(_mapWidth + 0.25f, _mapHeight + 0.25f, 0), Quaternion.identity).transform.parent = _mapHolder;
         for (int i=0;i<_mapWidth;i++)
         {
-            Instantiate(MapBorder[4], new Vector3(i, _mapHeight + 0.25f, 0), Quaternion.identity).transform.parent = _mapHolder;
+            Instantiate(mapData.MapBorder[4], new Vector3(i, _mapHeight + 0.25f, 0), Quaternion.identity).transform.parent = _mapHolder;
         }
         for (int i = 0; i < _mapWidth; i++)
         {
-            Instantiate(MapBorder[5], new Vector3(i, -1.25f, 0), Quaternion.identity).transform.parent = _mapHolder;
+            Instantiate(mapData.MapBorder[5], new Vector3(i, -1.25f, 0), Quaternion.identity).transform.parent = _mapHolder;
         }
         for (int i = 0; i < _mapHeight; i++)
         {
-            Instantiate(MapBorder[6], new Vector3(-1.25f, i, 0), Quaternion.identity).transform.parent = _mapHolder;
+            Instantiate(mapData.MapBorder[6], new Vector3(-1.25f, i, 0), Quaternion.identity).transform.parent = _mapHolder;
         }
         for (int i = 0; i < _mapHeight; i++)
         {
-            Instantiate(MapBorder[7], new Vector3(_mapWidth + 0.25f, i, 0), Quaternion.identity).transform.parent = _mapHolder;
+            Instantiate(mapData.MapBorder[7], new Vector3(_mapWidth + 0.25f, i, 0), Quaternion.identity).transform.parent = _mapHolder;
         }
     }
 
@@ -122,7 +116,7 @@ public class MapManager : MonoBehaviour
     /// <param name="availableIndex">尚未初始化的元素索引</param>
     private void GenerateTrapElement(List<int> availableIndex)
     {
-        float trapProbability = Random.Range(MinTrapProbability, MaxTrapProbability);
+        float trapProbability = Random.Range(LevelData.MinTrapProbability, LevelData.MaxTrapProbability);
         int trapCount = (int)(availableIndex.Count * trapProbability);
 
         for (int i = 0; i < trapCount; i++)
@@ -222,7 +216,7 @@ public class MapManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 翻开位置周围元素
+    /// 翻开位置周围3*3元素（快速检查）
     /// </summary>
     /// <param name="positionX">位置横坐标</param>
     /// <param name="positionY">位置纵坐标</param>

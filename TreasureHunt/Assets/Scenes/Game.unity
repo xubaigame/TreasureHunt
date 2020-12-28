@@ -248,54 +248,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 140b7ba74c9c7ca4298b069c015f274a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapBorder:
-  - {fileID: 8187269805720055326, guid: 406c7bd86e5631a409de260b200b6ef6, type: 3}
-  - {fileID: 1066227217045716895, guid: 59936bed481180f41a545ba7ceac9374, type: 3}
-  - {fileID: 2290383105987012378, guid: 871b6d417461e094e8b5da7ce7af2e29, type: 3}
-  - {fileID: 2197439197382162941, guid: e289589a936f599489ff4126778f6bb4, type: 3}
-  - {fileID: 2961329117054466336, guid: fe3592ca7571c394688586acf407e3a2, type: 3}
-  - {fileID: 4939801337646960035, guid: c4f6cd8a37695b14189704a70c6e8856, type: 3}
-  - {fileID: 1883274967240310076, guid: 6782f426dfdbc5540bc2b75400dd0863, type: 3}
-  - {fileID: 7143791135184111624, guid: 0f3506aab04e10b4db065653096b1f67, type: 3}
-  MapBackGround: {fileID: 8800706829917885095, guid: 4024a21e3f198a34790d1469b1eb9784,
-    type: 3}
-  Tiles:
-  - {fileID: 21300000, guid: 8a69c71fb463671429a882ac1b447ce4, type: 3}
-  - {fileID: 21300000, guid: 8e5941f62714aee428b3fb9e142a2d67, type: 3}
-  - {fileID: 21300000, guid: e33062448f201b641985efd8eb1ebfb0, type: 3}
-  - {fileID: 21300000, guid: b0e7c32ba6b5f6447a1b0fbc71482382, type: 3}
-  - {fileID: 21300000, guid: 71dc6ea7d0d0dec4abe400e7d77ea901, type: 3}
-  - {fileID: 21300000, guid: 50fe668b708b84e47bac352e2838fcd7, type: 3}
-  - {fileID: 21300000, guid: 145f31a02bed25d4ca460974a1c0a7fd, type: 3}
-  - {fileID: 21300000, guid: f083ec9465fd3a94aaf348623b821fe4, type: 3}
-  - {fileID: 21300000, guid: 3ce93ae9145272e49be9f886a633e9b4, type: 3}
-  Numbers:
-  - {fileID: 21300000, guid: 8f47cd2522aecb54eab12f9800219880, type: 3}
-  - {fileID: 21300000, guid: ed985b1f9ea721c4ca5c59526344d5c0, type: 3}
-  - {fileID: 21300000, guid: c84d736dcd0ba3f40903d9d07a2b56d5, type: 3}
-  - {fileID: 21300000, guid: 323ea4009ab1229469e0103c69cf2e20, type: 3}
-  - {fileID: 21300000, guid: d9773932e9e59e6428e3ec758058b48c, type: 3}
-  - {fileID: 21300000, guid: c9d2e56994cc90e4ca650afe4c0444bc, type: 3}
-  - {fileID: 21300000, guid: 4c99d4502c841424c975b173c68514ef, type: 3}
-  - {fileID: 21300000, guid: 0206639ad5cb5194cb1568cd3b5824cd, type: 3}
-  - {fileID: 21300000, guid: 447140203c7c395478da198eb4aebd4b, type: 3}
-  - {fileID: 21300000, guid: 435453e901b2c874c89090a0d5771a3a, type: 3}
-  Traps:
-  - {fileID: 21300000, guid: 39243a04505b09d42adc52184fc26319, type: 3}
-  - {fileID: 21300000, guid: 27b66cd305e822741bdd133198558668, type: 3}
-  - {fileID: 21300000, guid: 7d786433ca5b9c641a8d6b58995f18fe, type: 3}
-  - {fileID: 21300000, guid: fd32e008a94523b49b94ba7bb03eff44, type: 3}
-  - {fileID: 21300000, guid: 9fc4ea2737deb224da0fe40bc3677699, type: 3}
-  FlagElement: {fileID: 6710526136724992604, guid: 6c27d99b0451f254e8daff0d212ea8b6,
-    type: 3}
-  FlagEffect: {fileID: 3122425866748358587, guid: 577af8055d40b0641bcd88531455b53b,
-    type: 3}
-  BaseElement: {fileID: 5185834903934863426, guid: 4f5927202a0662642b0e17378168af05,
-    type: 3}
-  UncoveredEffect: {fileID: 3491176032375463642, guid: 4e5937593f35aa24b9166ef1fa2275e1,
-    type: 3}
-  MinTrapProbability: 0.11
-  MaxTrapProbability: 0.13
+  mapData: {fileID: 11400000, guid: 860d0cc728152a84cbc06397d60a9e19, type: 2}
+  LevelData: {fileID: 11400000, guid: b14573351875643a4b4c9d287bac5fba, type: 2}
 --- !u!114 &666787003
 MonoBehaviour:
   m_ObjectHideFlags: 0

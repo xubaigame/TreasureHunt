@@ -16,7 +16,7 @@ public class SingleCoverElement : BaseElement
         base.Awake();
         elementType = ElementTypes.SingleCovered;
         elementState = ElementStates.Covered;
-        LoadSprite(MapManager.Instance.Tiles[Random.Range(0, MapManager.Instance.Tiles.Length)]);
+        LoadSprite(MapManager.Instance.mapData.Tiles[Random.Range(0, MapManager.Instance.mapData.Tiles.Length)]);
     }
 
     public override void OnPlayerStand()
@@ -58,10 +58,10 @@ public class SingleCoverElement : BaseElement
     public void AddFlag()
     {
         elementState = ElementStates.Marked;
-        GameObject flag = Instantiate(MapManager.Instance.FlagElement, transform);
+        GameObject flag = Instantiate(MapManager.Instance.mapData.FlagElement, transform);
         flag.name = "FlagElement";
         flag.transform.DOLocalMoveY(0, 0.1f);
-        Instantiate(MapManager.Instance.FlagEffect, transform);
+        Instantiate(MapManager.Instance.mapData.FlagEffect, transform);
     }
 
     public void RemoveFlag()
