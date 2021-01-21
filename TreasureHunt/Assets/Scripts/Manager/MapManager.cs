@@ -142,10 +142,6 @@ public class MapManager : MonoBehaviour
         availableIndex.Clear();
     }
 
-
-    
-    
-
     /// <summary>
     /// 计算位置周围（3*3）的陷阱个数
     /// </summary>
@@ -273,8 +269,12 @@ public class MapManager : MonoBehaviour
                 _map[positionX, positionY]=temp.AddComponent<TrapElement>();
                 return _map[positionX, positionY];
             case ElementContents.Tool:
+                _map[positionX, positionY]=temp.AddComponent<ToolElement>();
+                return _map[positionX, positionY];
                 break;
             case ElementContents.Gold:
+                _map[positionX, positionY]=temp.AddComponent<GoldElement>();
+                return _map[positionX, positionY];
                 break;
             case ElementContents.Enemy:
                 break;
@@ -305,5 +305,13 @@ public class MapManager : MonoBehaviour
                 }
             }
         }
+    }
+    
+    public void ChangeToNumberElement(BaseElement baseElement,bool needEffect)
+    {
+        _map[baseElement.PositionX, baseElement.PositionY] = baseElement.gameObject.AddComponent<NumberElement>();
+        ((NumberElement) _map[baseElement.PositionX, baseElement.PositionY]).needEffect = needEffect;
+        _map[baseElement.PositionX, baseElement.PositionY].OnPlayerStand();
+        Destroy(baseElement);
     }
 }

@@ -17,8 +17,15 @@ public class MapData : ScriptableObject
     public Sprite[] Tiles;
     public Sprite[] Numbers;
     public Sprite[] Traps;
+    public Sprite[] Tools;
+    public Sprite[] Golds;
+    public Sprite[] BigWalls;
+    public Sprite[] SmallWalls;
+    public Sprite[] Enemys;
+    public Sprite Door;
     public GameObject FlagElement;
     public GameObject FlagEffect;
     public GameObject BaseElement;
     public GameObject UncoveredEffect;
+    public GameObject GoldEffect;
 }

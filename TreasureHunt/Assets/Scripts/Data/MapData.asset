@@ -50,6 +50,37 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 7d786433ca5b9c641a8d6b58995f18fe, type: 3}
   - {fileID: 21300000, guid: fd32e008a94523b49b94ba7bb03eff44, type: 3}
   - {fileID: 21300000, guid: 9fc4ea2737deb224da0fe40bc3677699, type: 3}
+  Tools:
+  - {fileID: 21300000, guid: 31c394dce7847e544afdb051e1c3d1a3, type: 3}
+  - {fileID: 21300000, guid: 51f0a96b6ae381a46ad5d047f39b8a4a, type: 3}
+  - {fileID: 21300000, guid: b066c9922ff5e1547b44d45c3cfd6b0a, type: 3}
+  - {fileID: 21300000, guid: cabbceebf846a6b4fa5542f8055d6b50, type: 3}
+  - {fileID: 21300000, guid: ba69ab0251d339c4e8cc9f19ea8e1edc, type: 3}
+  - {fileID: 21300000, guid: 2c457532fae62b54594ee4596bbbf833, type: 3}
+  - {fileID: 21300000, guid: 95da7bd8af44c6c43b300209d7888e2d, type: 3}
+  - {fileID: 21300000, guid: 62e97f3d76b7701409916910a330b56a, type: 3}
+  - {fileID: 21300000, guid: 105aff68e2b42884db07c03f9d00249d, type: 3}
+  Golds:
+  - {fileID: 21300000, guid: 00aaa650393ecce4bad9d777061dc33e, type: 3}
+  - {fileID: 21300000, guid: 46e61eb3a226b2a4c949866fe52029d6, type: 3}
+  - {fileID: 21300000, guid: 0e5665ba599a48847aa5cf587b9cadd2, type: 3}
+  - {fileID: 21300000, guid: 1c89341c2503da94980c4700158034be, type: 3}
+  - {fileID: 21300000, guid: eba632c31a2f68e4989c64535178a458, type: 3}
+  - {fileID: 21300000, guid: 45b78cb992b94654999cf79762d37bc4, type: 3}
+  - {fileID: 21300000, guid: eaaae9c6f19c7134e89ebc391eb58060, type: 3}
+  BigWalls:
+  - {fileID: 21300000, guid: ae20ed90dabf2d44d9a303c191980bd9, type: 3}
+  - {fileID: 21300000, guid: bc95f5623997cb445aed017ce58d17a8, type: 3}
+  SmallWalls:
+  - {fileID: 21300000, guid: cd2a31c3307278840be45c9e67303d77, type: 3}
+  - {fileID: 21300000, guid: 52daeaae4cdc6da4a990ebfae4d3e1c7, type: 3}
+  Enemys:
+  - {fileID: 21300000, guid: 6631908089e2ba74db1dd27e5cf8bef5, type: 3}
+  - {fileID: 21300000, guid: 1d10a5fd807820a4e9408e8393670d70, type: 3}
+  - {fileID: 21300000, guid: 19a054e39615780448eb331b585b01a4, type: 3}
+  - {fileID: 21300000, guid: 764d84c16a0ba814d901372c3a8fd017, type: 3}
+  - {fileID: 21300000, guid: 2fe1d6a4de13cb24682f007fc28d421f, type: 3}
+  Door: {fileID: 21300000, guid: 741235b46e2b2a94e949dc968137b1c2, type: 3}
   FlagElement: {fileID: 6710526136724992604, guid: 6c27d99b0451f254e8daff0d212ea8b6,
     type: 3}
   FlagEffect: {fileID: 3122425866748358587, guid: 577af8055d40b0641bcd88531455b53b,
@@ -57,4 +88,6 @@ MonoBehaviour:
   BaseElement: {fileID: 5185834903934863426, guid: 4f5927202a0662642b0e17378168af05,
     type: 3}
   UncoveredEffect: {fileID: 3491176032375463642, guid: 4e5937593f35aa24b9166ef1fa2275e1,
+    type: 3}
+  GoldEffect: {fileID: 8067924509867616584, guid: 866a675ceabe94911bfd047ca43dba66,
     type: 3}

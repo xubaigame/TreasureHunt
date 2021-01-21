@@ -8,8 +8,9 @@
 
 using UnityEngine;
 
-public class NumberElement : SingleCoverElement 
+public class NumberElement : SingleCoverElement
 {
+    public bool needEffect = true;
     public override void Awake()
     {
         base.Awake();
@@ -25,7 +26,10 @@ public class NumberElement : SingleCoverElement
     {
         elementState = ElementStates.Uncovered;
         ClearShadow();
-        Instantiate(MapManager.Instance.mapData.UncoveredEffect, transform);
+        if (needEffect)
+        {
+            Instantiate(MapManager.Instance.mapData.UncoveredEffect, transform);
+        }
         LoadSprite(MapManager.Instance.mapData.Numbers[MapManager.Instance.GetTrapCountAroundElement(PositionX, PositionY)]);
     }
 

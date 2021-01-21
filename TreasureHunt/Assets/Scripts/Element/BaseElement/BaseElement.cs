@@ -56,7 +56,7 @@ public class BaseElement : MonoBehaviour
 
     public virtual void OnRightMouseButtonDown()
     {
-        //插旗
+        //单翻元素与双翻元素插旗
     }
 
     public virtual void OnMiddleMouseButtonDown()
@@ -77,5 +77,6 @@ public class BaseElement : MonoBehaviour
             Destroy(shadow.gameObject);
         }
     }
-      
+
+    
 }

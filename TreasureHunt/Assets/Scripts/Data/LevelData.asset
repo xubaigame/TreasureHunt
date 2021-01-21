@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MinTrapProbability: 0.11
   MaxTrapProbability: 0.13
+  UncoveredProbability: 0.5

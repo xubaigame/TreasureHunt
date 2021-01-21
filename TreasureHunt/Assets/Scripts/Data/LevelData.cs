@@ -14,4 +14,5 @@ public class LevelData : ScriptableObject
     [Header("关卡数据")]
     public float MinTrapProbability;
     public float MaxTrapProbability;
+    public float UncoveredProbability;
 }
