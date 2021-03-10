@@ -15,9 +15,9 @@ public enum ObstacleTypes
 
 public enum ObstacleDoorTypes
 {
-    Enemy = 3,
-    Door = 4,
-    BigWall = 5,
-    SmallWall = 6
+    Enemy = 4,
+    Door = 5,
+    BigWall = 6,
+    SmallWall = 7
 }
 

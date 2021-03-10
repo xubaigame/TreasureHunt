@@ -1,7 +1,7 @@
 // ****************************************************
 //     文件：GoldElement.cs
 //     作者：积极向上小木木
-//     邮箱: positivemumu@126.com
+//     邮箱：positivemumu@126.com
 //     日期：2021/1/20 15:57:16
 //     功能：金币元素类
 // *****************************************************
@@ -12,7 +12,7 @@ using UnityEngine;
 
 public class GoldElement : DoubleCoverElement
 {
-    private GoldTypes goldType;
+    public GoldTypes goldType;
 
     public override void Awake()
     {

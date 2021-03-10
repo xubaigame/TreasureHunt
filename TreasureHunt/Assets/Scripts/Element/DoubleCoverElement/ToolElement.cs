@@ -1,7 +1,7 @@
 // ****************************************************
 //     文件：ToolElement.cs
 //     作者：积极向上小木木
-//     邮箱: positivemumu@126.com
+//     邮箱：positivemumu@126.com
 //     日期：2021/1/20 15:32:51
 //     功能：工具元素类
 // *****************************************************
@@ -17,7 +17,6 @@ public class ToolElement : DoubleCoverElement
     {
         base.Awake();
         elementContent = ElementContents.Tool;
-        
     }
 
     public override void ChangeSprite()

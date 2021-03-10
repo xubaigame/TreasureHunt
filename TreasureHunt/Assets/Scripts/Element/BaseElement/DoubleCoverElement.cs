@@ -1,7 +1,7 @@
 // ****************************************************
 //     文件：DoubleCoverElement.cs
 //     作者：积极向上小木木
-//     邮箱: positivemumu@126.com
+//     邮箱：positivemumu@126.com
 //     日期：2021/1/20 15:1:15
 //     功能：双翻元素基类
 // *****************************************************
@@ -12,7 +12,7 @@ using UnityEngine;
 
 public class DoubleCoverElement : SingleCoverElement
 {
-    private bool isHide = true;
+    public bool isHide = true;
     public override void Awake()
     {
         base.Awake();
