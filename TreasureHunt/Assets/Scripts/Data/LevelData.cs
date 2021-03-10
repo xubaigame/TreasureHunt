@@ -15,4 +15,6 @@ public class LevelData : ScriptableObject
     public float MinTrapProbability;
     public float MaxTrapProbability;
     public float UncoveredProbability;
+    public int StandAreaWidth;
+    public int ObstacleWidth;
 }

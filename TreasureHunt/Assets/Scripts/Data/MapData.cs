@@ -12,8 +12,7 @@ using UnityEngine;
 public class MapData : ScriptableObject 
 {
     [Header("地图数据")]
-    public GameObject[] MapBorder;
-    public GameObject MapBackGround;
+    //图片数据
     public Sprite[] Tiles;
     public Sprite[] Numbers;
     public Sprite[] Traps;
@@ -23,9 +22,16 @@ public class MapData : ScriptableObject
     public Sprite[] SmallWalls;
     public Sprite[] Enemys;
     public Sprite Door;
+    public Sprite Exit;
+
+    //元素预制体
+    public GameObject[] MapBorder;
+    public GameObject MapBackGround;
     public GameObject FlagElement;
-    public GameObject FlagEffect;
     public GameObject BaseElement;
+
+    //特效预制体
     public GameObject UncoveredEffect;
     public GameObject GoldEffect;
+    public GameObject FlagEffect;
 }

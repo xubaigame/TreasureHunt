@@ -12,17 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9b98fa83d6f3d4dbf92637a5be9400, type: 3}
   m_Name: MapData
   m_EditorClassIdentifier: 
-  MapBorder:
-  - {fileID: 8187269805720055326, guid: 406c7bd86e5631a409de260b200b6ef6, type: 3}
-  - {fileID: 1066227217045716895, guid: 59936bed481180f41a545ba7ceac9374, type: 3}
-  - {fileID: 2290383105987012378, guid: 871b6d417461e094e8b5da7ce7af2e29, type: 3}
-  - {fileID: 2197439197382162941, guid: e289589a936f599489ff4126778f6bb4, type: 3}
-  - {fileID: 2961329117054466336, guid: fe3592ca7571c394688586acf407e3a2, type: 3}
-  - {fileID: 4939801337646960035, guid: c4f6cd8a37695b14189704a70c6e8856, type: 3}
-  - {fileID: 1883274967240310076, guid: 6782f426dfdbc5540bc2b75400dd0863, type: 3}
-  - {fileID: 7143791135184111624, guid: 0f3506aab04e10b4db065653096b1f67, type: 3}
-  MapBackGround: {fileID: 8800706829917885095, guid: 4024a21e3f198a34790d1469b1eb9784,
-    type: 3}
   Tiles:
   - {fileID: 21300000, guid: 8a69c71fb463671429a882ac1b447ce4, type: 3}
   - {fileID: 21300000, guid: 8e5941f62714aee428b3fb9e142a2d67, type: 3}
@@ -81,13 +70,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 764d84c16a0ba814d901372c3a8fd017, type: 3}
   - {fileID: 21300000, guid: 2fe1d6a4de13cb24682f007fc28d421f, type: 3}
   Door: {fileID: 21300000, guid: 741235b46e2b2a94e949dc968137b1c2, type: 3}
-  FlagElement: {fileID: 6710526136724992604, guid: 6c27d99b0451f254e8daff0d212ea8b6,
+  Exit: {fileID: 21300000, guid: d7a6f967faded0743b73a6cd07e65bf1, type: 3}
+  MapBorder:
+  - {fileID: 8187269805720055326, guid: 406c7bd86e5631a409de260b200b6ef6, type: 3}
+  - {fileID: 1066227217045716895, guid: 59936bed481180f41a545ba7ceac9374, type: 3}
+  - {fileID: 2290383105987012378, guid: 871b6d417461e094e8b5da7ce7af2e29, type: 3}
+  - {fileID: 2197439197382162941, guid: e289589a936f599489ff4126778f6bb4, type: 3}
+  - {fileID: 2961329117054466336, guid: fe3592ca7571c394688586acf407e3a2, type: 3}
+  - {fileID: 4939801337646960035, guid: c4f6cd8a37695b14189704a70c6e8856, type: 3}
+  - {fileID: 1883274967240310076, guid: 6782f426dfdbc5540bc2b75400dd0863, type: 3}
+  - {fileID: 7143791135184111624, guid: 0f3506aab04e10b4db065653096b1f67, type: 3}
+  MapBackGround: {fileID: 8800706829917885095, guid: 4024a21e3f198a34790d1469b1eb9784,
     type: 3}
-  FlagEffect: {fileID: 3122425866748358587, guid: 577af8055d40b0641bcd88531455b53b,
+  FlagElement: {fileID: 6710526136724992604, guid: 6c27d99b0451f254e8daff0d212ea8b6,
     type: 3}
   BaseElement: {fileID: 5185834903934863426, guid: 4f5927202a0662642b0e17378168af05,
     type: 3}
   UncoveredEffect: {fileID: 3491176032375463642, guid: 4e5937593f35aa24b9166ef1fa2275e1,
     type: 3}
   GoldEffect: {fileID: 8067924509867616584, guid: 866a675ceabe94911bfd047ca43dba66,
+    type: 3}
+  FlagEffect: {fileID: 3122425866748358587, guid: 577af8055d40b0641bcd88531455b53b,
     type: 3}

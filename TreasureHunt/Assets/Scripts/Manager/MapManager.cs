@@ -14,29 +14,29 @@ public class MapManager : MonoBehaviour
     public MapData mapData;
     public LevelData LevelData;
 
-    private Transform _mapHolder;
-    private BaseElement[,] _map;
-    private int _mapWidth;
-    private int _mapHeight;
+    private Transform mapHolder;
+    private BaseElement[,] map;
+    private int mapWidth;
+    private int mapHeight;
 
-    private static MapManager _instance = null;
+    private static MapManager instance = null;
     public static MapManager Instance
     {
-        get => _instance;
+        get => instance;
     }
     private void Awake()
     {
-        _instance = this;
+        instance = this;
         Vector2 temp = GameDataManager.Instance.GetMapSize();
-        _mapWidth = (int)temp.x;
-        _mapHeight = (int)temp.y;
+        mapWidth = (int)temp.x;
+        mapHeight = (int)temp.y;
         GameDataManager.Instance.UpdateMapSize += UpdateMapSize;
-        _map = new BaseElement[_mapWidth, _mapHeight];
+        map = new BaseElement[mapWidth, mapHeight];
     }
     public void Start()
     {
         InitCamera();
-        _mapHolder = GameObject.Find("Map").transform;
+        mapHolder = GameObject.Find("Map").transform;
         CreateMap();
     }
     
@@ -47,8 +47,8 @@ public class MapManager : MonoBehaviour
     /// <param name="mapHeight">地图宽度</param>
     public void UpdateMapSize(int mapWidth, int mapHeight)
     {
-        _mapWidth = mapWidth;
-        _mapHeight = mapHeight;
+        this.mapWidth = mapWidth;
+        this.mapHeight = mapHeight;
     }
     
     /// <summary>
@@ -56,8 +56,8 @@ public class MapManager : MonoBehaviour
     /// </summary>
     public void InitCamera()
     {
-        Camera.main.orthographicSize = (_mapHeight + 3) / 2f;
-        Camera.main.transform.position = new Vector3((_mapWidth - 1) / 2f, (_mapHeight - 1) / 2f, -10);
+        Camera.main.orthographicSize = (mapHeight + 3) / 2f;
+        Camera.main.transform.position = new Vector3((mapWidth - 1) / 2f, (mapHeight - 1) / 2f, -10);
     }
 
     /// <summary>
@@ -67,10 +67,11 @@ public class MapManager : MonoBehaviour
     {
         CreateBorderAndBackGround();
         List<int> availableIndex = new List<int>();
-        for (int i = 0; i < _mapWidth*_mapHeight; i++)
+        for (int i = 0; i < mapWidth*mapHeight; i++)
         {
             availableIndex.Add(i);
         }
+        GenerateExitElement(availableIndex);
         GenerateTrapElement(availableIndex);
         GenerateNumberElement(availableIndex);
     }
@@ -80,33 +81,165 @@ public class MapManager : MonoBehaviour
     /// </summary>
     private void CreateBorderAndBackGround()
     {
-        for (int i = 0; i < _mapWidth; i++)
+        for (int i = 0; i < mapWidth; i++)
         {
-            for (int j = 0; j < _mapHeight; j++)
+            for (int j = 0; j < mapHeight; j++)
             {
-                Instantiate(mapData.MapBackGround, new Vector3(i, j, 0), Quaternion.identity).transform.parent= _mapHolder;
-                _map[i, j] = Instantiate(mapData.BaseElement, new Vector3(i, j, 0), Quaternion.identity, _mapHolder).GetComponent<BaseElement>();
+                Instantiate(mapData.MapBackGround, new Vector3(i, j, 0), Quaternion.identity).transform.parent= mapHolder;
+                map[i, j] = Instantiate(mapData.BaseElement, new Vector3(i, j, 0), Quaternion.identity, mapHolder).GetComponent<BaseElement>();
             }
         }
-        Instantiate(mapData.MapBorder[0], new Vector3(-1.25f, -1.25f, 0), Quaternion.identity).transform.parent = _mapHolder;
-        Instantiate(mapData.MapBorder[1], new Vector3(_mapWidth+0.25f, -1.25f, 0), Quaternion.identity).transform.parent = _mapHolder;
-        Instantiate(mapData.MapBorder[2], new Vector3(-1.25f, _mapHeight+0.25f, 0), Quaternion.identity).transform.parent = _mapHolder;
-        Instantiate(mapData.MapBorder[3], new Vector3(_mapWidth + 0.25f, _mapHeight + 0.25f, 0), Quaternion.identity).transform.parent = _mapHolder;
-        for (int i=0;i<_mapWidth;i++)
+        Instantiate(mapData.MapBorder[0], new Vector3(-1.25f, -1.25f, 0), Quaternion.identity).transform.parent = mapHolder;
+        Instantiate(mapData.MapBorder[1], new Vector3(mapWidth+0.25f, -1.25f, 0), Quaternion.identity).transform.parent = mapHolder;
+        Instantiate(mapData.MapBorder[2], new Vector3(-1.25f, mapHeight+0.25f, 0), Quaternion.identity).transform.parent = mapHolder;
+        Instantiate(mapData.MapBorder[3], new Vector3(mapWidth + 0.25f, mapHeight + 0.25f, 0), Quaternion.identity).transform.parent = mapHolder;
+        for (int i=0;i<mapWidth;i++)
         {
-            Instantiate(mapData.MapBorder[4], new Vector3(i, _mapHeight + 0.25f, 0), Quaternion.identity).transform.parent = _mapHolder;
+            Instantiate(mapData.MapBorder[4], new Vector3(i, mapHeight + 0.25f, 0), Quaternion.identity).transform.parent = mapHolder;
         }
-        for (int i = 0; i < _mapWidth; i++)
+        for (int i = 0; i < mapWidth; i++)
         {
-            Instantiate(mapData.MapBorder[5], new Vector3(i, -1.25f, 0), Quaternion.identity).transform.parent = _mapHolder;
+            Instantiate(mapData.MapBorder[5], new Vector3(i, -1.25f, 0), Quaternion.identity).transform.parent = mapHolder;
         }
-        for (int i = 0; i < _mapHeight; i++)
+        for (int i = 0; i < mapHeight; i++)
         {
-            Instantiate(mapData.MapBorder[6], new Vector3(-1.25f, i, 0), Quaternion.identity).transform.parent = _mapHolder;
+            Instantiate(mapData.MapBorder[6], new Vector3(-1.25f, i, 0), Quaternion.identity).transform.parent = mapHolder;
         }
-        for (int i = 0; i < _mapHeight; i++)
+        for (int i = 0; i < mapHeight; i++)
         {
-            Instantiate(mapData.MapBorder[7], new Vector3(_mapWidth + 0.25f, i, 0), Quaternion.identity).transform.parent = _mapHolder;
+            Instantiate(mapData.MapBorder[7], new Vector3(mapWidth + 0.25f, i, 0), Quaternion.identity).transform.parent = mapHolder;
+        }
+    }
+
+    /// <summary>
+    /// 初始化出口元素
+    /// </summary>
+    /// <param name="availableIndex">尚未初始化的元素索引</param>
+    private void GenerateExitElement(List<int> availableIndex)
+    {
+        int posY = Random.Range(0, mapHeight-1);
+        int posX = mapWidth - 1;
+        ExitElement exit= (ExitElement)ChangeElementType(GameTool.Instance.PositionXAndPositionYToIndex(posX, posY), ElementContents.Exit);
+        Destroy(exit.gameObject.GetComponent<BoxCollider2D>());
+        exit.gameObject.AddComponent<BoxCollider2D>();
+        exit.transform.position = new Vector3(posX - 0.5f, posY + 0.5f);
+        availableIndex.Remove(GameTool.Instance.PositionXAndPositionYToIndex(posX, posY));
+        for (int i=mapWidth-2; i<mapWidth;i++)
+        {
+            Destroy(map[i, posY+1].gameObject);
+            map[i, posY+1] = map[posX, posY];
+            availableIndex.Remove(GameTool.Instance.PositionXAndPositionYToIndex(i, posY+1));
+        }
+        Destroy(map[posX-1, posY].gameObject);
+        map[posX-1, posY] = map[posX, posY];
+        availableIndex.Remove(GameTool.Instance.PositionXAndPositionYToIndex(posX-1, posY));
+
+    }
+
+    /// <summary>
+    /// 生成障碍物区域
+    /// </summary>
+    /// <param name="availableIndex">尚未初始化的元素索引</param>
+    public void GenerateObstacleAreas(List<int> availableIndex)
+    {
+        int obstacleNum = (mapWidth - LevelData.StandAreaWidth - 2) / LevelData.ObstacleWidth;
+        for(int i=0;i<obstacleNum;i++)
+        {
+            if(Random.value>=0.35f)
+            {
+                GenerateCloseObstacleArea(availableIndex);
+            }
+            else
+            {
+                GenerateRandomObstacleArea(i,availableIndex);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="nowIndex"></param>
+    /// <param name="availableIndex"></param>
+    public void GenerateCloseObstacleArea(int nowIndex, List<int> availableIndex)
+    {
+        Obstacle obstacle = new Obstacle();
+        obstacle.type = (ObstacleTypes)Random.Range(0, 4);
+        obstacle.doorType = (ObstacleDoorTypes)Random.Range(3, 7);
+        switch (obstacle.type)
+        {
+            case ObstacleTypes.Self:
+                int width = Random.Range(3, LevelData.ObstacleWidth - 1);
+                int height = Random.Range(3, mapHeight - 1);
+
+                obstacle.sx = LevelData.StandAreaWidth + LevelData.ObstacleWidth * nowIndex + 1 + Random.Range(0, LevelData.ObstacleWidth - 1 - width);
+                obstacle.sy = Random.Range(0, mapHeight - 1 - height);
+
+                obstacle.ex = obstacle.sx + width;
+                obstacle.ey = obstacle.sy + height;
+
+                obstacle.goldNums = Mathf.RoundToInt((width - 2) * (height - 2) * Random.Range(0.5f, 0.7f));
+                
+                obstacle.doorType = ObstacleDoorTypes.BigWall;
+
+                //todo 生成墙体
+
+                GenerateCloseAreaRewards(obstacle, availableIndex);
+                GenerateCloseAreaTool(obstacle, availableIndex);
+                break;
+            case ObstacleTypes.WithOneWall:
+                WithOneWallArea();
+                break;
+            case ObstacleTypes.WithTwoWall:
+                WithTwoWallArea();
+                break;
+        }
+    }
+
+    public void GenerateCloseAreaRewards(Obstacle obstacle, List<int> availableIndex)
+    {
+
+    }
+
+    /// <summary>
+    /// 闭合障碍物区域道具生成
+    /// </summary>
+    /// <param name="obstacle"></param>
+    /// <param name="availableIndex"></param>
+    public void GenerateCloseAreaTool(Obstacle obstacle, List<int> availableIndex)
+    {
+        obstacle.tx = Random.Range(0, obstacle.sx);
+        obstacle.ty = Random.Range(0, mapHeight);
+
+        if (!availableIndex.Contains(GameTool.Instance.PositionXAndPositionYToIndex(obstacle.tx, obstacle.ty))) ;
+        {
+            obstacle.tx = Random.Range(0, obstacle.sx);
+            obstacle.ty = Random.Range(0, mapHeight);
+        }
+        availableIndex.Remove(GameTool.Instance.PositionXAndPositionYToIndex(obstacle.tx, obstacle.ty)) ;
+        ChangeElementType(GameTool.Instance.PositionXAndPositionYToIndex(obstacle.tx, obstacle.ty), ElementContents.Tool);
+    }
+
+    /// <summary>
+    /// 随机障碍物区生成
+    /// </summary>
+    /// <param name="nowIndex">当前障碍区编号</param>
+    /// <param name="availableIndex">尚未初始化的元素索引</param>
+    public void GenerateRandomObstacleArea(int nowIndex,List<int> availableIndex)
+    {
+        int start = LevelData.StandAreaWidth + LevelData.ObstacleWidth * nowIndex + 1;
+        int end = start + LevelData.ObstacleWidth - 2;
+        for(int i=0;i<5;i++)
+        {
+            int tempx = Random.Range(start, end);
+            int tempy = Random.Range(0, mapHeight);
+            if (!availableIndex.Contains(GameTool.Instance.PositionXAndPositionYToIndex(tempx, tempy))) ;
+            {
+                tempx = Random.Range(start, end);
+                tempy = Random.Range(0, mapHeight);
+            }
+            ChangeElementType(GameTool.Instance.PositionXAndPositionYToIndex(tempx, tempy), ElementContents.SmallWall);
+            availableIndex.Remove(GameTool.Instance.PositionXAndPositionYToIndex(tempx, tempy));
         }
     }
 
@@ -175,7 +308,7 @@ public class MapManager : MonoBehaviour
     {
         if (GameTool.Instance.IsPositionValid(positionX, positionY))
         {
-            return _map[positionX, positionY].elementContent == elementContent;
+            return map[positionX, positionY].elementContent == elementContent;
         }
         return false;
     }
@@ -191,10 +324,10 @@ public class MapManager : MonoBehaviour
         if (GameTool.Instance.IsPositionValid(positionX, positionY))
         {
             if (visited[positionX, positionY]) return;
-            if (_map[positionX, positionY].elementType == ElementTypes.CantCovered) return;
-            if(_map[positionX,positionY].elementState==ElementStates.Covered)
+            if (map[positionX, positionY].elementType == ElementTypes.CantCovered) return;
+            if(map[positionX,positionY].elementState==ElementStates.Covered)
             {
-                ((SingleCoverElement)_map[positionX, positionY]).UncovredElementFirst();
+                ((SingleCoverElement)map[positionX, positionY]).UncovredElementFirst();
             }
             if (GetTrapCountAroundElement(positionX, positionY) > 0) return;
             visited[positionX, positionY] = true;
@@ -225,8 +358,8 @@ public class MapManager : MonoBehaviour
             {
                 if (GameTool.Instance.IsPositionValid(i, j))
                 {
-                    if (_map[i, j].elementState == ElementStates.Marked) mark++;
-                    else if (_map[i, j].elementState == ElementStates.Uncovered && _map[i, j].elementContent == ElementContents.Trap)
+                    if (map[i, j].elementState == ElementStates.Marked) mark++;
+                    else if (map[i, j].elementState == ElementStates.Uncovered && map[i, j].elementContent == ElementContents.Trap)
                         mark++;
                 }
             }
@@ -240,7 +373,7 @@ public class MapManager : MonoBehaviour
                 {
                     if (GameTool.Instance.IsPositionValid(i, j))
                     {
-                        _map[i, j].OnPlayerStand();
+                        map[i, j].OnPlayerStand();
                     }
                 }
             }
@@ -258,23 +391,23 @@ public class MapManager : MonoBehaviour
     {
         int positionX, positionY;
         GameTool.Instance.IndexToPositionXAndPositionY(index, out positionX, out positionY);
-        GameObject temp = _map[positionX, positionY].gameObject;
+        GameObject temp = map[positionX, positionY].gameObject;
         Destroy(temp.GetComponent<BaseElement>());
         switch (content)
         {
             case ElementContents.Number:
-                _map[positionX, positionY] = temp.AddComponent<NumberElement>();
-                return _map[positionX, positionY];
+                map[positionX, positionY] = temp.AddComponent<NumberElement>();
+                return map[positionX, positionY];
             case ElementContents.Trap:
-                _map[positionX, positionY]=temp.AddComponent<TrapElement>();
-                return _map[positionX, positionY];
+                map[positionX, positionY]=temp.AddComponent<TrapElement>();
+                return map[positionX, positionY];
             case ElementContents.Tool:
-                _map[positionX, positionY]=temp.AddComponent<ToolElement>();
-                return _map[positionX, positionY];
+                map[positionX, positionY]=temp.AddComponent<ToolElement>();
+                return map[positionX, positionY];
                 break;
             case ElementContents.Gold:
-                _map[positionX, positionY]=temp.AddComponent<GoldElement>();
-                return _map[positionX, positionY];
+                map[positionX, positionY]=temp.AddComponent<GoldElement>();
+                return map[positionX, positionY];
                 break;
             case ElementContents.Enemy:
                 break;
@@ -285,6 +418,8 @@ public class MapManager : MonoBehaviour
             case ElementContents.SmallWall:
                 break;
             case ElementContents.Exit:
+                map[positionX, positionY] = temp.AddComponent<ExitElement>();
+                return map[positionX, positionY];
                 break;
         }
         return null;
@@ -295,13 +430,13 @@ public class MapManager : MonoBehaviour
     /// </summary>
     public void ShowAllTrap()
     {
-        for (int i = 0; i < _mapWidth; i++)
+        for (int i = 0; i < mapWidth; i++)
         {
-            for (int j = 0; j < _mapHeight; j++)
+            for (int j = 0; j < mapHeight; j++)
             {
-                if(_map[i,j].elementContent==ElementContents.Trap)
+                if(map[i,j].elementContent==ElementContents.Trap)
                 {
-                    ((SingleCoverElement)_map[i, j]).UncovredElementFirst();
+                    ((SingleCoverElement)map[i, j]).UncovredElementFirst();
                 }
             }
         }
@@ -309,9 +444,9 @@ public class MapManager : MonoBehaviour
     
     public void ChangeToNumberElement(BaseElement baseElement,bool needEffect)
     {
-        _map[baseElement.PositionX, baseElement.PositionY] = baseElement.gameObject.AddComponent<NumberElement>();
-        ((NumberElement) _map[baseElement.PositionX, baseElement.PositionY]).needEffect = needEffect;
-        _map[baseElement.PositionX, baseElement.PositionY].OnPlayerStand();
+        map[baseElement.PositionX, baseElement.PositionY] = baseElement.gameObject.AddComponent<NumberElement>();
+        ((NumberElement) map[baseElement.PositionX, baseElement.PositionY]).needEffect = needEffect;
+        map[baseElement.PositionX, baseElement.PositionY].OnPlayerStand();
         Destroy(baseElement);
     }
 }
