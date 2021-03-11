@@ -72,7 +72,7 @@ public class GameDataManager :MonoBehaviour
         gameData = JsonMapper.ToObject<GameData>(text);
         gameData.Init();
         
-        Debug.Log(gameData.ToString());
+        //Debug.Log(gameData.ToString());
     }
 
     public Vector2 GetMapSize()

@@ -72,11 +72,34 @@ public class MapManager : MonoBehaviour
         {
             availableIndex.Add(i);
         }
-        GenerateExitElement(availableIndex);
-        GenerateObstacleAreas(availableIndex);
         
+        //生成玩家站立区域
+        int standy=Random.Range(0, 7);
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = standy; j <standy+3 ; j++)
+            {
+                ChangeElementType(GameTool.Instance.PositionXAndPositionYToIndex(i, j), ElementContents.Number);
+                availableIndex.Remove(GameTool.Instance.PositionXAndPositionYToIndex(i, j));
+            }
+        }
+        
+        GenerateObstacleAreas(availableIndex);
+        GenerateExitElement(availableIndex);
+        
+        GenerateToolElement(availableIndex);
+        GenerateGoldElement(availableIndex);
         GenerateTrapElement(availableIndex);
         GenerateNumberElement(availableIndex);
+        
+        //翻开玩家站立区域
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = standy; j <standy+3 ; j++)
+            {
+                ((SingleCoverElement)map[i,j]).UncovredElementFirst();
+            }
+        }
     }
 
     /// <summary>
@@ -112,6 +135,15 @@ public class MapManager : MonoBehaviour
         {
             Instantiate(mapData.MapBorder[7], new Vector3(mapWidth + 0.25f, i, 0), Quaternion.identity).transform.parent = mapHolder;
         }
+    }
+
+    /// <summary>
+    /// 初始化玩家站立区域
+    /// </summary>
+    /// <param name="availableIndex"></param>
+    public void GeneratePlayerStand(List<int> availableIndex)
+    {
+        
     }
 
     /// <summary>
@@ -160,15 +192,17 @@ public class MapManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// 闭合障碍物区域生成
+    /// 1-自闭合
+    /// 2-与单边界闭合
+    /// 3-与双边界闭合
     /// </summary>
-    /// <param name="nowIndex"></param>
-    /// <param name="availableIndex"></param>
+    /// <param name="nowIndex">当前障碍区编号</param>
+    /// <param name="availableIndex">尚未初始化的元素索引</param>
     public void GenerateCloseObstacleArea(int nowIndex, List<int> availableIndex)
     {
         Obstacle obstacle = new Obstacle();
         obstacle.type = (ObstacleTypes)Random.Range(0, 3);
-        obstacle.type = ObstacleTypes.WithOneWall;
         obstacle.doorType = (ObstacleDoorTypes)Random.Range(4, 8);
         int width = 0;
         int height = 0;
@@ -227,18 +261,34 @@ public class MapManager : MonoBehaviour
                 WithOneWallArea(obstacle,availableIndex);
                 break;
             case ObstacleTypes.WithTwoWall:
-                WithTwoWallArea();
+                width = Random.Range(3, LevelData.ObstacleWidth - 1);
+                height = Random.Range(3, mapHeight - 1);
+
+                obstacle.sx = LevelData.StandAreaWidth + LevelData.ObstacleWidth * nowIndex + 1 + Random.Range(0, LevelData.ObstacleWidth - 1 - width);
+                obstacle.ex = obstacle.sx + width;
+                obstacle.ey = height;
+                
+                obstacle.goldNums = Mathf.CeilToInt((width - 2) * (height - 1) * Random.Range(0.5f, 0.7f));
+                
+                WithTwoWallArea(obstacle,availableIndex);
                 break;
         }
     }
 
+    /// <summary>
+    /// 与单边界闭合障碍物生成
+    /// 1-与上边界闭合
+    /// 2-与下边界闭合
+    /// </summary>
+    /// <param name="obstacle">闭合区域信息</param>
+    /// <param name="availableIndex">尚未初始化的元素索引</param>
     public void WithOneWallArea(Obstacle obstacle,List<int> availableIndex)
     {
-        if (Random.value < 0.0f)
+        if (Random.value >=0.5f)
         {
             obstacle.dp = Random.value > 0.5f
                 ? new Vector2(Random.Range(obstacle.sx, obstacle.ex), obstacle.ey - 1)
-                : new Vector2(obstacle.sx, Random.Range(0, obstacle.ey));
+                : new Vector2(Random.value>0.5?obstacle.sx:obstacle.ex-1, Random.Range(0, obstacle.ey));
             ChangeElementType(GameTool.Instance.PositionXAndPositionYToIndex((int)obstacle.dp.x, (int)obstacle.dp.y),(ElementContents)(int)obstacle.doorType);
             availableIndex.Remove(
                 GameTool.Instance.PositionXAndPositionYToIndex((int) obstacle.dp.x, (int) obstacle.dp.y));
@@ -275,11 +325,11 @@ public class MapManager : MonoBehaviour
         {
             obstacle.dp = Random.value > 0.5f
                 ? new Vector2(Random.Range(obstacle.sx + 1, obstacle.ex-1), obstacle.ey-1)
-                : new Vector2(obstacle.sx, Random.Range(obstacle.ey-1, mapHeight));
+                : new Vector2(Random.value>0.5?obstacle.sx:obstacle.ex-1, Random.Range(obstacle.ey-1, mapHeight));
             ChangeElementType(GameTool.Instance.PositionXAndPositionYToIndex((int)obstacle.dp.x, (int)obstacle.dp.y),(ElementContents)(int)obstacle.doorType);
             availableIndex.Remove(
                 GameTool.Instance.PositionXAndPositionYToIndex((int) obstacle.dp.x, (int) obstacle.dp.y));
-            Debug.Log(obstacle.dp.x+" "+obstacle.dp.y);
+            
             for (int i = obstacle.ey; i < mapHeight; i++)
             {
                 if (availableIndex.Contains(GameTool.Instance.PositionXAndPositionYToIndex(obstacle.sx, i)))
@@ -306,22 +356,96 @@ public class MapManager : MonoBehaviour
                     availableIndex.Remove(GameTool.Instance.PositionXAndPositionYToIndex(obstacle.ex - 1, i));
                 }
             }
-            obstacle.sy = 0;
+
+            obstacle.sy = mapHeight - obstacle.ey + 1;
+            obstacle.ey = mapHeight + 1;
             GenerateCloseAreaRewards(obstacle,availableIndex);
         }
         GenerateCloseAreaTool(obstacle,availableIndex);
     }
 
-    public void WithTwoWallArea()
+    /// <summary>
+    /// 与上下边界闭合
+    /// </summary>
+    /// <param name="obstacle">闭合区域信息</param>
+    /// <param name="availableIndex">尚未初始化的元素索引</param>
+    public void WithTwoWallArea(Obstacle obstacle,List<int> availableIndex)
     {
-        if (Random.value >= 0.5f)
+        if (Random.value >=0.5f)
         {
-            
+            obstacle.dp = Random.value > 0.5f
+                ? new Vector2(Random.Range(obstacle.sx, obstacle.ex), obstacle.ey - 1)
+                : Random.value > 0.5
+                    ? new Vector2(obstacle.sx, Random.Range(0, obstacle.ey))
+                    : new Vector2(obstacle.ex - 1, Random.Range(obstacle.ey, mapHeight));
+            ChangeElementType(GameTool.Instance.PositionXAndPositionYToIndex((int)obstacle.dp.x, (int)obstacle.dp.y),(ElementContents)(int)obstacle.doorType);
+            availableIndex.Remove(
+                GameTool.Instance.PositionXAndPositionYToIndex((int) obstacle.dp.x, (int) obstacle.dp.y));
+            for (int i = 0; i < obstacle.ey; i++)
+            {
+                if (availableIndex.Contains(GameTool.Instance.PositionXAndPositionYToIndex(obstacle.sx, i)))
+                {
+                    ChangeElementType(GameTool.Instance.PositionXAndPositionYToIndex(obstacle.sx,i),ElementContents.BigWall);
+                    availableIndex.Remove(GameTool.Instance.PositionXAndPositionYToIndex(obstacle.sx,i));
+                }
+            }
+            for (int i = obstacle.sx; i < obstacle.ex; i++)
+            {
+                if (availableIndex.Contains(GameTool.Instance.PositionXAndPositionYToIndex(i, obstacle.ey - 1)))
+                {
+                    ChangeElementType(GameTool.Instance.PositionXAndPositionYToIndex(i, obstacle.ey - 1), ElementContents.BigWall);
+                    availableIndex.Remove(GameTool.Instance.PositionXAndPositionYToIndex(i, obstacle.ey - 1));
+                }
+            }
+
+            for (int i = obstacle.ey; i < mapHeight; i++)
+            {
+                if (availableIndex.Contains(GameTool.Instance.PositionXAndPositionYToIndex(obstacle.ex - 1, i)))
+                {
+                    ChangeElementType(GameTool.Instance.PositionXAndPositionYToIndex(obstacle.ex - 1, i),
+                        ElementContents.BigWall);
+                    availableIndex.Remove(GameTool.Instance.PositionXAndPositionYToIndex(obstacle.ex - 1, i));
+                }
+            }
         }
         else
         {
-            
+            obstacle.dp = Random.value > 0.5f
+                ? new Vector2(Random.Range(obstacle.sx, obstacle.ex), obstacle.ey - 1)
+                : Random.value > 0.5
+                    ? new Vector2(obstacle.sx, Random.Range(obstacle.ey, mapHeight))
+                    : new Vector2(obstacle.ex - 1, Random.Range(0, obstacle.ey));
+            ChangeElementType(GameTool.Instance.PositionXAndPositionYToIndex((int)obstacle.dp.x, (int)obstacle.dp.y),(ElementContents)(int)obstacle.doorType);
+            availableIndex.Remove(
+                GameTool.Instance.PositionXAndPositionYToIndex((int) obstacle.dp.x, (int) obstacle.dp.y));
+            for (int i = obstacle.ey; i < mapHeight; i++)
+            {
+                if (availableIndex.Contains(GameTool.Instance.PositionXAndPositionYToIndex(obstacle.sx, i)))
+                {
+                    ChangeElementType(GameTool.Instance.PositionXAndPositionYToIndex(obstacle.sx,i),ElementContents.BigWall);
+                    availableIndex.Remove(GameTool.Instance.PositionXAndPositionYToIndex(obstacle.sx,i));
+                }
+            }
+            for (int i = obstacle.sx; i < obstacle.ex; i++)
+            {
+                if (availableIndex.Contains(GameTool.Instance.PositionXAndPositionYToIndex(i, obstacle.ey - 1)))
+                {
+                    ChangeElementType(GameTool.Instance.PositionXAndPositionYToIndex(i, obstacle.ey - 1), ElementContents.BigWall);
+                    availableIndex.Remove(GameTool.Instance.PositionXAndPositionYToIndex(i, obstacle.ey - 1));
+                }
+            }
+
+            for (int i = 0; i < obstacle.ey; i++)
+            {
+                if (availableIndex.Contains(GameTool.Instance.PositionXAndPositionYToIndex(obstacle.ex - 1, i)))
+                {
+                    ChangeElementType(GameTool.Instance.PositionXAndPositionYToIndex(obstacle.ex - 1, i),
+                        ElementContents.BigWall);
+                    availableIndex.Remove(GameTool.Instance.PositionXAndPositionYToIndex(obstacle.ex - 1, i));
+                }
+            }
         }
+        GenerateCloseAreaTool(obstacle,availableIndex);
     }
 
     /// <summary>
@@ -333,12 +457,12 @@ public class MapManager : MonoBehaviour
     {
         for (int i = 0; i < obstacle.goldNums; i++)
         {
-            int tempx = Random.Range(obstacle.sx+1, obstacle.ex);
-            int tempy = Random.Range(obstacle.sy+1, obstacle.ey);
+            int tempx = Random.Range(obstacle.sx, obstacle.ex - 1);
+            int tempy = Random.Range(obstacle.sy, obstacle.ey - 1);
             while(!availableIndex.Contains(GameTool.Instance.PositionXAndPositionYToIndex(tempx, tempy)))
             {
-                tempx = Random.Range(obstacle.sx, obstacle.ex);
-                tempy = Random.Range(obstacle.sy, obstacle.ey);
+                tempx = Random.Range(obstacle.sx, obstacle.ex - 1);
+                tempy = Random.Range(obstacle.sy, obstacle.ey - 1);
             }
             GoldElement gold=(GoldElement)ChangeElementType(GameTool.Instance.PositionXAndPositionYToIndex(tempx, tempy), ElementContents.Gold);
             gold.goldType = (GoldTypes)Random.Range(0, 7);
@@ -395,6 +519,44 @@ public class MapManager : MonoBehaviour
             }
             ChangeElementType(GameTool.Instance.PositionXAndPositionYToIndex(tempx, tempy), ElementContents.SmallWall);
             availableIndex.Remove(GameTool.Instance.PositionXAndPositionYToIndex(tempx, tempy));
+        }
+    }
+
+    /// <summary>
+    /// 关卡随机道具生成
+    /// </summary>
+    /// <param name="availableIndex">尚未初始化的元素索引</param>
+    public void GenerateToolElement(List<int> availableIndex)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            int tempIndex = availableIndex[Random.Range(0, availableIndex.Count)];
+            ToolElement toolElement = (ToolElement) ChangeElementType(tempIndex, ElementContents.Tool);
+            toolElement.toolType = (ToolTypes) Random.Range(0, 9);
+            if (toolElement.isHide == false)
+            {
+                toolElement.ChangeSprite();
+            }
+            availableIndex.Remove(tempIndex);
+        }
+    }
+
+    /// <summary>
+    /// 关卡随机金币生成
+    /// </summary>
+    /// <param name="availableIndex">尚未初始化的元素索引</param>
+    public void GenerateGoldElement(List<int> availableIndex)
+    {
+        for (int i = 0; i < mapWidth/4; i++)
+        {
+            int tempIndex = availableIndex[Random.Range(0, availableIndex.Count)];
+            GoldElement goldElement = (GoldElement) ChangeElementType(tempIndex, ElementContents.Gold);
+            goldElement.goldType = (GoldTypes) Random.Range(0, 7);
+            if (goldElement.isHide == false)
+            {
+                goldElement.ChangeSprite();
+            }
+            availableIndex.Remove(tempIndex);
         }
     }
 

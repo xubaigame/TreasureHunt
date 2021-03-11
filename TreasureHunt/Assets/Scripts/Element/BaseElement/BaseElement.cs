@@ -51,7 +51,6 @@ public class BaseElement : MonoBehaviour
     public virtual void OnLeftMouseButtonDown()
     {
         //寻路
-        Debug.Log(PositionX + " " + PositionY);
         OnPlayerStand();
     }
 

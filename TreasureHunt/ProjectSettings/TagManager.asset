@@ -53,3 +53,6 @@ TagManager:
   - name: Gizmo
     uniqueID: 1699740021
     locked: 0
+  - name: Player
+    uniqueID: 1986056315
+    locked: 0

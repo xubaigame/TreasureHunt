@@ -86,6 +86,7 @@
      <Compile Include="Assets\Scripts\Manager\UIManager.cs" />
      <Compile Include="Assets\Scripts\Misc\Consts.cs" />
      <Compile Include="Assets\Scripts\Misc\GameTool.cs" />
+     <Compile Include="Assets\Scripts\Misc\UnityThreadDetect.cs" />
      <Compile Include="Assets\Scripts\UIWindow\GameStartWindow.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>/Volumes/Datas/Codes/Unity/TreasureHunt/TreasureHunt/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
