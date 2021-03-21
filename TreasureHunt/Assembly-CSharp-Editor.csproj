@@ -92,6 +92,12 @@
  <Reference Include="UnityEditor.UI">
  <HintPath>/Volumes/Datas/Codes/Unity/TreasureHunt/TreasureHunt/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
+ <Reference Include="Cinemachine">
+ <HintPath>/Volumes/Datas/Codes/Unity/TreasureHunt/TreasureHunt/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
+ </Reference>
+ <Reference Include="com.unity.cinemachine.editor">
+ <HintPath>/Volumes/Datas/Codes/Unity/TreasureHunt/TreasureHunt/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>/Applications/Unity/Hub/Editor/2019.4.11f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
  </Reference>
@@ -674,6 +680,10 @@
     <ProjectReference Include="Assembly-CSharp.csproj">
       <Project>{B7CB8E64-7764-2607-181A-D59CE97BC4BE}</Project>
       <Name>Assembly-CSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="AStarAssembly.csproj">
+      <Project>{1DE637DD-DAB9-D44F-24CE-A780A3153AC8}</Project>
+      <Name>AStarAssembly</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

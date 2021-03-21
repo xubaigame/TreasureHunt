@@ -9,6 +9,9 @@
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using UnityEngine;
+using AStarPathfinding;
+using Cinemachine;
+using DG.Tweening;
 
 public class MapManager : MonoBehaviour
 {
@@ -57,8 +60,26 @@ public class MapManager : MonoBehaviour
     /// </summary>
     public void InitCamera()
     {
-        Camera.main.orthographicSize = (mapHeight + 3) / 2f;
-        Camera.main.transform.position = new Vector3((mapWidth - 1) / 2f, (mapHeight - 1) / 2f, -10);
+        CinemachineVirtualCamera camera = GameObject.Find("Vcam").GetComponent<CinemachineVirtualCamera>();
+        camera.m_Lens.OrthographicSize = (mapHeight + 3f) / 2f;
+        CinemachineFramingTransposer cft = camera.GetCinemachineComponent(CinemachineCore.Stage.Body) as CinemachineFramingTransposer;
+        cft.m_DeadZoneHeight = (mapHeight * 100f) / (300 + mapHeight * 100);
+        cft.m_DeadZoneWidth = cft.m_DeadZoneHeight / 9 * 16 / mapHeight;
+        
+        
+        PolygonCollider2D pc= GetComponent<PolygonCollider2D>();
+        pc.SetPath(0, new Vector2[]
+        {
+            new Vector2(-2f,-2f),
+            new Vector2(-2f,mapHeight+1f),
+            new Vector2(mapWidth+1f,mapHeight+1f),
+            new Vector2(mapWidth+1f,-2f)
+        });
+        
+        CinemachineConfiner cc = camera.gameObject.GetComponent<CinemachineConfiner>();
+        cc.enabled = true;
+        cc.m_BoundingShape2D = pc;
+        camera.Follow = PlayerManager.Instance.transform;
     }
 
     /// <summary>
@@ -93,15 +114,42 @@ public class MapManager : MonoBehaviour
         GenerateNumberElement(availableIndex);
         
         //翻开玩家站立区域
-        for (int i = 0; i < 3; i++)
+         for (int i = 0; i < 3; i++)
+         {
+             for (int j = standy; j <standy+3 ; j++)
+             {
+                 ((SingleCoverElement)map[i,j]).UncovredElementFirst();
+             }
+         }
+
+        PlayerManager.Instance.InitPlayerPosition(1,standy+1);
+    }
+    
+
+    public void FindPath(GameMapNode targetNode)
+    {
+        int obstacleType;
+        int[,] tempMap = GetSearchMap(out obstacleType);
+        AStarSystem pathfinding = new AStarSystem(tempMap,obstacleType);
+        GameMapNode startNode = new GameMapNode(PlayerManager.Instance.GetPlayerPosition(), 0);
+        List<AStarNode> nodeList=new List<AStarNode>();
+        bool result = pathfinding.FindPath(startNode, targetNode, ref nodeList);
+        if (result)
         {
-            for (int j = standy; j <standy+3 ; j++)
-            {
-                ((SingleCoverElement)map[i,j]).UncovredElementFirst();
-            }
+            PlayerManager.Instance.MoveWithPath(nodeList.ListToVector());
+            // for (int i = 0; i < nodeList.Count; i++)
+            // {
+            //     map[nodeList[i].Point.X,nodeList[i].Point.Y].GetComponent<SpriteRenderer>().color=Color.cyan;
+            // }
+            // Debug.Log("寻路成功");
+        }
+        else
+        {
+            PlayerManager.Instance.ShowWhyAnimation();
+            //Debug.Log("寻路失败");
         }
     }
-
+    
     /// <summary>
     /// 创建边界和背景
     /// </summary>
@@ -135,15 +183,6 @@ public class MapManager : MonoBehaviour
         {
             Instantiate(mapData.MapBorder[7], new Vector3(mapWidth + 0.25f, i, 0), Quaternion.identity).transform.parent = mapHolder;
         }
-    }
-
-    /// <summary>
-    /// 初始化玩家站立区域
-    /// </summary>
-    /// <param name="availableIndex"></param>
-    public void GeneratePlayerStand(List<int> availableIndex)
-    {
-        
     }
 
     /// <summary>
@@ -721,31 +760,24 @@ public class MapManager : MonoBehaviour
             case ElementContents.Tool:
                 map[positionX, positionY]=temp.AddComponent<ToolElement>();
                 return map[positionX, positionY];
-                break;
             case ElementContents.Gold:
                 map[positionX, positionY]=temp.AddComponent<GoldElement>();
                 return map[positionX, positionY];
-                break;
             case ElementContents.Enemy:
                 map[positionX, positionY] = temp.AddComponent<EnemyElement>();
                 return map[positionX, positionY];
-                break;
             case ElementContents.Door:
                 map[positionX, positionY] = temp.AddComponent<DoorElement>();
                 return map[positionX, positionY];
-                break;
             case ElementContents.BigWall:
                 map[positionX, positionY] = temp.AddComponent<BigWallElement>();
                 return map[positionX, positionY];
-                break;
             case ElementContents.SmallWall:
                 map[positionX, positionY] = temp.AddComponent<SmallWallElement>();
                 return map[positionX, positionY];
-                break;
             case ElementContents.Exit:
                 map[positionX, positionY] = temp.AddComponent<ExitElement>();
                 return map[positionX, positionY];
-                break;
         }
         return null;
     }
@@ -767,6 +799,11 @@ public class MapManager : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// 将元素转换为数字元素
+    /// </summary>
+    /// <param name="baseElement">要转换的元素</param>
+    /// <param name="needEffect">是否需要特效</param>
     public void ChangeToNumberElement(BaseElement baseElement,bool needEffect)
     {
         map[baseElement.PositionX, baseElement.PositionY] = baseElement.gameObject.AddComponent<NumberElement>();
@@ -774,4 +811,98 @@ public class MapManager : MonoBehaviour
         map[baseElement.PositionX, baseElement.PositionY].OnPlayerStand();
         Destroy(baseElement);
     }
+    
+    public int [,] GetSearchMap(out int obstacleType)
+    {
+        int[,] numberMap = new int[mapWidth,mapHeight];
+        //0-被翻开的数字元素
+        //1-未被翻开元素
+        //2-障碍元素：被标记元素、不可翻开元素
+        //3-被翻开的金币或工具元素
+        //4-其他元素
+
+        obstacleType = 2;
+        for (int i = 0; i < mapWidth; i++)
+        {
+            for (int j = 0; j < mapHeight; j++)
+            {
+                if(map[i, j].elementState==ElementStates.Marked)
+                {
+                    numberMap[i, j] = obstacleType;
+                }
+                else if (map[i, j].elementState==ElementStates.Covered)
+                {
+                    if(map[i, j].elementContent == ElementContents.Gold||map[i, j].elementContent == ElementContents.Tool)
+                    {
+                        if(((DoubleCoverElement)map[i,j]).isHide==false)
+                                numberMap[i, j] = 3;
+
+                    }
+                    else
+                    {
+                        numberMap[i, j] = 1;
+                    }
+                }
+                else
+                {
+                    if (map[i, j].elementContent == ElementContents.Door ||
+                        map[i, j].elementContent == ElementContents.Enemy ||
+                        map[i, j].elementContent == ElementContents.BigWall ||
+                        map[i, j].elementContent == ElementContents.SmallWall||
+                        map[i, j].elementContent == ElementContents.Trap)
+                    {
+                        numberMap[i, j] = obstacleType;
+                    }
+                    else if (map[i, j].elementContent == ElementContents.Number||map[i, j].elementContent == ElementContents.Exit)
+                    {
+                        numberMap[i, j] = 0;
+                    }
+                    else
+                    {
+                        numberMap[i, j] = 4;
+                    }
+                        
+                }
+            }
+        }
+
+        return numberMap;
+    }
+
+
+    /// <summary>
+    /// 通过位置获得地图元素内容
+    /// </summary>
+    /// <param name="x">横坐标</param>
+    /// <param name="y">纵坐标</param>
+    /// <returns>地图元素内容</returns>
+    public ElementContents GetElementContentByPosition(int x, int y)
+    {
+        return map[x, y].elementContent;
+    }
+
+    public void UncoverElementDouble(int x, int y)
+    {
+        map[x,y].OnPlayerStand();
+        map[x,y].OnPlayerStand();
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

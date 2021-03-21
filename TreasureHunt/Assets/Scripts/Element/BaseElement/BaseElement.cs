@@ -51,7 +51,9 @@ public class BaseElement : MonoBehaviour
     public virtual void OnLeftMouseButtonDown()
     {
         //寻路
-        OnPlayerStand();
+        GameMapNode targetNode = new GameMapNode(_positionX, _positionY, 0);
+        MapManager.Instance.FindPath(targetNode);
+        //OnPlayerStand();
     }
 
     public virtual void OnRightMouseButtonDown()

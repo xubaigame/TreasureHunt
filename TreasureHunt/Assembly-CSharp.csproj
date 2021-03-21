@@ -66,6 +66,8 @@
      <Compile Include="Assets\Scripts\Element\BaseElement\CantCoverElement.cs" />
      <Compile Include="Assets\Scripts\Element\BaseElement\DoubleCoverElement.cs" />
      <Compile Include="Assets\Scripts\Element\BaseElement\SingleCoverElement.cs" />
+     <Compile Include="Assets\Scripts\Element\BaseElement\SingleCoverElement\NumberElement.cs" />
+     <Compile Include="Assets\Scripts\Element\BaseElement\SingleCoverElement\TrapElement.cs" />
      <Compile Include="Assets\Scripts\Element\CantCoverElement\BigWallElement.cs" />
      <Compile Include="Assets\Scripts\Element\CantCoverElement\DoorElement.cs" />
      <Compile Include="Assets\Scripts\Element\CantCoverElement\EnemyElement.cs" />
@@ -79,14 +81,13 @@
      <Compile Include="Assets\Scripts\Element\Enum\GoldTypes.cs" />
      <Compile Include="Assets\Scripts\Element\Enum\ObstacleTypes.cs" />
      <Compile Include="Assets\Scripts\Element\Enum\ToolTypes.cs" />
-     <Compile Include="Assets\Scripts\Element\SingleCoverElement\NumberElement.cs" />
-     <Compile Include="Assets\Scripts\Element\SingleCoverElement\TrapElement.cs" />
      <Compile Include="Assets\Scripts\Manager\GameDataManager.cs" />
      <Compile Include="Assets\Scripts\Manager\MapManager.cs" />
+     <Compile Include="Assets\Scripts\Manager\PlayerManager.cs" />
      <Compile Include="Assets\Scripts\Manager\UIManager.cs" />
      <Compile Include="Assets\Scripts\Misc\Consts.cs" />
+     <Compile Include="Assets\Scripts\Misc\ExtraClass.cs" />
      <Compile Include="Assets\Scripts\Misc\GameTool.cs" />
-     <Compile Include="Assets\Scripts\Misc\UnityThreadDetect.cs" />
      <Compile Include="Assets\Scripts\UIWindow\GameStartWindow.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>/Volumes/Datas/Codes/Unity/TreasureHunt/TreasureHunt/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
@@ -114,6 +115,12 @@
  </Reference>
  <Reference Include="UnityEditor.UI">
  <HintPath>/Volumes/Datas/Codes/Unity/TreasureHunt/TreasureHunt/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="Cinemachine">
+ <HintPath>/Volumes/Datas/Codes/Unity/TreasureHunt/TreasureHunt/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
+ </Reference>
+ <Reference Include="com.unity.cinemachine.editor">
+ <HintPath>/Volumes/Datas/Codes/Unity/TreasureHunt/TreasureHunt/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>/Applications/Unity/Hub/Editor/2019.4.11f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -666,6 +673,10 @@
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
       <Project>{887832B5-121C-48BA-78EA-AA6142495BE0}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
+    <ProjectReference Include="AStarAssembly.csproj">
+      <Project>{1DE637DD-DAB9-D44F-24CE-A780A3153AC8}</Project>
+      <Name>AStarAssembly</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
