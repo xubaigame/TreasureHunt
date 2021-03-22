@@ -39,7 +39,7 @@ public class MapManager : MonoBehaviour
     }
     public void Start()
     {
-        InitCamera();
+        CameraManager.Instance.InitCamera();
         mapHolder = GameObject.Find("Map").transform;
         CreateMap();
     }
@@ -55,33 +55,6 @@ public class MapManager : MonoBehaviour
         this.mapHeight = mapHeight;
     }
     
-    /// <summary>
-    /// 初始化摄像机，使其对准屏幕中心。
-    /// </summary>
-    public void InitCamera()
-    {
-        CinemachineVirtualCamera camera = GameObject.Find("Vcam").GetComponent<CinemachineVirtualCamera>();
-        camera.m_Lens.OrthographicSize = (mapHeight + 3f) / 2f;
-        CinemachineFramingTransposer cft = camera.GetCinemachineComponent(CinemachineCore.Stage.Body) as CinemachineFramingTransposer;
-        cft.m_DeadZoneHeight = (mapHeight * 100f) / (300 + mapHeight * 100);
-        cft.m_DeadZoneWidth = cft.m_DeadZoneHeight / 9 * 16 / mapHeight;
-        
-        
-        PolygonCollider2D pc= GetComponent<PolygonCollider2D>();
-        pc.SetPath(0, new Vector2[]
-        {
-            new Vector2(-2f,-2f),
-            new Vector2(-2f,mapHeight+1f),
-            new Vector2(mapWidth+1f,mapHeight+1f),
-            new Vector2(mapWidth+1f,-2f)
-        });
-        
-        CinemachineConfiner cc = camera.gameObject.GetComponent<CinemachineConfiner>();
-        cc.enabled = true;
-        cc.m_BoundingShape2D = pc;
-        camera.Follow = PlayerManager.Instance.transform;
-    }
-
     /// <summary>
     /// 创建地图
     /// </summary>
@@ -126,6 +99,10 @@ public class MapManager : MonoBehaviour
     }
     
 
+    /// <summary>
+    ///寻路算法
+    /// </summary>
+    /// <param name="targetNode">目标节点</param>
     public void FindPath(GameMapNode targetNode)
     {
         int obstacleType;
@@ -812,6 +789,11 @@ public class MapManager : MonoBehaviour
         Destroy(baseElement);
     }
     
+    /// <summary>
+    /// 元素地图初始化为数字地图
+    /// </summary>
+    /// <param name="obstacleType">障碍物标志</param>
+    /// <returns>数字地图</returns>
     public int [,] GetSearchMap(out int obstacleType)
     {
         int[,] numberMap = new int[mapWidth,mapHeight];
@@ -881,6 +863,11 @@ public class MapManager : MonoBehaviour
         return map[x, y].elementContent;
     }
 
+    /// <summary>
+    /// 翻开元素
+    /// </summary>
+    /// <param name="x">横坐标</param>
+    /// <param name="y">纵坐标</param>
     public void UncoverElementDouble(int x, int y)
     {
         map[x,y].OnPlayerStand();

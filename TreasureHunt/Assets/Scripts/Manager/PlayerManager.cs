@@ -37,6 +37,10 @@ public class PlayerManager : MonoBehaviour
     }
 
     // Update is called once per frame
+    
+    /// <summary>
+    /// 角色移动逻辑
+    /// </summary>
     void Update()
     {
         nowPos = transform.position.ToVector3Int();
@@ -61,7 +65,11 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    
+    /// <summary>
+    /// 初始化角色位置
+    /// </summary>
+    /// <param name="x">横坐标</param>
+    /// <param name="y">纵坐标</param>
     public void InitPlayerPosition(int x,int y)
     {
         transform.position = new Vector3(x, y, 0);
@@ -69,15 +77,24 @@ public class PlayerManager : MonoBehaviour
         nowPos=Vector3Int.zero;
     }
 
+    /// <summary>
+    /// 获得角色位置
+    /// </summary>
+    /// <returns>角色位置对象</returns>
     public AStarPoint GetPlayerPosition()
     {
         return new AStarPoint((int)transform.position.x, (int)transform.position.y);
     }
+    
+    /// <summary>
+    /// 按照路径移动角色
+    /// </summary>
+    /// <param name="Path">路径点数组</param>
     public void MoveWithPath(Vector3[] Path)
     {
         if(pathFinding)
             pathTweener.Kill();
-
+        CameraManager.Instance.ResetFollowTarget();
         pathFinding = true;
         playerAnimator.SetBool("Move",pathFinding);
         pathTweener= transform.DOPath(Path,Path.Length*0.1f);
@@ -94,6 +111,9 @@ public class PlayerManager : MonoBehaviour
         };
     }
 
+    /// <summary>
+    /// 设置角色状态机播放Why动画
+    /// </summary>
     public void ShowWhyAnimation()
     {
         playerAnimator.SetTrigger("Why");

@@ -68,6 +68,9 @@
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>/Volumes/Datas/Codes/Unity/TreasureHunt/TreasureHunt/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
+ <Reference Include="Cinemachine">
+ <HintPath>/Volumes/Datas/Codes/Unity/TreasureHunt/TreasureHunt/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
+ </Reference>
  <Reference Include="Unity.VSCode.Editor">
  <HintPath>/Volumes/Datas/Codes/Unity/TreasureHunt/TreasureHunt/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
  </Reference>
@@ -86,17 +89,14 @@
  <Reference Include="Unity.Rider.Editor">
  <HintPath>/Volumes/Datas/Codes/Unity/TreasureHunt/TreasureHunt/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
  </Reference>
+ <Reference Include="com.unity.cinemachine.editor">
+ <HintPath>/Volumes/Datas/Codes/Unity/TreasureHunt/TreasureHunt/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
+ </Reference>
  <Reference Include="Unity.TextMeshPro">
  <HintPath>/Volumes/Datas/Codes/Unity/TreasureHunt/TreasureHunt/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.UI">
  <HintPath>/Volumes/Datas/Codes/Unity/TreasureHunt/TreasureHunt/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
- </Reference>
- <Reference Include="Cinemachine">
- <HintPath>/Volumes/Datas/Codes/Unity/TreasureHunt/TreasureHunt/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
- </Reference>
- <Reference Include="com.unity.cinemachine.editor">
- <HintPath>/Volumes/Datas/Codes/Unity/TreasureHunt/TreasureHunt/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>/Applications/Unity/Hub/Editor/2019.4.11f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
