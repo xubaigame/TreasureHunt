@@ -19,7 +19,12 @@ public class NumberElement : SingleCoverElement
 
     public override void OnMiddleMouseButtonDown()
     {
-        MapManager.Instance.UncoveredAdjacentElements(PositionX,PositionY);
+        Vector2Int playerPosition = PlayerManager.Instance.GetPlayerPosition();
+        if (playerPosition.x == PositionX && playerPosition.y == PositionY)
+        {
+            MapManager.Instance.UncoveredAdjacentElements(PositionX,PositionY);
+        }
+        
     }
 
     public override void UncovredElementFirst()

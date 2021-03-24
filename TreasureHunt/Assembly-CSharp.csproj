@@ -81,6 +81,7 @@
      <Compile Include="Assets\Scripts\Element\Enum\GoldTypes.cs" />
      <Compile Include="Assets\Scripts\Element\Enum\ObstacleTypes.cs" />
      <Compile Include="Assets\Scripts\Element\Enum\ToolTypes.cs" />
+     <Compile Include="Assets\Scripts\Element\Enum\WeaponTypes.cs" />
      <Compile Include="Assets\Scripts\Manager\CameraManager.cs" />
      <Compile Include="Assets\Scripts\Manager\GameDataManager.cs" />
      <Compile Include="Assets\Scripts\Manager\MapManager.cs" />
@@ -89,6 +90,7 @@
      <Compile Include="Assets\Scripts\Misc\Consts.cs" />
      <Compile Include="Assets\Scripts\Misc\ExtraClass.cs" />
      <Compile Include="Assets\Scripts\Misc\GameTool.cs" />
+     <Compile Include="Assets\Scripts\UIWindow\GameMainWindow.cs" />
      <Compile Include="Assets\Scripts\UIWindow\GameStartWindow.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>/Volumes/Datas/Codes/Unity/TreasureHunt/TreasureHunt/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>

@@ -81,9 +81,9 @@ public class PlayerManager : MonoBehaviour
     /// 获得角色位置
     /// </summary>
     /// <returns>角色位置对象</returns>
-    public AStarPoint GetPlayerPosition()
+    public Vector2Int GetPlayerPosition()
     {
-        return new AStarPoint((int)transform.position.x, (int)transform.position.y);
+        return new Vector2Int((int)transform.position.x, (int)transform.position.y);
     }
     
     /// <summary>
@@ -112,13 +112,43 @@ public class PlayerManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 设置角色状态机播放Why动画
+    /// 设置动画状态机播放Why动画
     /// </summary>
     public void ShowWhyAnimation()
     {
         playerAnimator.SetTrigger("Why");
     }
+
+    /// <summary>
+    /// 设置动画状态机播放QuickCheck动画
+    /// </summary>
+    public void ShowQuickCheckAnimation()
+    {
+        playerAnimator.SetTrigger("QuickCheck");
+    }
     
-    
-    
+    /// <summary>
+    /// 设置动画状态机播放TakeDamage动画
+    /// </summary>
+    public void ShowTakeDamageAnimation()
+    {
+        playerAnimator.SetTrigger("TakeDamage");
+    }
+
+    /// <summary>
+    /// 处理角色受伤方法
+    /// </summary>
+    public void TakeDamage()
+    {
+        if (GameDataManager.Instance.gameData.Armor > 0)
+        {
+            //todo 减少护甲
+        }
+        else
+        {
+            //todo 减少生命
+        }
+        
+        //todo 判断是否死亡
+    }
 }

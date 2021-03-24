@@ -15,6 +15,8 @@ public class GameDataManager :MonoBehaviour
 {
 
     public GameData gameData;
+    public WeaponTypes weaponType;
+    public int _arrow;
     public Action<int,int> UpdateMapSize;
 
     private static GameDataManager _instance;

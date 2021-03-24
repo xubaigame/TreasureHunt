@@ -108,7 +108,8 @@ public class MapManager : MonoBehaviour
         int obstacleType;
         int[,] tempMap = GetSearchMap(out obstacleType);
         AStarSystem pathfinding = new AStarSystem(tempMap,obstacleType);
-        GameMapNode startNode = new GameMapNode(PlayerManager.Instance.GetPlayerPosition(), 0);
+        Vector2Int playerPosition = PlayerManager.Instance.GetPlayerPosition();
+        GameMapNode startNode = new GameMapNode(new AStarPoint(playerPosition.x,playerPosition.y), 0);
         List<AStarNode> nodeList=new List<AStarNode>();
         bool result = pathfinding.FindPath(startNode, targetNode, ref nodeList);
         if (result)
@@ -700,6 +701,7 @@ public class MapManager : MonoBehaviour
 
         if(GetTrapCountAroundElement(positionX,positionY)==mark)
         {
+            PlayerManager.Instance.ShowQuickCheckAnimation();
             for (int i = positionX - 1; i <= positionX + 1; i++)
             {
                 for (int j = positionY - 1; j <= positionY + 1; j++)
@@ -707,9 +709,14 @@ public class MapManager : MonoBehaviour
                     if (GameTool.Instance.IsPositionValid(i, j))
                     {
                         map[i, j].OnPlayerStand();
+                        map[i, j].OnPlayerStand();
                     }
                 }
             }
+        }
+        else
+        {
+            PlayerManager.Instance.ShowWhyAnimation();
         }
     }
     

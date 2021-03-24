@@ -2212,6 +2212,7 @@ GameObject:
   - component: {fileID: 896865886}
   - component: {fileID: 896865888}
   - component: {fileID: 896865887}
+  - component: {fileID: 896865889}
   m_Layer: 5
   m_Name: MainPanel
   m_TagString: Untagged
@@ -2278,6 +2279,39 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 896865885}
   m_CullTransparentMesh: 0
+--- !u!114 &896865889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896865885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e20db2585173c4c4cb26fe7827ab04c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  armorIcon: {fileID: 180646377}
+  keyIcon: {fileID: 415771183}
+  arrowBg: {fileID: 117455215}
+  arrowIcon: {fileID: 596226300}
+  swordIcon: {fileID: 232849603}
+  hoeBag: {fileID: 1758754399}
+  hoeIcon: {fileID: 469152735}
+  tntBag: {fileID: 274558334}
+  tntIcon: {fileID: 474411957}
+  mapBag: {fileID: 195964072}
+  mapIcon: {fileID: 678610086}
+  grassIcon: {fileID: 414806071}
+  levelText: {fileID: 1437123375}
+  hpText: {fileID: 1874521645}
+  armorText: {fileID: 135800142}
+  keyText: {fileID: 1891630456}
+  weaponText: {fileID: 875054227}
+  hoeText: {fileID: 711149875}
+  tntText: {fileID: 1667985263}
+  mapText: {fileID: 566186739}
+  goldText: {fileID: 1045482371}
 --- !u!1 &1045482368
 GameObject:
   m_ObjectHideFlags: 0
@@ -2963,7 +2997,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1437123375}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 896865889}
+        m_MethodName: OnLevelButtonDown
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1437123375
 MonoBehaviour:
   m_ObjectHideFlags: 0
