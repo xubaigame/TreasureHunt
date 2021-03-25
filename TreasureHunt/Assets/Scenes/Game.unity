@@ -1440,8 +1440,8 @@ RectTransform:
   m_Children:
   - {fileID: 1663170614}
   - {fileID: 896865886}
-  - {fileID: 648084342}
   - {fileID: 1756233697}
+  - {fileID: 648084342}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1683,7 +1683,7 @@ RectTransform:
   - {fileID: 1293052396}
   - {fileID: 20076062}
   m_Father: {fileID: 500420867}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2291,6 +2291,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e20db2585173c4c4cb26fe7827ab04c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WinWindow: {fileID: 648084341}
+  LoseWindow: {fileID: 1756233696}
   armorIcon: {fileID: 180646377}
   keyIcon: {fileID: 415771183}
   arrowBg: {fileID: 117455215}
@@ -2791,7 +2793,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u60A8\u8FC7\u5173\u4E86\uFF01"
+  m_Text: "\u60A8\u5931\u8D25\u4E86\uFF01"
 --- !u!222 &1315382508
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3082,6 +3084,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67ddfa46e3deede468d9320d15f37b06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponType: 0
+  _arrow: 0
 --- !u!114 &1477616385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3591,7 +3595,7 @@ RectTransform:
   - {fileID: 2065847016}
   - {fileID: 1850489165}
   m_Father: {fileID: 500420867}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

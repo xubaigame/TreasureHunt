@@ -19,6 +19,17 @@ public class GameDataManager :MonoBehaviour
     public int _arrow;
     public Action<int,int> UpdateMapSize;
 
+    //委托
+    public Action<int> LevelChange;
+    public Action<int> HPChange;
+    public Action<int> ArmorChange;
+    public Action<int> KeyChange;
+    public Action<WeaponTypes,int> WeaponChange;
+    public Action<int> HoeChange;
+    public Action<int> TntChange;
+    public Action<int> MapChange;
+    public Action<int> GoldChange;
+    public Action<bool> GrassChange;
     private static GameDataManager _instance;
     public static GameDataManager Instance
     {
@@ -45,6 +56,110 @@ public class GameDataManager :MonoBehaviour
     public bool IsFirstGame()
     {
         return !_showContinue;
+    }
+
+    public void ChangeLevel(int number)
+    {
+        gameData.Level += number;
+        if (HPChange != null)
+        {
+            HPChange(gameData.Level);
+        }
+    }
+    public void ChangeHp(int number)
+    {
+        gameData.Hp += number;
+        if (HPChange != null)
+        {
+            HPChange(gameData.Hp);
+        }
+    }
+    public void ChangeArmor(int number)
+    {
+        gameData.Armor += number;
+        if (ArmorChange != null)
+        {
+            ArmorChange(gameData.Armor);
+        }
+    }
+    public void ChangeKey(int number)
+    {
+        gameData.Key += number;
+        if (KeyChange != null)
+        {
+            KeyChange(gameData.Key);
+        }
+    }
+
+    public void ChangeWeapon(WeaponTypes weaponType, int number)
+    {
+        this.weaponType = weaponType;
+        switch (this.weaponType)
+        {
+            case WeaponTypes.Arrow:
+                _arrow += number;
+                Debug.Log(_arrow);
+                if (_arrow == 0)
+                    this.weaponType = WeaponTypes.None;
+                if (WeaponChange != null)
+                {
+                    WeaponChange(this.weaponType, _arrow);
+                }
+                break;
+            case WeaponTypes.Sword:
+                _arrow = 0;
+                if (WeaponChange != null)
+                {
+                    WeaponChange(weaponType, 0);
+                }
+                break;
+            case WeaponTypes.None:
+                this.weaponType = WeaponTypes.None;
+                _arrow = 0;
+                break;
+        }
+    }
+    public void ChangeHoe(int number)
+    {
+        gameData.Hoe += number;
+        if (HoeChange != null)
+        {
+            HoeChange(gameData.Hoe);
+        }
+    }
+    public void ChangeTnt(int number)
+    {
+        gameData.Tnt += number;
+        if (TntChange != null)
+        {
+            TntChange(gameData.Tnt);
+        }
+    }
+    public void ChangeMap(int number)
+    {
+        gameData.Map += number;
+        if (MapChange != null)
+        {
+            MapChange(gameData.Map);
+        }
+    }
+    
+    public void ChangeGrass(bool state)
+    {
+        gameData.Grass = state;
+        if (GrassChange != null)
+        {
+            GrassChange(gameData.Grass);
+        }
+    }
+
+    public void ChangeGold(int number)
+    {
+        gameData.Gold += number;
+        if (GoldChange != null)
+        {
+            GoldChange(gameData.Gold);
+        }
     }
     public void SaveGameData()
     {

@@ -16,7 +16,8 @@ using UnityEngine.UI;
 public class GameMainWindow : MonoBehaviour
 {
 
-    private bool isHide=false;
+    public GameObject WinWindow;
+    public GameObject LoseWindow;
     
     public Image armorIcon;
     public Image keyIcon;
@@ -40,11 +41,42 @@ public class GameMainWindow : MonoBehaviour
     public Text mapText;
     public Text goldText;
 
+    
+    private bool isHide=false;
+    private void Awake()
+    {
+        GameDataManager.Instance.LevelChange+= UpdateLevel;
+        GameDataManager.Instance.HPChange += UpdateHp;
+        GameDataManager.Instance.ArmorChange += UpdateArmor;
+        GameDataManager.Instance.KeyChange += UpdateKey;
+        GameDataManager.Instance.WeaponChange += UpdateWeapon;
+        GameDataManager.Instance.HoeChange += UpdateHoe;
+        GameDataManager.Instance.TntChange += UpdateTnt;
+        GameDataManager.Instance.MapChange += UpdateMap;
+        GameDataManager.Instance.GrassChange += UpdateGrass;
+        GameDataManager.Instance.GoldChange += UpdateGold;
+
+    }
+
     private void Start()
     {
         UpdateUI();
     }
 
+    private void OnDestroy()
+    {
+        GameDataManager.Instance.LevelChange-= UpdateLevel;
+        GameDataManager.Instance.HPChange -= UpdateHp;
+        GameDataManager.Instance.ArmorChange -= UpdateArmor;
+        GameDataManager.Instance.KeyChange -= UpdateKey;
+        GameDataManager.Instance.WeaponChange -= UpdateWeapon;
+        GameDataManager.Instance.HoeChange -= UpdateHoe;
+        GameDataManager.Instance.TntChange -= UpdateTnt;
+        GameDataManager.Instance.MapChange -= UpdateMap;
+        GameDataManager.Instance.GrassChange -= UpdateGrass;
+        GameDataManager.Instance.GoldChange -= UpdateGold;
+
+    }
     public void OnLevelButtonDown()
     {
         if (!isHide)
@@ -61,9 +93,43 @@ public class GameMainWindow : MonoBehaviour
 
     public void UpdateUI()
     {
-        levelText.text = "Level " + GameDataManager.Instance.gameData.Level;
-        hpText.text = GameDataManager.Instance.gameData.Hp.ToString();
-        if (GameDataManager.Instance.gameData.Armor==0)
+        UpdateLevel(GameDataManager.Instance.gameData.Level);
+        UpdateHp(GameDataManager.Instance.gameData.Hp);
+        UpdateArmor(GameDataManager.Instance.gameData.Armor);
+        UpdateKey(GameDataManager.Instance.gameData.Key);
+        UpdateWeapon(GameDataManager.Instance.weaponType,GameDataManager.Instance._arrow);
+        UpdateHoe(GameDataManager.Instance.gameData.Hoe);
+        UpdateTnt(GameDataManager.Instance.gameData.Tnt);
+        UpdateMap(GameDataManager.Instance.gameData.Map);
+        UpdateGrass(GameDataManager.Instance.gameData.Grass);
+        UpdateGold(GameDataManager.Instance.gameData.Gold);
+    }
+
+    public void UpdateLevel(int level)
+    {
+        levelText.text = "Level "+level;
+        levelText.rectTransform.DOShakeScale(0.5f).onComplete += () =>
+        {
+            levelText.rectTransform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        };
+    }
+
+    public void UpdateHp(int hp)
+    {
+        hpText.text = hp.ToString();
+        if (hp <= 0)
+        {
+            MapManager.Instance.ShowAllTrap();
+            PlayerManager.Instance.ShowDieAnimation();
+            MapManager.Instance.transform.position = new Vector3(0, 0, -1);
+            LoseWindow.SetActive(true);
+            GameDataManager.Instance.NewGame();
+        }
+    }
+
+    public void UpdateArmor(int armorNumber)
+    {
+        if (armorNumber==0)
         {
             armorIcon.gameObject.SetActive(false);
             armorText.gameObject.SetActive(false);
@@ -72,9 +138,21 @@ public class GameMainWindow : MonoBehaviour
         {
             armorIcon.gameObject.SetActive(true);
             armorText.gameObject.SetActive(true);
+            armorText.text = armorNumber.ToString();
+            armorIcon.rectTransform.DOShakeScale(0.5f).onComplete += () =>
+            {
+                armorIcon.rectTransform.localScale = Vector3.one;
+            };
+            armorText.rectTransform.DOShakeScale(0.5f).onComplete += () =>
+            {
+                armorText.rectTransform.localScale = Vector3.one;
+            };
         }
-        
-        if (GameDataManager.Instance.gameData.Key==0)
+    }
+
+    public void UpdateKey(int keyNumber)
+    {
+        if (keyNumber==0)
         {
             keyIcon.gameObject.SetActive(false);
             keyText.gameObject.SetActive(false);
@@ -83,9 +161,21 @@ public class GameMainWindow : MonoBehaviour
         {
             keyIcon.gameObject.SetActive(true);
             keyText.gameObject.SetActive(true);
+            keyText.text = keyNumber.ToString();
+            keyIcon.rectTransform.DOShakeScale(0.5f).onComplete += () =>
+            {
+                keyIcon.rectTransform.localScale = Vector3.one;
+            };
+            keyText.rectTransform.DOShakeScale(0.5f).onComplete += () =>
+            {
+                keyText.rectTransform.localScale = Vector3.one;
+            };
         }
+    }
 
-        switch (GameDataManager.Instance.weaponType)
+    public void UpdateWeapon(WeaponTypes weaponType,int arrowNumber)
+    {
+        switch (weaponType)
         {
             case WeaponTypes.None:
                 arrowBg.gameObject.SetActive(true);
@@ -97,18 +187,33 @@ public class GameMainWindow : MonoBehaviour
                 arrowBg.gameObject.SetActive(false);
                 arrowIcon.gameObject.SetActive(true);
                 swordIcon.gameObject.SetActive(false);
-                weaponText.gameObject.SetActive(false);
-                weaponText.text = GameDataManager.Instance._arrow.ToString();
+                weaponText.gameObject.SetActive(true);
+                weaponText.text = arrowNumber.ToString();
+                arrowIcon.rectTransform.DOShakeScale(0.5f).onComplete += () =>
+                {
+                    arrowIcon.rectTransform.localScale = Vector3.one;
+                };
+                weaponText.rectTransform.DOShakeScale(0.5f).onComplete += () =>
+                {
+                    weaponText.rectTransform.localScale = Vector3.one;
+                };
                 break;
             case WeaponTypes.Sword:
                 arrowBg.gameObject.SetActive(false);
                 arrowIcon.gameObject.SetActive(false);
                 swordIcon.gameObject.SetActive(true);
                 weaponText.gameObject.SetActive(false);
+                swordIcon.rectTransform.DOShakeScale(0.5f).onComplete += () =>
+                {
+                    swordIcon.rectTransform.localScale = Vector3.one;
+                };
                 break;
         }
+    }
 
-        if (GameDataManager.Instance.gameData.Hoe == 0)
+    public void UpdateHoe(int hoeNumber)
+    {
+        if (hoeNumber == 0)
         {
             hoeBag.gameObject.SetActive(false);
             hoeIcon.gameObject.SetActive(false);
@@ -119,9 +224,20 @@ public class GameMainWindow : MonoBehaviour
             hoeBag.gameObject.SetActive(true);
             hoeIcon.gameObject.SetActive(true);
             hoeText.gameObject.SetActive(true);
-            hoeText.text = GameDataManager.Instance.gameData.Hoe.ToString();
+            hoeText.text = hoeNumber.ToString();
+            hoeIcon.rectTransform.DOShakeScale(0.5f).onComplete += () =>
+            {
+                hoeIcon.rectTransform.localScale = Vector3.one;
+            };
+            hoeText.rectTransform.DOShakeScale(0.5f).onComplete += () =>
+            {
+                hoeText.rectTransform.localScale = Vector3.one;
+            };
         }
-        
+    }
+
+    public void UpdateTnt(int tntNumber)
+    {
         if (GameDataManager.Instance.gameData.Tnt == 0)
         {
             tntBag.gameObject.SetActive(false);
@@ -133,9 +249,20 @@ public class GameMainWindow : MonoBehaviour
             tntBag.gameObject.SetActive(true);
             tntIcon.gameObject.SetActive(true);
             tntText.gameObject.SetActive(true);
-            tntText.text = GameDataManager.Instance.gameData.Hoe.ToString();
+            tntText.text = tntNumber.ToString();
+            tntIcon.rectTransform.DOShakeScale(0.5f).onComplete += () =>
+            {
+                tntIcon.rectTransform.localScale = Vector3.one;
+            };
+            tntText.rectTransform.DOShakeScale(0.5f).onComplete += () =>
+            {
+                tntText.rectTransform.localScale = Vector3.one;
+            };
         }
-        
+    }
+
+    public void UpdateMap(int mapNumber)
+    {
         if (GameDataManager.Instance.gameData.Map == 0)
         {
             mapBag.gameObject.SetActive(false);
@@ -148,12 +275,32 @@ public class GameMainWindow : MonoBehaviour
             mapIcon.gameObject.SetActive(true);
             mapText.gameObject.SetActive(true);
             mapText.text = GameDataManager.Instance.gameData.Hoe.ToString();
+            mapIcon.rectTransform.DOShakeScale(0.5f).onComplete += () =>
+            {
+                mapIcon.rectTransform.localScale = Vector3.one;
+            };
+            mapText.rectTransform.DOShakeScale(0.5f).onComplete += () =>
+            {
+                mapText.rectTransform.localScale = Vector3.one;
+            };
         }
-        
-        grassIcon.gameObject.SetActive(GameDataManager.Instance.gameData.Grass);
-
-        goldText.text = GameDataManager.Instance.gameData.Gold.ToString();
     }
-   
 
+    public void UpdateGrass(bool state)
+    {
+        grassIcon.gameObject.SetActive(state);
+        grassIcon.rectTransform.DOShakeScale(0.5f).onComplete += () =>
+        {
+            grassIcon.rectTransform.localScale = Vector3.one;
+        };
+    }
+
+    public void UpdateGold(int goldNumber)
+    {
+        goldText.text = GameDataManager.Instance.gameData.Gold.ToString();
+        goldText.rectTransform.DOShakeScale(0.5f).onComplete += () =>
+        {
+            goldText.rectTransform.localScale = Vector3.one;
+        };
+    }
 }

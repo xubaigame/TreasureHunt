@@ -15,7 +15,6 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    
 
     private static PlayerManager instance = null;
     private Tweener pathTweener;
@@ -50,7 +49,7 @@ public class PlayerManager : MonoBehaviour
             float diry = Mathf.Clamp(nowPos.y - perPos.y,-1,1);
             playerAnimator.SetFloat("DirX",dirx);
             playerAnimator.SetFloat("DirY",diry);
-            
+        
             MapManager.Instance.UncoverElementDouble(nowPos.x, nowPos.y);
             if (ElementContents.Trap == MapManager.Instance.GetElementContentByPosition(nowPos.x, nowPos.y))
             {
@@ -63,6 +62,7 @@ public class PlayerManager : MonoBehaviour
                 perPos = nowPos;
             }
         }
+
     }
 
     /// <summary>
@@ -136,19 +136,26 @@ public class PlayerManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 设置动画状态机播放Die动画
+    /// </summary>
+    public void ShowDieAnimation()
+    {
+        playerAnimator.SetTrigger("Die");
+    }
+
+    /// <summary>
     /// 处理角色受伤方法
     /// </summary>
     public void TakeDamage()
     {
         if (GameDataManager.Instance.gameData.Armor > 0)
         {
-            //todo 减少护甲
+            GameDataManager.Instance.ChangeArmor(-1);
         }
         else
         {
-            //todo 减少生命
+            GameDataManager.Instance.ChangeHp(-1);
         }
-        
-        //todo 判断是否死亡
+
     }
 }

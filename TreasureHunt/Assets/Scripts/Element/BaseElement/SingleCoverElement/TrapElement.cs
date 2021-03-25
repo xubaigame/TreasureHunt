@@ -26,8 +26,7 @@ public class TrapElement : SingleCoverElement
 
     public override void OnCovered()
     {
-        //翻开所有陷阱
-        MapManager.Instance.ShowAllTrap();
         //最终效果todo 受到伤害
+        PlayerManager.Instance.TakeDamage();
     }
 }

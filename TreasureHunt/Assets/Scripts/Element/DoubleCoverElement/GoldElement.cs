@@ -37,6 +37,31 @@ public class GoldElement : DoubleCoverElement
         {
             Destroy(goldEffect.gameObject);
         }
-        Debug.Log("Get a Gold");
+
+        int ratio = GameDataManager.Instance.gameData.Grass ? 2 : 1;
+        switch (goldType)
+        {
+            case GoldTypes.One:
+                GameDataManager.Instance.ChangeGold(100 * ratio);
+                break;
+            case GoldTypes.Two:
+                GameDataManager.Instance.ChangeGold(150 * ratio);
+                break;
+            case GoldTypes.Three:
+                GameDataManager.Instance.ChangeGold(200 * ratio);
+                break;
+            case GoldTypes.Four:
+                GameDataManager.Instance.ChangeGold(250 * ratio);
+                break;
+            case GoldTypes.Five:
+                GameDataManager.Instance.ChangeGold(300 * ratio);
+                break;
+            case GoldTypes.Six:
+                GameDataManager.Instance.ChangeGold(350 * ratio);
+                break;
+            case GoldTypes.Seven:
+                GameDataManager.Instance.ChangeGold(400 * ratio);
+                break;
+        }
     }
 }

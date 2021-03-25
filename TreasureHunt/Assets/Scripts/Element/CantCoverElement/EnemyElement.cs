@@ -19,4 +19,30 @@ public class EnemyElement : CantCoverElement
       ClearShadow();
       LoadSprite(MapManager.Instance.mapData.Enemys[Random.Range(0,MapManager.Instance.mapData.Enemys.Length)]);
    }
+
+   public override void OnLeftMouseButtonDown()
+   {
+      if (Vector3.Distance(transform.position, PlayerManager.Instance.transform.position) < 1.5f)
+      {
+         Debug.Log(GameDataManager.Instance.weaponType);
+         switch (GameDataManager.Instance.weaponType)
+         {
+            case WeaponTypes.None:
+               base.OnLeftMouseButtonDown();
+               break;
+            case WeaponTypes.Arrow:
+               GameDataManager.Instance.ChangeWeapon(WeaponTypes.Arrow, -1);
+               MapManager.Instance.ChangeToNumberElement(this, true);
+               break;
+            case WeaponTypes.Sword:
+               MapManager.Instance.ChangeToNumberElement(this, true);
+               break;
+         }
+         
+      }
+      else
+      {
+         base.OnLeftMouseButtonDown();
+      }
+   }
 }

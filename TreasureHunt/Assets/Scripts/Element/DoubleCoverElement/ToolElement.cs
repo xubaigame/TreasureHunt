@@ -26,6 +26,35 @@ public class ToolElement : DoubleCoverElement
 
     public override void HandlePlayer()
     {
-        Debug.Log("Get a Tool");
+        switch (toolType)
+        {
+            case ToolTypes.Hp:
+                GameDataManager.Instance.ChangeHp(1);
+                break;
+            case ToolTypes.Armor:
+                GameDataManager.Instance.ChangeArmor(1);
+                break;
+            case ToolTypes.Key:
+                GameDataManager.Instance.ChangeKey(1);
+                break;
+            case ToolTypes.Arrow:
+                GameDataManager.Instance.ChangeWeapon(WeaponTypes.Arrow,1);
+                break;
+            case ToolTypes.Sword:
+                GameDataManager.Instance.ChangeWeapon(WeaponTypes.Sword, 0);
+                break;
+            case ToolTypes.Hoe:
+                GameDataManager.Instance.ChangeHoe(1);
+                break;
+            case ToolTypes.Tnt:
+                GameDataManager.Instance.ChangeTnt(1);
+                break;
+            case ToolTypes.Map:
+                GameDataManager.Instance.ChangeMap(1);
+                break;
+            case ToolTypes.Grass:
+                GameDataManager.Instance.ChangeGrass(true);
+                break;
+        }
     }
 }

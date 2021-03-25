@@ -18,4 +18,24 @@ public class DoorElement : CantCoverElement
         elementContent = ElementContents.Door;
         LoadSprite(MapManager.Instance.mapData.Door);
     }
+
+    public override void OnLeftMouseButtonDown()
+    {
+        if (Vector3.Distance(transform.position, PlayerManager.Instance.transform.position) < 1.5f)
+        {
+            if (GameDataManager.Instance.gameData.Key > 0)
+            {
+                GameDataManager.Instance.ChangeKey(-1);
+                MapManager.Instance.ChangeToNumberElement(this,true);
+            }
+            else
+            {
+                base.OnLeftMouseButtonDown();
+            }
+        }
+        else
+        {
+            base.OnLeftMouseButtonDown();
+        }
+    }
 }
