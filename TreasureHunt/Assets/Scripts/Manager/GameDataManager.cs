@@ -98,7 +98,6 @@ public class GameDataManager :MonoBehaviour
         {
             case WeaponTypes.Arrow:
                 _arrow += number;
-                Debug.Log(_arrow);
                 if (_arrow == 0)
                     this.weaponType = WeaponTypes.None;
                 if (WeaponChange != null)

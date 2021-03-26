@@ -26,6 +26,7 @@ public class DoorElement : CantCoverElement
             if (GameDataManager.Instance.gameData.Key > 0)
             {
                 GameDataManager.Instance.ChangeKey(-1);
+                Instantiate(MapManager.Instance.mapData.DoorOpenElement,this.transform);
                 MapManager.Instance.ChangeToNumberElement(this,true);
             }
             else

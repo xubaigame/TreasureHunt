@@ -91,6 +91,20 @@ public class GameMainWindow : MonoBehaviour
         }
     }
 
+    public void ChangeHoeSelectState(bool state)
+    {
+        PlayerManager.Instance.hoeSelect.SetActive(state);
+    }
+    
+    public void ChangeTntSelectState(bool state)
+    {
+        PlayerManager.Instance.tntSelect.SetActive(state);
+    }
+    
+    public void ChangeMapSelectState(bool state)
+    {
+        PlayerManager.Instance.mapSelect.SetActive(state);
+    }
     public void UpdateUI()
     {
         UpdateLevel(GameDataManager.Instance.gameData.Level);
@@ -303,4 +317,6 @@ public class GameMainWindow : MonoBehaviour
             goldText.rectTransform.localScale = Vector3.one;
         };
     }
+    
+    
 }

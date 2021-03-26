@@ -24,7 +24,6 @@ public class EnemyElement : CantCoverElement
    {
       if (Vector3.Distance(transform.position, PlayerManager.Instance.transform.position) < 1.5f)
       {
-         Debug.Log(GameDataManager.Instance.weaponType);
          switch (GameDataManager.Instance.weaponType)
          {
             case WeaponTypes.None:

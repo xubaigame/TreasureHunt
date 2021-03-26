@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using AStarPathfinding;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -22,6 +23,10 @@ public class PlayerManager : MonoBehaviour
     private bool pathFinding;
     private Vector3Int perPos;
     private Vector3Int nowPos;
+
+    public GameObject hoeSelect;
+    public GameObject tntSelect;
+    public GameObject mapSelect;
     public static PlayerManager Instance
     {
         get => instance;
@@ -156,6 +161,5 @@ public class PlayerManager : MonoBehaviour
         {
             GameDataManager.Instance.ChangeHp(-1);
         }
-
     }
 }

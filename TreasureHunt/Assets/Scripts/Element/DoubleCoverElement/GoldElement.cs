@@ -30,14 +30,17 @@ public class GoldElement : DoubleCoverElement
         LoadSprite(MapManager.Instance.mapData.Golds[(int)goldType]);
     }
 
-    public override void HandlePlayer()
+    public void DestoryGoldEffect()
     {
         Transform goldEffect = transform.Find("GoldEffect");
         if(goldEffect!=null)
         {
             Destroy(goldEffect.gameObject);
         }
-
+    }
+    public override void HandlePlayer()
+    {
+        DestoryGoldEffect();
         int ratio = GameDataManager.Instance.gameData.Grass ? 2 : 1;
         switch (goldType)
         {

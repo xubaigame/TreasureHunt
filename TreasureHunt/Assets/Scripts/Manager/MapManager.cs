@@ -880,10 +880,35 @@ public class MapManager : MonoBehaviour
         map[x,y].OnPlayerStand();
         map[x,y].OnPlayerStand();
     }
-    
-    
-    
-    
+
+    public BaseElement GetElementByPosition(int x, int y)
+    {
+        if (x >= 0 && x < mapWidth && y >= 0 && y < mapHeight)
+        {
+            return map[x, y];
+        }
+
+        return null;
+    }
+
+    public void UpdateNumberAfterTntToolUsed(int x, int y)
+    {
+
+        for (int i = x - 2; i <= x + 2; i++) 
+        {
+            for (int j = y - 2; j <= y + 2; j++) 
+            {
+                if (i >= 0 && j < mapWidth && i >= 0 && j < mapHeight)
+                {
+                    if (map[i, j].elementState == ElementStates.Uncovered &&
+                        map[i, j].elementContent == ElementContents.Number)
+                    {
+                        map[i,j] .LoadSprite(mapData.Numbers[GetTrapCountAroundElement(i, j)]);
+                    }
+                }
+            }
+        }
+    }
     
     
     

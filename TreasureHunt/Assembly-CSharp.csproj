@@ -87,9 +87,11 @@
      <Compile Include="Assets\Scripts\Manager\MapManager.cs" />
      <Compile Include="Assets\Scripts\Manager\PlayerManager.cs" />
      <Compile Include="Assets\Scripts\Manager\UIManager.cs" />
+     <Compile Include="Assets\Scripts\Misc\AutoDestory.cs" />
      <Compile Include="Assets\Scripts\Misc\Consts.cs" />
      <Compile Include="Assets\Scripts\Misc\ExtraClass.cs" />
      <Compile Include="Assets\Scripts\Misc\GameTool.cs" />
+     <Compile Include="Assets\Scripts\Misc\SelectGizmos.cs" />
      <Compile Include="Assets\Scripts\UIWindow\GameMainWindow.cs" />
      <Compile Include="Assets\Scripts\UIWindow\GameStartWindow.cs" />
  <Reference Include="Unity.Timeline.Editor">

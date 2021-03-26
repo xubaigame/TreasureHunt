@@ -53,6 +53,9 @@ TagManager:
   - name: Gizmo
     uniqueID: 1699740021
     locked: 0
+  - name: Boarder
+    uniqueID: 2399188283
+    locked: 0
   - name: Player
     uniqueID: 1986056315
     locked: 0
