@@ -11,7 +11,6 @@ using UnityEngine;
 
 public class GameData 
 {
-    private bool _isFirstGame;
     private bool _isMute;
     private int _baseWidth;
     private int _width;
@@ -24,7 +23,6 @@ public class GameData
     private int _tnt;
     private int _map;
     private int _gold;
-    private bool _grass;
 
     public bool IsMute { get => _isMute; set => _isMute = value; }
     public int BaseWidth { get => _baseWidth; set => _baseWidth = value; }
@@ -38,17 +36,13 @@ public class GameData
     public int Tnt { get => _tnt; set => _tnt = value; }
     public int Map { get => _map; set => _map = value; }
     public int Gold { get => _gold; set => _gold = value; }
-    public bool Grass { get => _grass; set => _grass = value; }
-    
+
 
     public void Init()
     {
         _width = _baseWidth + (_level - 1) * 3;
+        GameTool.Instance.UpdateMapSize();
     }
 
-
-    public override string ToString()
-    {
-        return $"{nameof(_isFirstGame)}: {_isFirstGame}, {nameof(_isMute)}: {_isMute}, {nameof(_baseWidth)}: {_baseWidth}, {nameof(_width)}: {_width}, {nameof(_height)}: {_height}, {nameof(_level)}: {_level}, {nameof(_hp)}: {_hp}, {nameof(_armor)}: {_armor}, {nameof(_key)}: {_key}, {nameof(_hoe)}: {_hoe}, {nameof(_tnt)}: {_tnt}, {nameof(_map)}: {_map}, {nameof(_gold)}: {_gold}, {nameof(_grass)}: {_grass}";
-    }
+    
 }

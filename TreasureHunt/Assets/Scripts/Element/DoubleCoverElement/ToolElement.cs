@@ -6,10 +6,6 @@
 //     功能：工具元素类
 // *****************************************************
 
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class ToolElement : DoubleCoverElement
 {
     public ToolTypes toolType;

@@ -7,6 +7,7 @@
 *****************************************************/
 
 using UnityEngine;
+using MFramework.ResourcePool;
 
 public class NumberElement : SingleCoverElement
 {
@@ -33,7 +34,10 @@ public class NumberElement : SingleCoverElement
         ClearShadow();
         if (needEffect)
         {
-            Instantiate(MapManager.Instance.mapData.UncoveredEffect, transform);
+            GameObject go = ObjectPool.Instance.Spawn("UncoveredEffect");
+            go.transform.parent = transform;
+            go.transform.localPosition=Vector3.zero;
+            //Instantiate(MapManager.Instance.mapData.UncoveredEffect, transform);
         }
         LoadSprite(MapManager.Instance.mapData.Numbers[MapManager.Instance.GetTrapCountAroundElement(PositionX, PositionY)]);
     }

@@ -32,7 +32,6 @@ public class CameraManager : MonoBehaviour
         Vector2 temp = GameDataManager.Instance.GetMapSize();
         mapWidth = (int)temp.x;
         mapHeight = (int)temp.y;
-        GameDataManager.Instance.UpdateMapSize += UpdateMapSize;
     }
 
     public void InitCamera()
@@ -57,17 +56,7 @@ public class CameraManager : MonoBehaviour
         cc.m_BoundingShape2D = pc;
         cvc.Follow = PlayerManager.Instance.transform.GetChild(0);
     }
-
-    /// <summary>
-    /// 地图数据变化更新函数
-    /// </summary>
-    /// <param name="mapWidth">地图长度</param>
-    /// <param name="mapHeight">地图宽度</param>
-    public void UpdateMapSize(int mapWidth, int mapHeight)
-    {
-        this.mapWidth = mapWidth;
-        this.mapHeight = mapHeight;
-    }
+    
 
     public void ResetFollowTarget()
     {

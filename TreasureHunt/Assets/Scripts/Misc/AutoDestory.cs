@@ -6,15 +6,25 @@
 //     功能：
 // *****************************************************
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using MFramework.ResourcePool;
 using UnityEngine;
 
 public class AutoDestory : MonoBehaviour
 {
-    public float destoryTime;
-    void Start()
+    public float unspawnTime;
+
+    private void OnEnable()
     {
-        Destroy(this.gameObject,destoryTime);
+        Invoke("RecycleGameObject",unspawnTime);
+        //Destroy(this.gameObject,destoryTime);
     }
+
+    public void RecycleGameObject()
+    {
+        ObjectPool.Instance.Unspawn(this.gameObject);
+    }
+    
 }

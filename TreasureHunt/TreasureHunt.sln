@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-firstpass",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AStarAssembly", "AStarAssembly.csproj", "{1DE637DD-DAB9-D44F-24CE-A780A3153AC8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourcePool", "ResourcePool.csproj", "{DF1983D2-3EF1-36B3-3AC7-A242E50762A8}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{444B68DA-7525-9F40-604C-ABC77FCDC831}"
 EndProject
 Global
@@ -27,6 +29,10 @@ Global
 		{1DE637DD-DAB9-D44F-24CE-A780A3153AC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DE637DD-DAB9-D44F-24CE-A780A3153AC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DE637DD-DAB9-D44F-24CE-A780A3153AC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF1983D2-3EF1-36B3-3AC7-A242E50762A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF1983D2-3EF1-36B3-3AC7-A242E50762A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF1983D2-3EF1-36B3-3AC7-A242E50762A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF1983D2-3EF1-36B3-3AC7-A242E50762A8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{444B68DA-7525-9F40-604C-ABC77FCDC831}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{444B68DA-7525-9F40-604C-ABC77FCDC831}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{444B68DA-7525-9F40-604C-ABC77FCDC831}.Release|Any CPU.ActiveCfg = Release|Any CPU

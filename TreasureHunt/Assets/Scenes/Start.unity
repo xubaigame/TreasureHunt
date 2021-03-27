@@ -387,8 +387,8 @@ Canvas:
   m_GameObject: {fileID: 743579344}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 832392392}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -430,7 +430,7 @@ GameObject:
   - component: {fileID: 774105980}
   - component: {fileID: 774105981}
   m_Layer: 0
-  m_Name: ScriptHoder
+  m_Name: DataManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -462,6 +462,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67ddfa46e3deede468d9320d15f37b06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponType: 0
+  _arrow: 0
 --- !u!1 &832392390
 GameObject:
   m_ObjectHideFlags: 0
@@ -1176,9 +1178,9 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 21300000, guid: 3cf4f2025ed41aa4b95b18c3cfef4ccb,
+    m_HighlightedSprite: {fileID: 21300000, guid: f66a10134e7cd13499d1a7b4e464438a,
       type: 3}
-    m_PressedSprite: {fileID: 21300000, guid: 4a70ce0e901da2f4a87e845cb3ac8c9b, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: 067dab0ff37cacd4c8fb8461fd2ad4f0, type: 3}
     m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
@@ -1222,7 +1224,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 62c2a368102abd0459d5b0b9edd61e3c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f66a10134e7cd13499d1a7b4e464438a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

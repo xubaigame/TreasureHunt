@@ -6,6 +6,7 @@
 	功能：陷阱元素类
 *****************************************************/
 
+using MFramework.ResourcePool;
 using UnityEngine;
 
 public class TrapElement : SingleCoverElement 
@@ -20,7 +21,9 @@ public class TrapElement : SingleCoverElement
     {
         elementState = ElementStates.Uncovered;
         ClearShadow();
-        Instantiate(MapManager.Instance.mapData.UncoveredEffect, transform);
+        GameObject go = ObjectPool.Instance.Spawn("UncoveredEffect");
+        go.transform.parent = transform;
+        go.transform.localPosition=Vector3.zero;
         LoadSprite(MapManager.Instance.mapData.Traps[Random.Range(0,MapManager.Instance.mapData.Traps.Length)]);
     }
 

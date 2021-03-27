@@ -12,10 +12,25 @@ using UnityEngine;
 
 public class ExitElement : CantCoverElement
 {
+    private bool pass = false;
     public override void Awake()
     {
         base.Awake();
+        pass = false;
         elementContent = ElementContents.Exit;
         LoadSprite(MapManager.Instance.mapData.Exit);
+    }
+
+    public override void OnPlayerStand()
+    {
+        if (!pass)
+        {
+            PlayerManager.Instance.ShowPassAnimation();
+            MapManager.Instance.transform.position = new Vector3(0, 0, -1);
+            Camera.main.transform.GetChild(0).gameObject.SetActive(true);
+            GameObject.Find("MainPanel").GetComponent<GameMainWindow>().ShowWinWindow();
+            GameDataManager.Instance.EnterNextLevel();
+            pass = true;
+        }
     }
 }

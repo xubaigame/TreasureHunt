@@ -7,11 +7,8 @@
 *****************************************************/
 
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using UnityEngine;
 using AStarPathfinding;
-using Cinemachine;
-using DG.Tweening;
 
 public class MapManager : MonoBehaviour
 {
@@ -34,7 +31,6 @@ public class MapManager : MonoBehaviour
         Vector2 temp = GameDataManager.Instance.GetMapSize();
         mapWidth = (int)temp.x;
         mapHeight = (int)temp.y;
-        GameDataManager.Instance.UpdateMapSize += UpdateMapSize;
         map = new BaseElement[mapWidth, mapHeight];
     }
     public void Start()
@@ -44,18 +40,33 @@ public class MapManager : MonoBehaviour
         CreateMap();
     }
     
+
     /// <summary>
-    /// 地图数据变化更新函数
+    ///寻路算法
     /// </summary>
-    /// <param name="mapWidth">地图长度</param>
-    /// <param name="mapHeight">地图宽度</param>
-    public void UpdateMapSize(int mapWidth, int mapHeight)
+    /// <param name="targetNode">目标节点</param>
+    public void FindPath(GameMapNode targetNode)
     {
-        this.mapWidth = mapWidth;
-        this.mapHeight = mapHeight;
+        int obstacleType;
+        int[,] tempMap = GetSearchMap(out obstacleType);
+        AStarSystem pathfinding = new AStarSystem(tempMap,obstacleType);
+        Vector2Int playerPosition = PlayerManager.Instance.GetPlayerPosition();
+        GameMapNode startNode = new GameMapNode(new AStarPoint(playerPosition.x,playerPosition.y), 0);
+        List<AStarNode> nodeList=new List<AStarNode>();
+        bool result = pathfinding.FindPath(startNode, targetNode, ref nodeList);
+        if (result)
+        {
+            PlayerManager.Instance.MoveWithPath(nodeList.ListToVector());
+        }
+        else
+        {
+            PlayerManager.Instance.ShowWhyAnimation();
+        }
     }
-    
-    /// <summary>
+
+    #region 创建地图
+
+     /// <summary>
     /// 创建地图
     /// </summary>
     public void CreateMap()
@@ -87,45 +98,15 @@ public class MapManager : MonoBehaviour
         GenerateNumberElement(availableIndex);
         
         //翻开玩家站立区域
-         for (int i = 0; i < 3; i++)
-         {
-             for (int j = standy; j <standy+3 ; j++)
-             {
-                 ((SingleCoverElement)map[i,j]).UncovredElementFirst();
-             }
-         }
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = standy; j <standy+3 ; j++)
+            {
+                ((SingleCoverElement)map[i,j]).UncovredElementFirst();
+            }
+        }
 
         PlayerManager.Instance.InitPlayerPosition(1,standy+1);
-    }
-    
-
-    /// <summary>
-    ///寻路算法
-    /// </summary>
-    /// <param name="targetNode">目标节点</param>
-    public void FindPath(GameMapNode targetNode)
-    {
-        int obstacleType;
-        int[,] tempMap = GetSearchMap(out obstacleType);
-        AStarSystem pathfinding = new AStarSystem(tempMap,obstacleType);
-        Vector2Int playerPosition = PlayerManager.Instance.GetPlayerPosition();
-        GameMapNode startNode = new GameMapNode(new AStarPoint(playerPosition.x,playerPosition.y), 0);
-        List<AStarNode> nodeList=new List<AStarNode>();
-        bool result = pathfinding.FindPath(startNode, targetNode, ref nodeList);
-        if (result)
-        {
-            PlayerManager.Instance.MoveWithPath(nodeList.ListToVector());
-            // for (int i = 0; i < nodeList.Count; i++)
-            // {
-            //     map[nodeList[i].Point.X,nodeList[i].Point.Y].GetComponent<SpriteRenderer>().color=Color.cyan;
-            // }
-            // Debug.Log("寻路成功");
-        }
-        else
-        {
-            PlayerManager.Instance.ShowWhyAnimation();
-            //Debug.Log("寻路失败");
-        }
     }
     
     /// <summary>
@@ -589,8 +570,6 @@ public class MapManager : MonoBehaviour
         for (int i = 0; i < trapCount; i++)
         {
             int tempIndex = availableIndex[Random.Range(0, availableIndex.Count)];
-            int positionX, positionY;
-            GameTool.Instance.IndexToPositionXAndPositionY(tempIndex,out positionX, out positionY);
             ChangeElementType(tempIndex, ElementContents.Trap);
             availableIndex.Remove(tempIndex);
         }
@@ -608,6 +587,9 @@ public class MapManager : MonoBehaviour
         }
         availableIndex.Clear();
     }
+
+    #endregion
+   
 
     /// <summary>
     /// 计算位置周围（3*3）的陷阱个数
@@ -898,7 +880,7 @@ public class MapManager : MonoBehaviour
         {
             for (int j = y - 2; j <= y + 2; j++) 
             {
-                if (i >= 0 && j < mapWidth && i >= 0 && j < mapHeight)
+                if (i >= 0 && j < mapWidth && j >= 0 && j < mapHeight)
                 {
                     if (map[i, j].elementState == ElementStates.Uncovered &&
                         map[i, j].elementContent == ElementContents.Number)

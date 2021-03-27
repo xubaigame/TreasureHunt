@@ -685,6 +685,10 @@
       <Project>{1DE637DD-DAB9-D44F-24CE-A780A3153AC8}</Project>
       <Name>AStarAssembly</Name>
     </ProjectReference>
+    <ProjectReference Include="ResourcePool.csproj">
+      <Project>{DF1983D2-3EF1-36B3-3AC7-A242E50762A8}</Project>
+      <Name>ResourcePool</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

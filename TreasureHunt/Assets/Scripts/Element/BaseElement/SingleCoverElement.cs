@@ -7,6 +7,7 @@
 *****************************************************/
 
 using DG.Tweening;
+using MFramework.ResourcePool;
 using UnityEngine;
 
 public class SingleCoverElement : BaseElement 
@@ -61,7 +62,10 @@ public class SingleCoverElement : BaseElement
         GameObject flag = Instantiate(MapManager.Instance.mapData.FlagElement, transform);
         flag.name = "FlagElement";
         flag.transform.DOLocalMoveY(0, 0.1f);
-        Instantiate(MapManager.Instance.mapData.FlagEffect, transform);
+        //Instantiate(MapManager.Instance.mapData.FlagEffect, transform);
+        GameObject go = ObjectPool.Instance.Spawn("FlagEffect");
+        go.transform.parent = transform;
+        go.transform.localPosition=Vector3.zero;
     }
 
     public void RemoveFlag()

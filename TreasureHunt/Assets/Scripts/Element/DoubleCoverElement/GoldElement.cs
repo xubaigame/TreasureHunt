@@ -8,6 +8,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using MFramework.ResourcePool;
 using UnityEngine;
 
 public class GoldElement : DoubleCoverElement
@@ -25,7 +26,10 @@ public class GoldElement : DoubleCoverElement
         Transform goldEffect = transform.Find("GoldEffect");
         if(goldEffect==null)
         {
-            Instantiate(MapManager.Instance.mapData.GoldEffect,transform).name="GoldEffect";
+            GameObject go = ObjectPool.Instance.Spawn("GoldEffect");
+            go.transform.parent = transform;
+            go.transform.localPosition=Vector3.zero;
+            go.name = "GoldEffect";
         }
         LoadSprite(MapManager.Instance.mapData.Golds[(int)goldType]);
     }
@@ -35,13 +39,13 @@ public class GoldElement : DoubleCoverElement
         Transform goldEffect = transform.Find("GoldEffect");
         if(goldEffect!=null)
         {
-            Destroy(goldEffect.gameObject);
+            ObjectPool.Instance.Unspawn(goldEffect.gameObject);
         }
     }
     public override void HandlePlayer()
     {
         DestoryGoldEffect();
-        int ratio = GameDataManager.Instance.gameData.Grass ? 2 : 1;
+        int ratio = GameDataManager.Instance.grass ? 2 : 1;
         switch (goldType)
         {
             case GoldTypes.One:

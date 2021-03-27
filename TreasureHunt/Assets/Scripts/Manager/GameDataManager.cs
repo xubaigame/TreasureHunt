@@ -16,11 +16,10 @@ public class GameDataManager :MonoBehaviour
 
     public GameData gameData;
     public WeaponTypes weaponType;
-    public int _arrow;
-    public Action<int,int> UpdateMapSize;
+    public int arrow;
+    public bool grass;
 
     //委托
-    public Action<int> LevelChange;
     public Action<int> HPChange;
     public Action<int> ArmorChange;
     public Action<int> KeyChange;
@@ -35,37 +34,26 @@ public class GameDataManager :MonoBehaviour
     {
         get => _instance;
     }
-    private bool _showContinue = true;
-    
+
     public void Awake()
     {
         _instance = this;
-        LoadGameData();
         DontDestroyOnLoad(gameObject);
     }
 
     public void NewGame()
     {
-        if(File.Exists(Consts.AssetsPath))
-        {
-            File.Delete(Consts.AssetsPath);
-        }
+        ResetGameAsFirst();
         LoadGameData();
     }
 
     public bool IsFirstGame()
     {
-        return !_showContinue;
+        if (!File.Exists(Consts.AssetsPath))
+            return true;
+        return false;
     }
-
-    public void ChangeLevel(int number)
-    {
-        gameData.Level += number;
-        if (HPChange != null)
-        {
-            HPChange(gameData.Level);
-        }
-    }
+    
     public void ChangeHp(int number)
     {
         gameData.Hp += number;
@@ -97,16 +85,16 @@ public class GameDataManager :MonoBehaviour
         switch (this.weaponType)
         {
             case WeaponTypes.Arrow:
-                _arrow += number;
-                if (_arrow == 0)
+                arrow += number;
+                if (arrow == 0)
                     this.weaponType = WeaponTypes.None;
                 if (WeaponChange != null)
                 {
-                    WeaponChange(this.weaponType, _arrow);
+                    WeaponChange(this.weaponType, arrow);
                 }
                 break;
             case WeaponTypes.Sword:
-                _arrow = 0;
+                arrow = 0;
                 if (WeaponChange != null)
                 {
                     WeaponChange(weaponType, 0);
@@ -114,7 +102,7 @@ public class GameDataManager :MonoBehaviour
                 break;
             case WeaponTypes.None:
                 this.weaponType = WeaponTypes.None;
-                _arrow = 0;
+                arrow = 0;
                 break;
         }
     }
@@ -145,10 +133,10 @@ public class GameDataManager :MonoBehaviour
     
     public void ChangeGrass(bool state)
     {
-        gameData.Grass = state;
+        grass = state;
         if (GrassChange != null)
         {
-            GrassChange(gameData.Grass);
+            GrassChange(grass);
         }
     }
 
@@ -160,6 +148,22 @@ public class GameDataManager :MonoBehaviour
             GoldChange(gameData.Gold);
         }
     }
+
+    public void EnterNextLevel()
+    {
+        gameData.Level++;
+        if (gameData.Hp < 3)
+        {
+            gameData.Hp = 3;
+        }
+
+        weaponType = WeaponTypes.None;
+        arrow = 0;
+        grass = false;
+        gameData.Init();
+        SaveGameData();
+    }
+    
     public void SaveGameData()
     {
         string text = JsonMapper.ToJson(gameData);
@@ -171,33 +175,29 @@ public class GameDataManager :MonoBehaviour
         File.WriteAllText(Consts.AssetsPath, text);
     }
 
-    private void LoadGameData()
+    public void LoadGameData()
     {
         string text = "";
         if (!File.Exists(Consts.AssetsPath))
         {
             TextAsset textAsset = Resources.Load<TextAsset>(Consts.GameDataName);
             File.WriteAllText(Consts.AssetsPath, textAsset.text);
-            _showContinue = false;
-        }
-        else
-        {
-            _showContinue = true;
         }
         text = File.ReadAllText(Consts.AssetsPath);
         gameData = JsonMapper.ToObject<GameData>(text);
         gameData.Init();
-        
-        //Debug.Log(gameData.ToString());
+    }
+
+    public void ResetGameAsFirst()
+    {
+        if(File.Exists(Consts.AssetsPath))
+        {
+            File.Delete(Consts.AssetsPath);
+        }
     }
 
     public Vector2 GetMapSize()
     {
         return new Vector2(gameData.Width, gameData.Height);
-    }
-
-    private void OnDestroy()
-    {
-        SaveGameData();
     }
 }

@@ -27,18 +27,16 @@ public class GameTool
 
     public GameTool()
     {
+        UpdateMapSize();
+    }
+
+
+    public void UpdateMapSize()
+    {
         Vector2 temp = GameDataManager.Instance.GetMapSize();
         _mapHeight = (int)temp.y;
         _mapWidth = (int)temp.x;
-        GameDataManager.Instance.UpdateMapSize += UpdateMapSize;
     }
-
-    public void UpdateMapSize(int mapWidth,int mapHeight)
-    {
-        _mapWidth = mapWidth;
-        _mapHeight = mapHeight;
-    }
-
     /// <summary>
     /// 判断位置是否有效
     /// </summary>

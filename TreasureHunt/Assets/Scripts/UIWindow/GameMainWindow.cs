@@ -11,6 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameMainWindow : MonoBehaviour
@@ -45,7 +46,6 @@ public class GameMainWindow : MonoBehaviour
     private bool isHide=false;
     private void Awake()
     {
-        GameDataManager.Instance.LevelChange+= UpdateLevel;
         GameDataManager.Instance.HPChange += UpdateHp;
         GameDataManager.Instance.ArmorChange += UpdateArmor;
         GameDataManager.Instance.KeyChange += UpdateKey;
@@ -65,7 +65,6 @@ public class GameMainWindow : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameDataManager.Instance.LevelChange-= UpdateLevel;
         GameDataManager.Instance.HPChange -= UpdateHp;
         GameDataManager.Instance.ArmorChange -= UpdateArmor;
         GameDataManager.Instance.KeyChange -= UpdateKey;
@@ -105,17 +104,27 @@ public class GameMainWindow : MonoBehaviour
     {
         PlayerManager.Instance.mapSelect.SetActive(state);
     }
+    
+    public void OnBackButtonDown()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    public void ShowWinWindow()
+    {
+        WinWindow.SetActive(true);
+    }
     public void UpdateUI()
     {
         UpdateLevel(GameDataManager.Instance.gameData.Level);
         UpdateHp(GameDataManager.Instance.gameData.Hp);
         UpdateArmor(GameDataManager.Instance.gameData.Armor);
         UpdateKey(GameDataManager.Instance.gameData.Key);
-        UpdateWeapon(GameDataManager.Instance.weaponType,GameDataManager.Instance._arrow);
+        UpdateWeapon(GameDataManager.Instance.weaponType,GameDataManager.Instance.arrow);
         UpdateHoe(GameDataManager.Instance.gameData.Hoe);
         UpdateTnt(GameDataManager.Instance.gameData.Tnt);
         UpdateMap(GameDataManager.Instance.gameData.Map);
-        UpdateGrass(GameDataManager.Instance.gameData.Grass);
+        UpdateGrass(GameDataManager.Instance.grass);
         UpdateGold(GameDataManager.Instance.gameData.Gold);
     }
 
@@ -137,7 +146,6 @@ public class GameMainWindow : MonoBehaviour
             PlayerManager.Instance.ShowDieAnimation();
             MapManager.Instance.transform.position = new Vector3(0, 0, -1);
             LoseWindow.SetActive(true);
-            GameDataManager.Instance.NewGame();
         }
     }
 
@@ -252,7 +260,7 @@ public class GameMainWindow : MonoBehaviour
 
     public void UpdateTnt(int tntNumber)
     {
-        if (GameDataManager.Instance.gameData.Tnt == 0)
+        if (tntNumber == 0)
         {
             tntBag.gameObject.SetActive(false);
             tntIcon.gameObject.SetActive(false);
@@ -277,7 +285,7 @@ public class GameMainWindow : MonoBehaviour
 
     public void UpdateMap(int mapNumber)
     {
-        if (GameDataManager.Instance.gameData.Map == 0)
+        if (mapNumber == 0)
         {
             mapBag.gameObject.SetActive(false);
             mapIcon.gameObject.SetActive(false);
@@ -288,7 +296,7 @@ public class GameMainWindow : MonoBehaviour
             mapBag.gameObject.SetActive(true);
             mapIcon.gameObject.SetActive(true);
             mapText.gameObject.SetActive(true);
-            mapText.text = GameDataManager.Instance.gameData.Hoe.ToString();
+            mapText.text = mapNumber.ToString();
             mapIcon.rectTransform.DOShakeScale(0.5f).onComplete += () =>
             {
                 mapIcon.rectTransform.localScale = Vector3.one;

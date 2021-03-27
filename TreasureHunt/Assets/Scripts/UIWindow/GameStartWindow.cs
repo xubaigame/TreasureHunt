@@ -32,6 +32,7 @@ public class GameStartWindow : MonoBehaviour
 
     public void OnLoadGameButtonDown()
     {
+        GameDataManager.Instance.LoadGameData();
         EnterNextScene();
     }
 

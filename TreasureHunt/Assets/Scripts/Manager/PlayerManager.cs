@@ -147,6 +147,14 @@ public class PlayerManager : MonoBehaviour
     {
         playerAnimator.SetTrigger("Die");
     }
+    
+    /// <summary>
+    /// 设置动画状态机播放Pass动画
+    /// </summary>
+    public void ShowPassAnimation()
+    {
+        playerAnimator.SetTrigger("Pass");
+    }
 
     /// <summary>
     /// 处理角色受伤方法

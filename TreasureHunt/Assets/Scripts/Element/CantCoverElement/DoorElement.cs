@@ -8,6 +8,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using MFramework.ResourcePool;
 using UnityEngine;
 
 public class DoorElement : CantCoverElement
@@ -26,7 +27,9 @@ public class DoorElement : CantCoverElement
             if (GameDataManager.Instance.gameData.Key > 0)
             {
                 GameDataManager.Instance.ChangeKey(-1);
-                Instantiate(MapManager.Instance.mapData.DoorOpenElement,this.transform);
+                GameObject go = ObjectPool.Instance.Spawn("DoorOpenEffect");
+                go.transform.parent = transform;
+                go.transform.localPosition=Vector3.zero;
                 MapManager.Instance.ChangeToNumberElement(this,true);
             }
             else
