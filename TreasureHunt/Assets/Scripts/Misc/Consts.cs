@@ -10,19 +10,34 @@ using UnityEngine;
 
 public class Consts 
 {
-    //PlayerPrefs
-    public readonly static string P_IsMute = "Mute";
-    public readonly static string P_IsFirstGame = "FirstGame";
-    public readonly static string P_Level = "level";
-    public readonly static string P_Hp = "Hp";
-    public readonly static string P_Armor = "Armor";
-    public readonly static string P_Key = "Key";
-    public readonly static string P_Hoe = "Hoe";
-    public readonly static string P_Tnt = "Tnt";
-    public readonly static string P_Map = "Map";
-    public readonly static string P_Gold = "Gold";
-
     public readonly static string GameDataName = "Configs/TreasureHuntGameData";
-    public readonly static string VirtualPath = Application.persistentDataPath + "/TreasureHuntGameData.json";
-    public readonly static string AssetsPath = Application.streamingAssetsPath + "/TreasureHuntGameData.json";
+    public readonly static string AssetsPath = Application.persistentDataPath+"/TreasureHuntGameData.json";
+
+    //PrefabName
+    public readonly static string UncoveredEffect = "UncoveredEffect";
+    public readonly static string GoldEffect = "GoldEffect";
+    public readonly static string FlagEffect = "FlagEffect";
+    public readonly static string DoorOpenEffect = "DoorOpenEffect";
+    
+    //AudioClipName
+    public readonly static string windowBg = "winbg";
+    public readonly static string button = "button";
+    public readonly static string dig = "dig";
+    public readonly static string end = "end";
+    public readonly static string hoe = "hoe";
+    public readonly static string hurt = "hurt";
+    public readonly static string die = "lose";
+    public readonly static string move = "move";
+    public readonly static string door = "door";
+    public readonly static string pass = "pass";
+    public readonly static string enemy = "enemy";
+    public readonly static string tnt = "tnt";
+    public readonly static string map = "map";
+    public readonly static string pick = "pick";
+    public readonly static string createflag = "createflag";
+    public readonly static string removeflag = "removeflag";
+    public readonly static string why = "why";
+    public readonly static string quickCheck = "quickcheck";
+
+    public readonly static string BGM = "bgm";
 }

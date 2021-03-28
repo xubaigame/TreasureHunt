@@ -86,17 +86,5 @@ MonoBehaviour:
     type: 3}
   BaseElement: {fileID: 5185834903934863426, guid: 4f5927202a0662642b0e17378168af05,
     type: 3}
-  DoorOpenElement: {fileID: 1291494093853099602, guid: f6f7d5f9158f241a18ecea6d66156178,
-    type: 3}
-  UncoveredEffect: {fileID: 3491176032375463642, guid: 4e5937593f35aa24b9166ef1fa2275e1,
-    type: 3}
-  GoldEffect: {fileID: 8067924509867616584, guid: 866a675ceabe94911bfd047ca43dba66,
-    type: 3}
-  FlagEffect: {fileID: 3122425866748358587, guid: 577af8055d40b0641bcd88531455b53b,
-    type: 3}
-  HoeSelect: {fileID: 510203573826767712, guid: d1680d85ddd914e869523e1c7511393a,
-    type: 3}
-  TntSelect: {fileID: 3913915589117672068, guid: 55ffdef82dc4b41fb8f3760276b353bb,
-    type: 3}
-  MapSelect: {fileID: 5861838149447930249, guid: 2e2d4293c92ed40868a9476b40813b63,
+  ErrorElement: {fileID: 4219348640847678718, guid: 78c5ba3cc83404427b6a1416b6f00a38,
     type: 3}

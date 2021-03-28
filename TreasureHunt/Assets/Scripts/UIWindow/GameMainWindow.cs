@@ -19,7 +19,8 @@ public class GameMainWindow : MonoBehaviour
 
     public GameObject WinWindow;
     public GameObject LoseWindow;
-    
+
+    public Image muteStateIcon;
     public Image armorIcon;
     public Image keyIcon;
     public Image arrowBg;
@@ -46,6 +47,7 @@ public class GameMainWindow : MonoBehaviour
     private bool isHide=false;
     private void Awake()
     {
+        GameDataManager.Instance.MuteChange += UpdateMute;
         GameDataManager.Instance.HPChange += UpdateHp;
         GameDataManager.Instance.ArmorChange += UpdateArmor;
         GameDataManager.Instance.KeyChange += UpdateKey;
@@ -56,6 +58,7 @@ public class GameMainWindow : MonoBehaviour
         GameDataManager.Instance.GrassChange += UpdateGrass;
         GameDataManager.Instance.GoldChange += UpdateGold;
 
+        muteStateIcon.transform.parent.gameObject.GetComponent<Toggle>().isOn = GameDataManager.Instance.isMute;
     }
 
     private void Start()
@@ -65,6 +68,7 @@ public class GameMainWindow : MonoBehaviour
 
     private void OnDestroy()
     {
+        GameDataManager.Instance.MuteChange -= UpdateMute;
         GameDataManager.Instance.HPChange -= UpdateHp;
         GameDataManager.Instance.ArmorChange -= UpdateArmor;
         GameDataManager.Instance.KeyChange -= UpdateKey;
@@ -78,6 +82,7 @@ public class GameMainWindow : MonoBehaviour
     }
     public void OnLevelButtonDown()
     {
+        AudioManager.Instance.PlayEffect(Consts.button);
         if (!isHide)
         {
             GetComponent<RectTransform>().DOAnchorPosY(-7, 0.5f);
@@ -107,7 +112,15 @@ public class GameMainWindow : MonoBehaviour
     
     public void OnBackButtonDown()
     {
+        AudioManager.Instance.PlayEffect(Consts.button);
+        AudioManager.Instance.StopBg();
         SceneManager.LoadScene(0);
+    }
+
+    public void OnMuteToggleValueChange(bool state)
+    {
+        AudioManager.Instance.PlayEffect(Consts.button);
+        GameDataManager.Instance.ChangeMuteState(state);
     }
 
     public void ShowWinWindow()
@@ -116,6 +129,7 @@ public class GameMainWindow : MonoBehaviour
     }
     public void UpdateUI()
     {
+        UpdateMute(GameDataManager.Instance.isMute);
         UpdateLevel(GameDataManager.Instance.gameData.Level);
         UpdateHp(GameDataManager.Instance.gameData.Hp);
         UpdateArmor(GameDataManager.Instance.gameData.Armor);
@@ -126,6 +140,18 @@ public class GameMainWindow : MonoBehaviour
         UpdateMap(GameDataManager.Instance.gameData.Map);
         UpdateGrass(GameDataManager.Instance.grass);
         UpdateGold(GameDataManager.Instance.gameData.Gold);
+    }
+
+    public void UpdateMute(bool state)
+    {
+        if (state)
+        {
+            muteStateIcon.gameObject.SetActive(true);
+        }
+        else
+        {
+            muteStateIcon.gameObject.SetActive(false);
+        }
     }
 
     public void UpdateLevel(int level)
@@ -146,6 +172,9 @@ public class GameMainWindow : MonoBehaviour
             PlayerManager.Instance.ShowDieAnimation();
             MapManager.Instance.transform.position = new Vector3(0, 0, -1);
             LoseWindow.SetActive(true);
+            AudioManager.Instance.PlayEffect(Consts.die);
+            AudioManager.Instance.PlayEffect(Consts.end);
+            GameDataManager.Instance.ResetGameAsFirst();
         }
     }
 

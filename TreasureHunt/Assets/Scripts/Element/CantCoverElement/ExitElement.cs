@@ -30,6 +30,8 @@ public class ExitElement : CantCoverElement
             Camera.main.transform.GetChild(0).gameObject.SetActive(true);
             GameObject.Find("MainPanel").GetComponent<GameMainWindow>().ShowWinWindow();
             GameDataManager.Instance.EnterNextLevel();
+            AudioManager.Instance.PlayEffect(Consts.pass);
+            AudioManager.Instance.PlayEffect(Consts.windowBg);
             pass = true;
         }
     }

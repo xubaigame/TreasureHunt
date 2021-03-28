@@ -22,6 +22,7 @@ public class ToolElement : DoubleCoverElement
 
     public override void HandlePlayer()
     {
+        AudioManager.Instance.PlayEffect(Consts.pick);
         switch (toolType)
         {
             case ToolTypes.Hp:

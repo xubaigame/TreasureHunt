@@ -29,10 +29,5 @@ public class MapData : ScriptableObject
     public GameObject MapBackGround;
     public GameObject FlagElement;
     public GameObject BaseElement;
-    public GameObject DoorOpenElement;
-
-    //特效预制体
-    public GameObject UncoveredEffect;
-    public GameObject GoldEffect;
-    public GameObject FlagEffect;
+    public GameObject ErrorElement;
 }

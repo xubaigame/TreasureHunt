@@ -14,11 +14,13 @@ public class GameWinWindow : MonoBehaviour
 {
     public void OnNextLevelButtonDown()
     {
+        AudioManager.Instance.PlayEffect(Consts.button);
         SceneManager.LoadScene(1);
     }
 
     public void OnExitButtonDown()
     {
+        AudioManager.Instance.PlayEffect(Consts.button);
 #if UNITY_EDITOR
         EditorApplication.isPlaying = false;
 #else

@@ -54,7 +54,7 @@ public class PlayerManager : MonoBehaviour
             float diry = Mathf.Clamp(nowPos.y - perPos.y,-1,1);
             playerAnimator.SetFloat("DirX",dirx);
             playerAnimator.SetFloat("DirY",diry);
-        
+            
             MapManager.Instance.UncoverElementDouble(nowPos.x, nowPos.y);
             if (ElementContents.Trap == MapManager.Instance.GetElementContentByPosition(nowPos.x, nowPos.y))
             {
@@ -167,6 +167,7 @@ public class PlayerManager : MonoBehaviour
         }
         else
         {
+            AudioManager.Instance.PlayEffect(Consts.hurt);
             GameDataManager.Instance.ChangeHp(-1);
         }
     }

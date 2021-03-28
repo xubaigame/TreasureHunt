@@ -6,9 +6,11 @@
 	功能：游戏开始界面
 *****************************************************/
 
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor;
+using UnityEngine.UI;
 
 public class GameStartWindow : MonoBehaviour
 {
@@ -26,18 +28,21 @@ public class GameStartWindow : MonoBehaviour
     }
     public void OnNewGameButtonDown()
     {
+        AudioManager.Instance.PlayEffect(Consts.button);
         GameDataManager.Instance.NewGame();
         EnterNextScene();
     }
 
     public void OnLoadGameButtonDown()
     {
+        AudioManager.Instance.PlayEffect(Consts.button);
         GameDataManager.Instance.LoadGameData();
         EnterNextScene();
     }
 
     public void OnQuitGameButtonDown()
     {
+        AudioManager.Instance.PlayEffect(Consts.button);
 #if UNITY_EDITOR
         EditorApplication.isPlaying = false;
 #else
@@ -49,4 +54,5 @@ public class GameStartWindow : MonoBehaviour
     {
         SceneManager.LoadScene(1);
     }
+    
 }

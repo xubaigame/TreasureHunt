@@ -30,10 +30,12 @@ public class EnemyElement : CantCoverElement
                base.OnLeftMouseButtonDown();
                break;
             case WeaponTypes.Arrow:
+               AudioManager.Instance.PlayEffect(Consts.enemy);
                GameDataManager.Instance.ChangeWeapon(WeaponTypes.Arrow, -1);
                MapManager.Instance.ChangeToNumberElement(this, true);
                break;
             case WeaponTypes.Sword:
+               AudioManager.Instance.PlayEffect(Consts.enemy);
                MapManager.Instance.ChangeToNumberElement(this, true);
                break;
          }

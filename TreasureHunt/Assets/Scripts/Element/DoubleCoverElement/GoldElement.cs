@@ -23,10 +23,10 @@ public class GoldElement : DoubleCoverElement
 
     public override void ChangeSprite()
     {
-        Transform goldEffect = transform.Find("GoldEffect");
+        Transform goldEffect = transform.Find(Consts.GoldEffect);
         if(goldEffect==null)
         {
-            GameObject go = ObjectPool.Instance.Spawn("GoldEffect");
+            GameObject go = ObjectPool.Instance.Spawn(Consts.GoldEffect);
             go.transform.parent = transform;
             go.transform.localPosition=Vector3.zero;
             go.name = "GoldEffect";
@@ -36,7 +36,7 @@ public class GoldElement : DoubleCoverElement
 
     public void DestoryGoldEffect()
     {
-        Transform goldEffect = transform.Find("GoldEffect");
+        Transform goldEffect = transform.Find(Consts.GoldEffect);
         if(goldEffect!=null)
         {
             ObjectPool.Instance.Unspawn(goldEffect.gameObject);
@@ -46,6 +46,7 @@ public class GoldElement : DoubleCoverElement
     {
         DestoryGoldEffect();
         int ratio = GameDataManager.Instance.grass ? 2 : 1;
+        AudioManager.Instance.PlayEffect(Consts.pick);
         switch (goldType)
         {
             case GoldTypes.One:

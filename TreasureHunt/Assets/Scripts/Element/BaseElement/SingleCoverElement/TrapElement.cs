@@ -21,7 +21,7 @@ public class TrapElement : SingleCoverElement
     {
         elementState = ElementStates.Uncovered;
         ClearShadow();
-        GameObject go = ObjectPool.Instance.Spawn("UncoveredEffect");
+        GameObject go = ObjectPool.Instance.Spawn(Consts.UncoveredEffect);
         go.transform.parent = transform;
         go.transform.localPosition=Vector3.zero;
         LoadSprite(MapManager.Instance.mapData.Traps[Random.Range(0,MapManager.Instance.mapData.Traps.Length)]);

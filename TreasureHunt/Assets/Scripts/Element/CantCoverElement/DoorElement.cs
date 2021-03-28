@@ -26,8 +26,9 @@ public class DoorElement : CantCoverElement
         {
             if (GameDataManager.Instance.gameData.Key > 0)
             {
+                AudioManager.Instance.PlayEffect(Consts.door);
                 GameDataManager.Instance.ChangeKey(-1);
-                GameObject go = ObjectPool.Instance.Spawn("DoorOpenEffect");
+                GameObject go = ObjectPool.Instance.Spawn(Consts.DoorOpenEffect);
                 go.transform.parent = transform;
                 go.transform.localPosition=Vector3.zero;
                 MapManager.Instance.ChangeToNumberElement(this,true);

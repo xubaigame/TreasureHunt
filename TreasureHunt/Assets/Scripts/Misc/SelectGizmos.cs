@@ -24,6 +24,7 @@ public class SelectGizmos : MonoBehaviour
         {
             case ToolTypes.Hoe:
                 GameObject.Find("MainPanel").GetComponent<GameMainWindow>().hoeIcon.GetComponent<Toggle>().isOn = false;
+                AudioManager.Instance.PlayEffect(Consts.hoe);
                 GameDataManager.Instance.ChangeHoe(-1);
                 for (int i = x - 1; i <= x + 1; i++)
                 {
@@ -47,6 +48,7 @@ public class SelectGizmos : MonoBehaviour
                 break;
             case ToolTypes.Tnt:
                 GameObject.Find("MainPanel").GetComponent<GameMainWindow>().tntIcon.GetComponent<Toggle>().isOn = false;
+                AudioManager.Instance.PlayEffect(Consts.tnt);
                 GameDataManager.Instance.ChangeTnt(-1);
                 for (int i = x - 1; i <= x + 1; i++)
                 {
@@ -73,6 +75,7 @@ public class SelectGizmos : MonoBehaviour
                 break;
             case ToolTypes.Map:
                 GameObject.Find("MainPanel").GetComponent<GameMainWindow>().mapIcon.GetComponent<Toggle>().isOn = false;
+                AudioManager.Instance.PlayEffect(Consts.map);
                 GameDataManager.Instance.ChangeMap(-1);
                 for (int i = x - 3; i <= x + 3; i++)
                 {

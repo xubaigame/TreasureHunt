@@ -11,7 +11,6 @@ using UnityEngine;
 
 public class GameData 
 {
-    private bool _isMute;
     private int _baseWidth;
     private int _width;
     private int _height;
@@ -23,8 +22,7 @@ public class GameData
     private int _tnt;
     private int _map;
     private int _gold;
-
-    public bool IsMute { get => _isMute; set => _isMute = value; }
+    
     public int BaseWidth { get => _baseWidth; set => _baseWidth = value; }
     public int Width { get => _width; set => _width = value; }
     public int Height { get => _height; set => _height = value; }

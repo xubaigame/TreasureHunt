@@ -59,17 +59,18 @@ public class SingleCoverElement : BaseElement
     public void AddFlag()
     {
         elementState = ElementStates.Marked;
+        AudioManager.Instance.PlayEffect(Consts.createflag);
         GameObject flag = Instantiate(MapManager.Instance.mapData.FlagElement, transform);
         flag.name = "FlagElement";
         flag.transform.DOLocalMoveY(0, 0.1f);
-        //Instantiate(MapManager.Instance.mapData.FlagEffect, transform);
-        GameObject go = ObjectPool.Instance.Spawn("FlagEffect");
+        GameObject go = ObjectPool.Instance.Spawn(Consts.FlagEffect);
         go.transform.parent = transform;
         go.transform.localPosition=Vector3.zero;
     }
 
     public void RemoveFlag()
     {
+        AudioManager.Instance.PlayEffect(Consts.removeflag);
         Transform FlagElement = transform.Find("FlagElement");
         if(FlagElement!=null)
         {

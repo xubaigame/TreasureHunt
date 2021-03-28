@@ -18,8 +18,10 @@ public class GameDataManager :MonoBehaviour
     public WeaponTypes weaponType;
     public int arrow;
     public bool grass;
+    public bool isMute = false;
 
     //委托
+    public Action<bool> MuteChange;
     public Action<int> HPChange;
     public Action<int> ArmorChange;
     public Action<int> KeyChange;
@@ -39,6 +41,15 @@ public class GameDataManager :MonoBehaviour
     {
         _instance = this;
         DontDestroyOnLoad(gameObject);
+        if (PlayerPrefs.HasKey("Mute"))
+        {
+            int temp = PlayerPrefs.GetInt("Mute");
+            isMute = temp == 0 ? false : true;
+        }
+        else
+        {
+            isMute = false;
+        }
     }
 
     public void NewGame()
@@ -53,7 +64,17 @@ public class GameDataManager :MonoBehaviour
             return true;
         return false;
     }
-    
+
+    public void ChangeMuteState(bool state)
+    {
+        isMute = state;
+        if (MuteChange != null)
+        {
+            MuteChange(isMute);
+            SaveMuteState();
+        }
+        
+    }
     public void ChangeHp(int number)
     {
         gameData.Hp += number;
@@ -173,6 +194,12 @@ public class GameDataManager :MonoBehaviour
         }
 
         File.WriteAllText(Consts.AssetsPath, text);
+        SaveMuteState();
+    }
+
+    public void SaveMuteState()
+    {
+        PlayerPrefs.SetInt("Mute", isMute ? 1 : 0);
     }
 
     public void LoadGameData()

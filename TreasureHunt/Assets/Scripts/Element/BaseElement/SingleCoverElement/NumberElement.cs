@@ -34,7 +34,7 @@ public class NumberElement : SingleCoverElement
         ClearShadow();
         if (needEffect)
         {
-            GameObject go = ObjectPool.Instance.Spawn("UncoveredEffect");
+            GameObject go = ObjectPool.Instance.Spawn(Consts.UncoveredEffect);
             go.transform.parent = transform;
             go.transform.localPosition=Vector3.zero;
             //Instantiate(MapManager.Instance.mapData.UncoveredEffect, transform);

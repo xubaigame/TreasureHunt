@@ -32,6 +32,7 @@ public class MapManager : MonoBehaviour
         mapWidth = (int)temp.x;
         mapHeight = (int)temp.y;
         map = new BaseElement[mapWidth, mapHeight];
+        AudioManager.Instance.PlayBg(Consts.BGM);
     }
     public void Start()
     {
@@ -56,10 +57,20 @@ public class MapManager : MonoBehaviour
         bool result = pathfinding.FindPath(startNode, targetNode, ref nodeList);
         if (result)
         {
+            bool tmep = false;
+            foreach (var VARIABLE in nodeList)
+            {
+                if (VARIABLE.NodeType == 1)
+                {
+                    
+                }
+            }
+            AudioManager.Instance.PlayEffect(Consts.move);
             PlayerManager.Instance.MoveWithPath(nodeList.ListToVector());
         }
         else
         {
+            AudioManager.Instance.PlayEffect(Consts.why);
             PlayerManager.Instance.ShowWhyAnimation();
         }
     }
@@ -684,6 +695,7 @@ public class MapManager : MonoBehaviour
         if(GetTrapCountAroundElement(positionX,positionY)==mark)
         {
             PlayerManager.Instance.ShowQuickCheckAnimation();
+            AudioManager.Instance.PlayEffect(Consts.quickCheck);
             for (int i = positionX - 1; i <= positionX + 1; i++)
             {
                 for (int j = positionY - 1; j <= positionY + 1; j++)
@@ -699,6 +711,7 @@ public class MapManager : MonoBehaviour
         else
         {
             PlayerManager.Instance.ShowWhyAnimation();
+            AudioManager.Instance.PlayEffect(Consts.why);
         }
     }
     
@@ -757,7 +770,12 @@ public class MapManager : MonoBehaviour
         {
             for (int j = 0; j < mapHeight; j++)
             {
-                if(map[i,j].elementContent==ElementContents.Trap)
+                if (map[i, j].elementState == ElementStates.Marked && map[i, j].elementContent != ElementContents.Trap)
+                {
+                    map[i,j].OnRightMouseButtonDown();
+                    Instantiate(mapData.ErrorElement, map[i, j].transform);
+;                }
+                else if(map[i, j].elementState == ElementStates.Covered&&map[i,j].elementContent==ElementContents.Trap)
                 {
                     ((SingleCoverElement)map[i, j]).UncovredElementFirst();
                 }
@@ -859,6 +877,21 @@ public class MapManager : MonoBehaviour
     /// <param name="y">纵坐标</param>
     public void UncoverElementDouble(int x, int y)
     {
+        if (map[x, y].elementState == ElementStates.Covered)
+        {
+            if (map[x, y] is DoubleCoverElement)
+            {
+                if ((map[x, y] as DoubleCoverElement).isHide == true)
+                {
+                    AudioManager.Instance.PlayEffect(Consts.dig);
+                }
+            }
+            else
+            {
+                AudioManager.Instance.PlayEffect(Consts.dig);
+            }
+            
+        }
         map[x,y].OnPlayerStand();
         map[x,y].OnPlayerStand();
     }
@@ -891,19 +924,5 @@ public class MapManager : MonoBehaviour
             }
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
 }

@@ -55,6 +55,10 @@ public class CameraManager : MonoBehaviour
         cc.enabled = true;
         cc.m_BoundingShape2D = pc;
         cvc.Follow = PlayerManager.Instance.transform.GetChild(0);
+
+        Camera.main.transform.GetChild(0).localPosition = new Vector3(0,cvc.m_Lens.OrthographicSize,0);
+        ParticleSystem.ShapeModule sm = Camera.main.transform.GetChild(0).GetComponent<ParticleSystem>().shape;
+        sm.scale = new Vector3(Screen.width * 35.5f*cvc.m_Lens.OrthographicSize/10f / 1920f, 1, 1);
     }
     
 

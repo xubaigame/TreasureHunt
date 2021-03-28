@@ -16,12 +16,15 @@ public class GameLoseWindow : MonoBehaviour
 {
     public void OnBackButtonDown()
     {
+        AudioManager.Instance.PlayEffect(Consts.button);
+        AudioManager.Instance.StopBg();
         GameDataManager.Instance.ResetGameAsFirst();
         SceneManager.LoadScene(0);
     }
     
     public void OnExitButtonDown()
     {
+        AudioManager.Instance.PlayEffect(Consts.button);
 #if UNITY_EDITOR
         EditorApplication.isPlaying = false;
 #else
