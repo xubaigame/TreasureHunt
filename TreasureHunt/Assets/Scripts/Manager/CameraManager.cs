@@ -10,10 +10,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using Com.LuisPedroFonseca.ProCamera2D;
 using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
+    public bool UseProCamera2D;
+    
     private CinemachineVirtualCamera cvc;
     private CinemachineFramingTransposer cft;
     
@@ -36,6 +39,17 @@ public class CameraManager : MonoBehaviour
 
     public void InitCamera()
     {
+        if(UseProCamera2D)
+            InitProCamera();
+        else
+            InitCinemachineCamera();
+        
+        
+        
+    }
+
+    public void InitCinemachineCamera()
+    {
         cvc=GameObject.Find("Vcam").GetComponent<CinemachineVirtualCamera>();
         cvc.m_Lens.OrthographicSize = (mapHeight + 3f) / 2f;
         cft = cvc.GetCinemachineComponent(CinemachineCore.Stage.Body) as CinemachineFramingTransposer;
@@ -55,12 +69,32 @@ public class CameraManager : MonoBehaviour
         cc.enabled = true;
         cc.m_BoundingShape2D = pc;
         cvc.Follow = PlayerManager.Instance.transform.GetChild(0);
-
+        
         Camera.main.transform.GetChild(0).localPosition = new Vector3(0,cvc.m_Lens.OrthographicSize,0);
         ParticleSystem.ShapeModule sm = Camera.main.transform.GetChild(0).GetComponent<ParticleSystem>().shape;
-        sm.scale = new Vector3(Screen.width * 35.5f*cvc.m_Lens.OrthographicSize/10f / 1920f, 1, 1);
+
+        sm.scale = new Vector3(Screen.width * 35.5f * cvc.m_Lens.OrthographicSize * 1080f / 10f / 1920f / Screen.height,
+            1, 1);
     }
-    
+
+    public void InitProCamera()
+    {
+        ProCamera2DCameraWindow pccw=Camera.main.GetComponent<ProCamera2DCameraWindow>();
+        pccw.CameraWindowRect.height=(mapHeight * 100f) / (300 + mapHeight * 100);
+        pccw.CameraWindowRect.width = pccw.CameraWindowRect.height / 9 * 16 / mapHeight;
+        
+        ProCamera2DNumericBoundaries pcnb = Camera.main.GetComponent<ProCamera2DNumericBoundaries>();
+        pcnb.LeftBoundary = -2f;
+        pcnb.RightBoundary = mapWidth + 1f;
+        pcnb.BottomBoundary = -2;
+        pcnb.TopBoundary = mapHeight + 1f;
+        
+        Camera.main.transform.GetChild(0).localPosition = new Vector3(0,Camera.main.orthographicSize,0);
+        ParticleSystem.ShapeModule sm = Camera.main.transform.GetChild(0).GetComponent<ParticleSystem>().shape;
+        sm.scale = new Vector3(Screen.width * 35.5f * Camera.main.orthographicSize * 1080f / 10f / 1920f / Screen.height,
+            1, 1);
+    }
+
 
     public void ResetFollowTarget()
     {

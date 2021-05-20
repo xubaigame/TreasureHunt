@@ -99,7 +99,7 @@ public class PlayerManager : MonoBehaviour
     {
         if(pathFinding)
             pathTweener.Kill();
-        CameraManager.Instance.ResetFollowTarget();
+        //CameraManager.Instance.ResetFollowTarget();
         pathFinding = true;
         playerAnimator.SetBool("Move",pathFinding);
         pathTweener= transform.DOPath(Path,Path.Length*0.1f);

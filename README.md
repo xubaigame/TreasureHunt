@@ -14,7 +14,7 @@
 
 ## 三、项目信息及运行方法
 
-1. 游戏使用Unity_2020.2.0f1c1开发。
+1. 游戏使用Unity_2020.3.4f1c1开发。
 2. 脚本IDE为Rider_2020.3。
 3. 在项目中笔者使用了自己封装的A*寻路框架，项目地址：https://github.com/PositiveMumu/AIInGames。
 4. 在项目中笔者使用了自己封装的简单资源池框架，项目地址：https://github.com/PositiveMumu/MFramework。
@@ -24,6 +24,10 @@
 项目原本使用Unity_2019.4.11f1版本开发。但是在最后打包时，在Windows系统上运行正常，在Mac 10.15系统上运行正常，但是在Mac 11.0/11.0.2上运行失败，不定时闪退/启动卡死。在升级到Unity_2020.2.0f1c1版本重新打包后问题被解决。
 
 **如果打包后的可执行程序无法在系统上运行，可以考虑升级Unity版本重新打包项目并运行。**
+
+*2021.05.20更新*
+
+项目新增ProCamera2D插件实现相机跟随效果。由于ProCamera2D的实现效果与Cinemachine效果完全相同，在运行时并未提供选择相机的选项。读者可更改`GameStartWindow`脚本中的`EnterNextScene`方法，通过调`用EnterProCameraScene`函数和`EnterCinemachineScene`函数来进入不同的相机插件的场景（二者实现的功能完全相同，`EnterNextScene`方法中默认调用的是`EnterCinemachineScene`函数）。
 
 ## 四、 项目优化方法
 

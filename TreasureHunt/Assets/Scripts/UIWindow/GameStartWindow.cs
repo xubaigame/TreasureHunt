@@ -52,7 +52,17 @@ public class GameStartWindow : MonoBehaviour
 
     private void EnterNextScene()
     {
+        EnterCinemachineScene();
+    }
+
+    private void EnterProCameraScene()
+    {
         SceneManager.LoadScene(1);
+    }
+
+    private void EnterCinemachineScene()
+    {
+        SceneManager.LoadScene(2);
     }
     
 }
